@@ -1,0 +1,162 @@
+[
+    {
+        "programId": "PROG001",
+        "programName": "Computer Science",
+        "department": "Computer Science",
+        "employmentRate": 92,
+        "avgTimeToEmployment": 2.5,
+        "avgStartingSalary": 85000,
+        "employerSatisfaction": 4.5,
+        "skillsMatch": 88,
+        "graduateCount": 420,
+        "topEmployers": [
+            "Google",
+            "Microsoft",
+            "Amazon"
+        ]
+    },
+    {
+        "programId": "PROG002",
+        "programName": "Data Science",
+        "department": "Computer Science",
+        "employmentRate": 95,
+        "avgTimeToEmployment": 2.0,
+        "avgStartingSalary": 92000,
+        "employerSatisfaction": 4.7,
+        "skillsMatch": 90,
+        "graduateCount": 165,
+        "topEmployers": [
+            "Meta",
+            "Netflix",
+            "Apple"
+        ]
+    },
+    {
+        "programId": "PROG003",
+        "programName": "Cybersecurity",
+        "department": "Computer Science",
+        "employmentRate": 94,
+        "avgTimeToEmployment": 2.2,
+        "avgStartingSalary": 88000,
+        "employerSatisfaction": 4.6,
+        "skillsMatch": 85,
+        "graduateCount": 110,
+        "topEmployers": [
+            "IBM",
+            "Cisco",
+            "CrowdStrike"
+        ]
+    },
+    {
+        "programId": "PROG004",
+        "programName": "Business Administration",
+        "department": "Business",
+        "employmentRate": 85,
+        "avgTimeToEmployment": 3.5,
+        "avgStartingSalary": 62000,
+        "employerSatisfaction": 4.2,
+        "skillsMatch": 78,
+        "graduateCount": 480,
+        "topEmployers": [
+            "Deloitte",
+            "McKinsey",
+            "PwC"
+        ]
+    },
+    {
+        "programId": "PROG005",
+        "programName": "MBA",
+        "department": "Business",
+        "employmentRate": 88,
+        "avgTimeToEmployment": 2.8,
+        "avgStartingSalary": 95000,
+        "employerSatisfaction": 4.4,
+        "skillsMatch": 82,
+        "graduateCount": 185,
+        "topEmployers": [
+            "Goldman Sachs",
+            "BCG",
+            "KPMG"
+        ]
+    },
+    {
+        "programId": "PROG007",
+        "programName": "Mechanical Engineering",
+        "department": "Engineering",
+        "employmentRate": 88,
+        "avgTimeToEmployment": 3.0,
+        "avgStartingSalary": 72000,
+        "employerSatisfaction": 4.3,
+        "skillsMatch": 84,
+        "graduateCount": 295,
+        "topEmployers": [
+            "Boeing",
+            "SpaceX",
+            "Tesla"
+        ]
+    },
+    {
+        "programId": "PROG010",
+        "programName": "Nursing",
+        "department": "Healthcare",
+        "employmentRate": 96,
+        "avgTimeToEmployment": 1.5,
+        "avgStartingSalary": 68000,
+        "employerSatisfaction": 4.6,
+        "skillsMatch": 92,
+        "graduateCount": 380,
+        "topEmployers": [
+            "Mayo Clinic",
+            "Johns Hopkins",
+            "Cleveland Clinic"
+        ]
+    },
+    {
+        "programId": "PROG013",
+        "programName": "Fine Arts",
+        "department": "Arts",
+        "employmentRate": 55,
+        "avgTimeToEmployment": 6.5,
+        "avgStartingSalary": 38000,
+        "employerSatisfaction": 3.8,
+        "skillsMatch": 62,
+        "graduateCount": 72,
+        "topEmployers": [
+            "Galleries",
+            "Museums",
+            "Freelance"
+        ]
+    },
+    {
+        "programId": "PROG017",
+        "programName": "AI & Machine Learning",
+        "department": "Computer Science",
+        "employmentRate": 98,
+        "avgTimeToEmployment": 1.8,
+        "avgStartingSalary": 125000,
+        "employerSatisfaction": 4.9,
+        "skillsMatch": 94,
+        "graduateCount": 32,
+        "topEmployers": [
+            "OpenAI",
+            "DeepMind",
+            "Anthropic"
+        ]
+    },
+    {
+        "programId": "PROG021",
+        "programName": "Software Engineering",
+        "department": "Computer Science",
+        "employmentRate": 93,
+        "avgTimeToEmployment": 2.3,
+        "avgStartingSalary": 82000,
+        "employerSatisfaction": 4.5,
+        "skillsMatch": 87,
+        "graduateCount": 350,
+        "topEmployers": [
+            "Salesforce",
+            "Adobe",
+            "Oracle"
+        ]
+    }
+]
