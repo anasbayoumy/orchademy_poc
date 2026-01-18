@@ -1,11 +1,11 @@
-name: Build and Push to Pre-Deployment
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - dev
+      - Anas
 
-# This permission is required to allow the action to push to the branch
+# Permissions required for pushing to main branch
 permissions:
   contents: write
 
@@ -14,32 +14,77 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code from the dev branch
-      - name: Checkout
+      # 1. Checkout the code from the Anas branch
+      - name: Checkout Anas branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for proper branch operations
 
       # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Or your preferred version
+          node-version: '20'
           cache: 'npm'
 
       # 3. Install Dependencies
-      # We use 'npm ci' instead of 'install' for faster, consistent builds in CI
       - name: Install Dependencies
         run: npm ci
 
-      # 4. Build the project
-      # This generates the 'dist' folder
-      - name: Build
+      # 4. Build the project (Next.js static export outputs to 'out' folder)
+      - name: Build Next.js App
         run: npm run build
 
-      # 5. Push the 'dist' folder to the 'pre-deployment' branch
-      # If the branch doesn't exist, this action creates it automatically.
-      - name: Deploy to pre-deployment branch
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: main # The branch the action should deploy to.
-          folder: dist           # The folder the action should deploy.
-          clean: true            # Automatically remove deleted files from the deploy branch
+      # 5. Verify build output exists
+      - name: Verify build output
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Error: 'out' folder not found after build!"
+            exit 1
+          fi
+          echo "Build output verified. Contents:"
+          ls -la out/
+
+      # 6. Configure Git for pushing to main branch
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      # 7. Switch to main branch and push built files
+      - name: Deploy to main branch
+        run: |
+          # Checkout main branch (create if it doesn't exist)
+          if git show-ref --verify --quiet refs/heads/main; then
+            git checkout main
+            git pull origin main || true
+          else
+            # Create orphan main branch if it doesn't exist
+            git checkout --orphan main
+          fi
+          
+          # Remove all existing files except .git
+          git rm -rf . 2>/dev/null || true
+          git clean -fxd
+          
+          # Copy all files from out folder to root
+          cp -r out/* .
+          cp -r out/.* . 2>/dev/null || true
+          
+          # Add all files
+          git add .
+          
+          # Commit changes (skip if no changes)
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Deploy: Build from Anas branch [skip ci]"
+            git push origin main --force
+          fi
+
+      # 8. Output deployment info
+      - name: Deployment Info
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "📦 Built files have been pushed to main branch"
+          echo "🌐 GitHub Pages should be available at: https://anasbayoumy.github.io/orchademy_poc/"
