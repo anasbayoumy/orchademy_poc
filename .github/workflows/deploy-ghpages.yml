@@ -47,19 +47,23 @@ jobs:
           echo "Total files:"
           find out -type f | wc -l
 
-      # 6. Configure Git for pushing to main branch
+      # 6. Copy build output to temporary location (preserve before branch switch)
+      - name: Preserve build output
+        run: |
+          echo "Copying build output to temporary location..."
+          cp -r out /tmp/build-output
+          echo "Build output preserved in /tmp/build-output"
+          ls -la /tmp/build-output | head -20
+
+      # 7. Configure Git for pushing to main branch
       - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      # 7. Switch to main branch and push built files
+      # 8. Switch to main branch and push built files
       - name: Deploy to main branch
         run: |
-          # Store the current branch name
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo "Current branch: $CURRENT_BRANCH"
-          
           # Checkout main branch (create if it doesn't exist)
           if git show-ref --verify --quiet refs/heads/main; then
             echo "Main branch exists, checking out..."
@@ -75,15 +79,16 @@ jobs:
           git rm -rf . 2>/dev/null || true
           git clean -fxd
           
-          # Copy all files from out folder to root
-          echo "Copying built files from out/ to root..."
-          if [ -d "out" ]; then
-            cp -r out/* .
-            cp -r out/.* . 2>/dev/null || true
+          # Copy all files from preserved build output to root
+          echo "Copying built files from /tmp/build-output to root..."
+          if [ -d "/tmp/build-output" ]; then
+            cp -r /tmp/build-output/* .
+            cp -r /tmp/build-output/.* . 2>/dev/null || true
             echo "Files copied successfully"
-            ls -la
+            echo "Root directory contents:"
+            ls -la | head -20
           else
-            echo "ERROR: out/ folder not found!"
+            echo "ERROR: /tmp/build-output folder not found!"
             echo "Current directory contents:"
             ls -la
             exit 1
@@ -101,7 +106,7 @@ jobs:
             echo "✅ Successfully pushed to main branch"
           fi
 
-      # 8. Output deployment info
+      # 9. Output deployment info
       - name: Deployment Info
         run: |
           echo "✅ Deployment completed successfully!"
