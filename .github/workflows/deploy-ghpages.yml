@@ -3,7 +3,7 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - Anas
+      - anast
 
 # Permissions required for pushing to main branch
 permissions:
