@@ -5,11 +5,13 @@ import { AlertTriangle, CheckCircle, AlertCircle } from 'lucide-react';
 import { FACULTY_DATA, WORKLOAD_RULES } from '@/data/faculty';
 import { useColors } from '@/hooks/useColors';
 import { useDateFilter, getDateAdjustments } from '@/context/DateFilterContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function WorkloadGapReport() {
     const colors = useColors();
     const { dateRange } = useDateFilter();
     const adjustments = getDateAdjustments(dateRange);
+    const { t, isRTL } = useLanguage();
 
     const overloadedFaculty = FACULTY_DATA.filter(f => f.status === 'Overloaded');
     const underloadedFaculty = FACULTY_DATA.filter(f => f.status === 'Underloaded');
@@ -24,14 +26,14 @@ export default function WorkloadGapReport() {
     };
 
     return (
-        <div className="animate-fade-in">
-            <Header title="Workload Gap Report" subtitle="Faculty shortages, overloads, and teaching imbalances" />
+        <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
+            <Header title={t('faculty.workloadTitle')} subtitle={t('faculty.workloadSubtitle')} />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
                 {[
-                    { icon: <AlertTriangle size={20} />, value: overloadedCount, label: 'Overloaded', bg: colors.dangerBg, color: colors.dangerIcon },
-                    { icon: <AlertCircle size={20} />, value: underloadedCount, label: 'Underloaded', bg: colors.infoBg, color: colors.infoText },
-                    { icon: <CheckCircle size={20} />, value: balancedCount, label: 'Balanced', bg: colors.successBg, color: colors.successIcon },
+                    { icon: <AlertTriangle size={20} />, value: overloadedCount, label: t('faculty.overloaded'), bg: colors.dangerBg, color: colors.dangerIcon },
+                    { icon: <AlertCircle size={20} />, value: underloadedCount, label: t('faculty.underloaded'), bg: colors.infoBg, color: colors.infoText },
+                    { icon: <CheckCircle size={20} />, value: balancedCount, label: t('faculty.optimal'), bg: colors.successBg, color: colors.successIcon },
                 ].map((item, i) => (
                     <div key={i} className="p-4 sm:p-5 flex items-center gap-4 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                         <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: item.bg }}><span style={{ color: item.color }}>{item.icon}</span></div>
@@ -42,14 +44,14 @@ export default function WorkloadGapReport() {
 
             <div className="p-4 sm:p-5 mb-6 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                 <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>
-                    Workload Rules by Rank
-                    <span className="text-xs ml-2 font-normal" style={{ color: colors.textSecondary }}>({dateRange})</span>
+                    {t('faculty.workloadRules')}
+                    <span className="text-xs font-normal" style={{ color: colors.textSecondary, marginLeft: isRTL ? 0 : 8, marginRight: isRTL ? 8 : 0 }}>({dateRange})</span>
                 </h2>
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[500px]">
                         <thead><tr style={{ backgroundColor: colors.tableHeader }}>
-                            {['Rank', 'Expected Hours', 'Overload Threshold', 'Release Hours'].map(h => (
-                                <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}` }}>{h}</th>
+                            {[t('faculty.rank'), t('faculty.expectedHours'), t('faculty.overloadThreshold'), t('faculty.releaseHours')].map(h => (
+                                <th key={h} className="px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}`, textAlign: isRTL ? 'right' : 'left' }}>{h}</th>
                             ))}
                         </tr></thead>
                         <tbody>
@@ -58,9 +60,9 @@ export default function WorkloadGapReport() {
                                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.tableHover}
                                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                                     <td className="px-4 py-3 text-sm font-medium" style={{ color: colors.textPrimary }}>{rule.rank}</td>
-                                    <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{rule.expectedCreditHours} hrs</td>
-                                    <td className="px-4 py-3 text-sm" style={{ color: colors.dangerText }}>{rule.overloadThreshold} hrs</td>
-                                    <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{rule.releaseHours} hrs</td>
+                                    <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{rule.expectedCreditHours} {t('common.hrs')}</td>
+                                    <td className="px-4 py-3 text-sm" style={{ color: colors.dangerText }}>{rule.overloadThreshold} {t('common.hrs')}</td>
+                                    <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{rule.releaseHours} {t('common.hrs')}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -70,8 +72,8 @@ export default function WorkloadGapReport() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {[
-                    { title: 'Overloaded Faculty', data: overloadedFaculty.slice(0, Math.round(overloadedFaculty.length * adjustments.value)), badge: colors.dangerBg, badgeText: colors.dangerText, cols: ['Name', 'Dept', 'Load', 'Excess'], isExcess: true },
-                    { title: 'Underloaded Faculty', data: underloadedFaculty.slice(0, Math.round(underloadedFaculty.length * adjustments.variation)), badge: colors.infoBg, badgeText: colors.infoText, cols: ['Name', 'Dept', 'Load', 'Available'], isExcess: false },
+                    { title: t('faculty.overloadedFaculty'), data: overloadedFaculty.slice(0, Math.round(overloadedFaculty.length * adjustments.value)), badge: colors.dangerBg, badgeText: colors.dangerText, cols: [t('faculty.name'), t('faculty.dept'), t('faculty.load'), t('faculty.excess')], isExcess: true },
+                    { title: t('faculty.underloadedFaculty'), data: underloadedFaculty.slice(0, Math.round(underloadedFaculty.length * adjustments.variation)), badge: colors.infoBg, badgeText: colors.infoText, cols: [t('faculty.name'), t('faculty.dept'), t('faculty.load'), t('faculty.available')], isExcess: false },
                 ].map((section) => (
                     <div key={section.title} className="overflow-hidden rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                         <div className="px-4 sm:px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.border}` }}>
@@ -81,7 +83,7 @@ export default function WorkloadGapReport() {
                         <div className="max-h-80 overflow-y-auto">
                             <table className="w-full">
                                 <thead style={{ backgroundColor: colors.tableHeader }}><tr>
-                                    {section.cols.map(h => (<th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide sticky top-0" style={{ color: colors.textSecondary, backgroundColor: colors.tableHeader, borderBottom: `1px solid ${colors.border}` }}>{h}</th>))}
+                                    {section.cols.map(h => (<th key={h} className="px-4 py-3 text-xs font-semibold uppercase tracking-wide sticky top-0" style={{ color: colors.textSecondary, backgroundColor: colors.tableHeader, borderBottom: `1px solid ${colors.border}`, textAlign: isRTL ? 'right' : 'left' }}>{h}</th>))}
                                 </tr></thead>
                                 <tbody>
                                     {section.data.map((faculty) => (
@@ -90,8 +92,8 @@ export default function WorkloadGapReport() {
                                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                                             <td className="px-4 py-3 text-sm font-medium" style={{ color: colors.textPrimary }}>{faculty.name}</td>
                                             <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{faculty.department.split(' ')[0]}</td>
-                                            <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{Math.round(faculty.teachingLoad * adjustments.value)} hrs</td>
-                                            <td className="px-4 py-3 text-sm font-medium" style={{ color: section.isExcess ? colors.dangerText : colors.infoText }}>{section.isExcess ? '+' : ''}{Math.abs(getGapAmount(faculty))} hrs</td>
+                                            <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{Math.round(faculty.teachingLoad * adjustments.value)} {t('common.hrs')}</td>
+                                            <td className="px-4 py-3 text-sm font-medium" style={{ color: section.isExcess ? colors.dangerText : colors.infoText }}>{section.isExcess ? '+' : ''}{Math.abs(getGapAmount(faculty))} {t('common.hrs')}</td>
                                         </tr>
                                     ))}
                                 </tbody>

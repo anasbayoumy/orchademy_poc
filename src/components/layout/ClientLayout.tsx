@@ -5,6 +5,7 @@ import { Menu } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { DateFilterProvider } from '@/context/DateFilterContext';
+import { LanguageProvider, useLanguage } from '@/context/LanguageContext';
 
 function MainContent({ children, sidebarOpen, onToggleSidebar }: {
     children: ReactNode;
@@ -12,6 +13,7 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
     onToggleSidebar: () => void;
 }) {
     const { theme } = useTheme();
+    const { isRTL } = useLanguage();
     const isDark = theme === 'dark';
     const [isMobile, setIsMobile] = useState(false);
 
@@ -28,7 +30,8 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
         <main
             className="flex-1 p-4 md:p-6 transition-all duration-300 ease-out min-h-screen"
             style={{
-                marginLeft: sidebarWidth,
+                marginLeft: isRTL ? 0 : sidebarWidth,
+                marginRight: isRTL ? sidebarWidth : 0,
                 backgroundColor: isDark ? '#0f172a' : '#f8fafc',
                 color: isDark ? '#f1f5f9' : '#0f172a',
             }}
@@ -54,8 +57,11 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
             {!isMobile && !sidebarOpen && (
                 <button
                     onClick={onToggleSidebar}
-                    className="fixed left-4 top-4 z-30 p-2 rounded-lg transition-all duration-200 animate-fade-in"
+                    className="fixed z-30 p-2 rounded-lg transition-all duration-200 animate-fade-in"
                     style={{
+                        left: isRTL ? 'auto' : 16,
+                        right: isRTL ? 16 : 'auto',
+                        top: 16,
                         backgroundColor: isDark ? '#1e293b' : '#ffffff',
                         border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
                         color: isDark ? '#f1f5f9' : '#1e293b',
@@ -98,9 +104,11 @@ function AppLayout({ children }: { children: ReactNode }) {
 export default function ClientLayout({ children }: { children: ReactNode }) {
     return (
         <ThemeProvider>
-            <DateFilterProvider>
-                <AppLayout>{children}</AppLayout>
-            </DateFilterProvider>
+            <LanguageProvider>
+                <DateFilterProvider>
+                    <AppLayout>{children}</AppLayout>
+                </DateFilterProvider>
+            </LanguageProvider>
         </ThemeProvider>
     );
 }

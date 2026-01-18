@@ -7,11 +7,13 @@ import { GraduationCap, CheckCircle, DollarSign, TrendingUp } from 'lucide-react
 import { PROGRAMS_DATA, getViabilityMatrix } from '@/data/programs';
 import { useColors } from '@/hooks/useColors';
 import { useDateFilter, getDateAdjustments } from '@/context/DateFilterContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ViabilityMatrix() {
     const colors = useColors();
     const { dateRange } = useDateFilter();
     const adjustments = getDateAdjustments(dateRange);
+    const { t, isRTL } = useLanguage();
 
     const matrix = getViabilityMatrix();
     const totalRevenue = PROGRAMS_DATA.reduce((sum, p) => sum + p.revenue, 0) * adjustments.value;
@@ -51,31 +53,34 @@ export default function ViabilityMatrix() {
     const programs = getPrograms();
 
     return (
-        <div className="animate-fade-in">
-            <Header title="Program Viability Matrix" subtitle="Programs categorized by enrollment, employability, and cost-efficiency" />
+        <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
+            <Header title={t('programs.viabilityTitle')} subtitle={t('programs.viabilitySubtitle')} />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                <MetricCard title="Total Programs" value={Math.round(PROGRAMS_DATA.length * adjustments.value)} icon={<GraduationCap size={20} strokeWidth={1.5} />} />
-                <MetricCard title="Viable Programs" value={viableCount} change={Math.round(adjustments.growth * 0.8)} changeLabel="vs last year" icon={<CheckCircle size={20} strokeWidth={1.5} />} />
-                <MetricCard title="Portfolio Revenue" value={`$${(totalRevenue / 1000000).toFixed(1)}M`} change={Math.round(adjustments.growth * 0.6)} icon={<DollarSign size={20} strokeWidth={1.5} />} />
-                <MetricCard title="Avg Viability" value={Math.round(avgViability + adjustments.growth * 0.3)} icon={<TrendingUp size={20} strokeWidth={1.5} />} />
+                <MetricCard title={t('programs.totalPrograms')} value={Math.round(PROGRAMS_DATA.length * adjustments.value)} icon={<GraduationCap size={20} strokeWidth={1.5} />} />
+                <MetricCard title={t('programs.viable')} value={viableCount} change={Math.round(adjustments.growth * 0.8)} changeLabel={t('common.vsLastYear')} icon={<CheckCircle size={20} strokeWidth={1.5} />} />
+                <MetricCard title={t('programs.portfolioRevenue')} value={`$${(totalRevenue / 1000000).toFixed(1)}M`} change={Math.round(adjustments.growth * 0.6)} icon={<DollarSign size={20} strokeWidth={1.5} />} />
+                <MetricCard title={t('programs.avgViability')} value={Math.round(avgViability + adjustments.growth * 0.3)} icon={<TrendingUp size={20} strokeWidth={1.5} />} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                 <div className="p-4 sm:p-5 lg:col-span-2 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                    <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>Viability by Department <span className="text-xs ml-2 font-normal" style={{ color: colors.textSecondary }}>({dateRange})</span></h2>
+                    <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>
+                        {t('programs.viabilityByDept')}
+                        <span className="text-xs font-normal" style={{ color: colors.textSecondary, marginLeft: isRTL ? 0 : 8, marginRight: isRTL ? 8 : 0 }}>({dateRange})</span>
+                    </h2>
                     <BarChartComponent data={chartData} xKey="name" bars={[
-                        { dataKey: 'viable', color: '#22c55e', name: 'Viable' },
-                        { dataKey: 'marginal', color: '#eab308', name: 'Marginal' },
-                        { dataKey: 'atRisk', color: '#ef4444', name: 'At-Risk' },
+                        { dataKey: 'viable', color: '#22c55e', name: t('programs.viable') },
+                        { dataKey: 'marginal', color: '#eab308', name: t('programs.marginal') },
+                        { dataKey: 'atRisk', color: '#ef4444', name: t('programs.atRisk') },
                     ]} height={240} showLegend />
                 </div>
 
                 <div className="space-y-4">
                     {[
-                        { label: 'Viable', count: viableCount, color: colors.successText, bg: colors.successBg, barColor: '#22c55e' },
-                        { label: 'Marginal', count: marginalCount, color: colors.warningText, bg: colors.warningBg, barColor: '#eab308' },
-                        { label: 'At-Risk', count: atRiskCount, color: colors.dangerText, bg: colors.dangerBg, barColor: '#ef4444' },
+                        { label: t('programs.viable'), count: viableCount, color: colors.successText, bg: colors.successBg, barColor: '#22c55e' },
+                        { label: t('programs.marginal'), count: marginalCount, color: colors.warningText, bg: colors.warningBg, barColor: '#eab308' },
+                        { label: t('programs.atRisk'), count: atRiskCount, color: colors.dangerText, bg: colors.dangerBg, barColor: '#ef4444' },
                     ].map((item) => (
                         <div key={item.label} className="p-4 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                             <div className="flex items-center justify-between mb-2">
@@ -92,22 +97,22 @@ export default function ViabilityMatrix() {
 
             <div className="overflow-hidden rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                 <div className="px-4 sm:px-5 py-4" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                    <h2 className="text-sm font-medium" style={{ color: colors.textPrimary }}>All Programs</h2>
+                    <h2 className="text-sm font-medium" style={{ color: colors.textPrimary }}>{t('common.allPrograms')}</h2>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-[800px]">
                         <thead>
                             <tr style={{ backgroundColor: colors.tableHeader }}>
-                                {['Program', 'Department', 'Enrollment', 'Revenue', 'Margin', 'Employment', 'Score', 'Status'].map(h => (
-                                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}` }}>{h}</th>
+                                {[t('programs.programName'), t('common.department'), t('programs.enrollment'), t('programs.revenue'), t('programs.margin'), t('programs.employment'), t('programs.score'), t('common.status')].map(h => (
+                                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}`, textAlign: isRTL ? 'right' : 'left' }}>{h}</th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
                             {programs.map(prog => {
-                                const status = prog.viabilityScore >= 60 ? 'Viable' : prog.viabilityScore >= 40 ? 'Marginal' : 'At-Risk';
-                                const statusStyle = status === 'Viable' ? { bg: colors.successBg, color: colors.successText }
-                                    : status === 'Marginal' ? { bg: colors.warningBg, color: colors.warningText }
+                                const status = prog.viabilityScore >= 60 ? t('programs.viable') : prog.viabilityScore >= 40 ? t('programs.marginal') : t('programs.atRisk');
+                                const statusStyle = prog.viabilityScore >= 60 ? { bg: colors.successBg, color: colors.successText }
+                                    : prog.viabilityScore >= 40 ? { bg: colors.warningBg, color: colors.warningText }
                                         : { bg: colors.dangerBg, color: colors.dangerText };
 
                                 return (

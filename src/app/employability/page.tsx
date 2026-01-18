@@ -6,8 +6,13 @@ import DataTable from '@/components/ui/DataTable';
 import BarChartComponent from '@/components/charts/BarChart';
 import { Briefcase, DollarSign, Users, Star } from 'lucide-react';
 import { EMPLOYABILITY_DATA, type EmployabilityMetric } from '@/data/employability';
+import { useLanguage } from '@/context/LanguageContext';
+import { useColors } from '@/hooks/useColors';
 
 export default function EmployabilityScorecard() {
+    const { t, isRTL } = useLanguage();
+    const colors = useColors();
+
     const avgEmploymentRate = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.employmentRate, 0) / EMPLOYABILITY_DATA.length;
     const avgSalary = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.avgStartingSalary, 0) / EMPLOYABILITY_DATA.length;
     const totalGraduates = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.graduateCount, 0);
@@ -19,14 +24,14 @@ export default function EmployabilityScorecard() {
     }));
 
     const columns = [
-        { key: 'programName', header: 'Program' },
-        { key: 'department', header: 'Dept' },
+        { key: 'programName', header: t('programs.programName') },
+        { key: 'department', header: t('faculty.dept') },
         {
             key: 'employmentRate',
-            header: 'Employment',
+            header: t('programs.employment'),
             render: (item: EmployabilityMetric) => (
                 <div className="flex items-center gap-2">
-                    <div className="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="w-12 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
                         <div
                             className={`h-full ${item.employmentRate >= 85 ? 'bg-green-500' : item.employmentRate >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}
                             style={{ width: `${item.employmentRate}%` }}
@@ -38,17 +43,17 @@ export default function EmployabilityScorecard() {
         },
         {
             key: 'avgTimeToEmployment',
-            header: 'Time to Employ',
+            header: t('employability.timeToEmploy'),
             render: (item: EmployabilityMetric) => `${item.avgTimeToEmployment} mo`
         },
         {
             key: 'avgStartingSalary',
-            header: 'Avg Salary',
+            header: t('employability.avgSalary'),
             render: (item: EmployabilityMetric) => `$${(item.avgStartingSalary / 1000).toFixed(0)}K`
         },
         {
             key: 'employerSatisfaction',
-            header: 'Rating',
+            header: t('employability.rating'),
             render: (item: EmployabilityMetric) => (
                 <div className="flex items-center gap-1">
                     <Star size={12} className="text-yellow-500 fill-yellow-500" />
@@ -56,61 +61,61 @@ export default function EmployabilityScorecard() {
                 </div>
             )
         },
-        { key: 'graduateCount', header: 'Graduates' },
+        { key: 'graduateCount', header: t('employability.totalGraduates') },
     ];
 
     return (
-        <div className="animate-fade-in">
+        <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header
-                title="Employability Scorecard"
-                subtitle="Graduate outcomes per program"
+                title={t('employability.scorecardTitle')}
+                subtitle={t('employability.scorecardSubtitle')}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <MetricCard
-                    title="Avg Employment Rate"
+                    title={t('employability.employmentRate')}
                     value={`${avgEmploymentRate.toFixed(0)}%`}
                     change={4}
-                    changeLabel="vs last year"
+                    changeLabel={t('common.vsLastYear')}
                     icon={<Briefcase size={20} strokeWidth={1.5} />}
                 />
                 <MetricCard
-                    title="Avg Starting Salary"
+                    title={t('employability.avgSalary')}
                     value={`$${(avgSalary / 1000).toFixed(0)}K`}
                     change={8}
                     icon={<DollarSign size={20} strokeWidth={1.5} />}
                 />
                 <MetricCard
-                    title="Total Graduates"
+                    title={t('employability.totalGraduates')}
                     value={totalGraduates}
                     change={12}
                     icon={<Users size={20} strokeWidth={1.5} />}
                 />
                 <MetricCard
-                    title="Employer Rating"
+                    title={t('employability.employerRating')}
                     value={`${avgSatisfaction.toFixed(1)}/5`}
                     change={3}
                     icon={<Star size={20} strokeWidth={1.5} />}
                 />
             </div>
 
-            <div className="card p-5 mb-6">
-                <h2 className="text-sm font-medium text-gray-900 mb-4">Employment Rate by Program</h2>
+            <div className="p-5 mb-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>{t('employability.employmentRateByProgram')}</h2>
                 <BarChartComponent
                     data={chartData}
                     xKey="name"
-                    bars={[{ dataKey: 'rate', color: '#6366f1', name: 'Employment Rate' }]}
+                    bars={[{ dataKey: 'rate', color: '#6366f1', name: t('dashboard.employmentRate') }]}
                     height={200}
                 />
             </div>
 
             <div>
                 <div>
-                    <h2 className="text-sm font-medium text-gray-900 mb-3">Program Scorecard</h2>
+                    <h2 className="text-sm font-medium mb-3" style={{ color: colors.textPrimary }}>{t('employability.programScorecard')}</h2>
                     <DataTable<EmployabilityMetric>
                         data={EMPLOYABILITY_DATA}
                         columns={columns}
-                        searchPlaceholder="Search programs..."
+                        searchPlaceholder={t('common.search')}
                         pageSize={10}
                     />
                 </div>

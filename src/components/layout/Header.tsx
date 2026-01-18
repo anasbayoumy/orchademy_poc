@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from '@/context/ThemeContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface HeaderProps {
     title: string;
@@ -9,6 +10,7 @@ interface HeaderProps {
 
 export default function Header({ title, subtitle }: HeaderProps) {
     const { theme } = useTheme();
+    const { isRTL } = useLanguage();
     const isDark = theme === 'dark';
 
     const colors = {
@@ -17,7 +19,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
     };
 
     return (
-        <header className="mb-6 animate-fade-in">
+        <header className="mb-6 animate-fade-in" style={{ textAlign: isRTL ? 'right' : 'left' }}>
             <h1 className="text-lg sm:text-xl font-semibold" style={{ color: colors.textPrimary }}>{title}</h1>
             {subtitle && <p className="text-xs sm:text-sm mt-0.5" style={{ color: colors.textSecondary }}>{subtitle}</p>}
         </header>

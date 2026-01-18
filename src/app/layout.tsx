@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Orchademy POC | Academic Analytics Dashboard",
+  title: "EcliptixAI | Academic Analytics Dashboard",
   description: "Academic program management, faculty workload optimization, and employability analytics",
 };
 
