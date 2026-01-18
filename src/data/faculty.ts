@@ -14,6 +14,7 @@ export interface Faculty {
     researchHours: number;
     adminHours: number;
     status: 'Balanced' | 'Overloaded' | 'Underloaded';
+    [key: string]: unknown; // Index signature to satisfy Record<string, unknown> constraint
 }
 
 export interface WorkloadRule {

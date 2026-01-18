@@ -11,6 +11,7 @@ export interface EmployabilityMetric {
     skillsMatch: number;
     graduateCount: number;
     topEmployers: string[];
+    [key: string]: unknown; // Index signature to satisfy Record<string, unknown> constraint
 }
 
 export interface SkillAlignment {
