@@ -2,6 +2,7 @@ import facultyData from './json/faculty.json';
 import workloadRulesData from './json/workload-rules.json';
 
 export interface Faculty {
+    [key: string]: unknown;
     id: string;
     name: string;
     rank: string;

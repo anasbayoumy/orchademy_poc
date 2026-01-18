@@ -1,6 +1,7 @@
 import employabilityData from './json/employability.json';
 
 export interface EmployabilityMetric {
+    [key: string]: unknown;
     programId: string;
     programName: string;
     department: string;
