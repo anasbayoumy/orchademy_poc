@@ -1,0 +1,26 @@
+[
+    {
+        "rank": "Professor",
+        "expectedCreditHours": 12,
+        "overloadThreshold": 15,
+        "releaseHours": 3
+    },
+    {
+        "rank": "Associate Professor",
+        "expectedCreditHours": 12,
+        "overloadThreshold": 15,
+        "releaseHours": 2
+    },
+    {
+        "rank": "Assistant Professor",
+        "expectedCreditHours": 12,
+        "overloadThreshold": 15,
+        "releaseHours": 1
+    },
+    {
+        "rank": "Lecturer",
+        "expectedCreditHours": 15,
+        "overloadThreshold": 18,
+        "releaseHours": 0
+    }
+]
