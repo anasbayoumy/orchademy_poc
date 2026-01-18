@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code from the Anas branch
-      - name: Checkout Anas branch
+      # 1. Checkout the code from the anast branch
+      - name: Checkout anast branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all history for proper branch operations
@@ -44,6 +44,8 @@ jobs:
           fi
           echo "Build output verified. Contents:"
           ls -la out/
+          echo "Total files:"
+          find out -type f | wc -l
 
       # 6. Configure Git for pushing to main branch
       - name: Configure Git
@@ -54,22 +56,38 @@ jobs:
       # 7. Switch to main branch and push built files
       - name: Deploy to main branch
         run: |
+          # Store the current branch name
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "Current branch: $CURRENT_BRANCH"
+          
           # Checkout main branch (create if it doesn't exist)
           if git show-ref --verify --quiet refs/heads/main; then
+            echo "Main branch exists, checking out..."
             git checkout main
             git pull origin main || true
           else
-            # Create orphan main branch if it doesn't exist
+            echo "Main branch doesn't exist, creating orphan branch..."
             git checkout --orphan main
           fi
           
           # Remove all existing files except .git
+          echo "Removing existing files..."
           git rm -rf . 2>/dev/null || true
           git clean -fxd
           
           # Copy all files from out folder to root
-          cp -r out/* .
-          cp -r out/.* . 2>/dev/null || true
+          echo "Copying built files from out/ to root..."
+          if [ -d "out" ]; then
+            cp -r out/* .
+            cp -r out/.* . 2>/dev/null || true
+            echo "Files copied successfully"
+            ls -la
+          else
+            echo "ERROR: out/ folder not found!"
+            echo "Current directory contents:"
+            ls -la
+            exit 1
+          fi
           
           # Add all files
           git add .
@@ -78,8 +96,9 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Deploy: Build from Anas branch [skip ci]"
+            git commit -m "Deploy: Build from anast branch [skip ci]"
             git push origin main --force
+            echo "✅ Successfully pushed to main branch"
           fi
 
       # 8. Output deployment info
