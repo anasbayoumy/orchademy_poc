@@ -44,6 +44,8 @@ jobs:
           fi
           echo "Build output verified. Contents:"
           ls -la out/
+          echo "Checking _next folder:"
+          ls -la out/_next/static/chunks/ | head -10
           echo "Total files:"
           find out -type f | wc -l
 
@@ -53,7 +55,8 @@ jobs:
           echo "Copying build output to temporary location..."
           cp -r out /tmp/build-output
           echo "Build output preserved in /tmp/build-output"
-          ls -la /tmp/build-output | head -20
+          echo "Verifying _next folder was copied:"
+          ls -la /tmp/build-output/_next/static/chunks/ | head -5
 
       # 7. Configure Git for pushing to main branch
       - name: Configure Git
@@ -82,9 +85,11 @@ jobs:
           # Copy all files from preserved build output to root
           echo "Copying built files from /tmp/build-output to root..."
           if [ -d "/tmp/build-output" ]; then
-            cp -r /tmp/build-output/* .
-            cp -r /tmp/build-output/.* . 2>/dev/null || true
+            # Use rsync to preserve all files including hidden ones
+            rsync -av --exclude='.git' /tmp/build-output/ .
             echo "Files copied successfully"
+            echo "Verifying _next folder exists:"
+            ls -la _next/static/chunks/ | head -5 || echo "ERROR: _next folder not found!"
             echo "Root directory contents:"
             ls -la | head -20
           else
@@ -94,8 +99,8 @@ jobs:
             exit 1
           fi
           
-          # Add all files
-          git add .
+          # Add all files including hidden ones
+          git add -A .
           
           # Commit changes (skip if no changes)
           if git diff --staged --quiet; then
@@ -112,3 +117,4 @@ jobs:
           echo "✅ Deployment completed successfully!"
           echo "📦 Built files have been pushed to main branch"
           echo "🌐 GitHub Pages should be available at: https://anasbayoumy.github.io/orchademy_poc/"
+          echo "📝 Make sure GitHub Pages is configured to serve from / (root) of main branch"
