@@ -1,90 +1,135 @@
-name: Build and Deploy to GitHub Pages
+# name: Build and Deploy to GitHub Pages
+
+# on:
+#   push:
+#     branches:
+#       - dev
+
+# # This permission is required to allow the action to push to the branch and deploy to GitHub Pages
+# permissions:
+#   contents: write
+#   pages: write
+#   id-token: write
+
+# # Allow only one concurrent deployment
+# concurrency:
+#   group: "pages"
+#   cancel-in-progress: false
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+
+#     steps:
+#       # 1. Checkout the code from the dev branch
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0  # Fetch all history for proper branch switching
+
+#       # 2. Setup Node.js
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+#           cache: 'npm'
+
+#       # 3. Install Dependencies
+#       - name: Install Dependencies
+#         run: npm ci
+
+#       # 4. Build the project (Next.js static export outputs to 'out' folder)
+#       - name: Build
+#         run: npm run build
+
+#       # 5. Push built files to main branch
+#       - name: Push to main branch
+#         run: |
+#           git config --local user.email "action@github.com"
+#           git config --local user.name "GitHub Action"
+          
+#           # Checkout or create main branch
+#           if git show-ref --verify --quiet refs/heads/main; then
+#             git checkout main
+#           else
+#             git checkout --orphan main
+#           fi
+          
+#           # Remove all files except .git
+#           git rm -rf . 2>/dev/null || true
+#           git clean -fxd
+          
+#           # Copy built files
+#           cp -r out/* .
+          
+#           # Add all files
+#           git add .
+          
+#           # Commit (skip if no changes)
+#           git commit -m "Deploy: Build from dev branch [skip ci]" || exit 0
+          
+#           # Push to main branch
+#           git push origin main --force
+
+#       # 6. Setup Pages
+#       - name: Setup Pages
+#         uses: actions/configure-pages@v4
+
+#       # 7. Upload artifact for GitHub Pages
+#       - name: Upload artifact
+#         uses: actions/upload-pages-artifact@v3
+#         with:
+#           path: './out'  # Next.js static export output folder
+
+#       # 8. Deploy to GitHub Pages
+#       - name: Deploy to GitHub Pages
+#         id: deployment
+#         uses: actions/deploy-pages@v4
+name: Build and Push to Pre-Deployment
 
 on:
   push:
     branches:
       - dev
 
-# This permission is required to allow the action to push to the branch and deploy to GitHub Pages
+# This permission is required to allow the action to push to the branch
 permissions:
   contents: write
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       # 1. Checkout the code from the dev branch
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch all history for proper branch switching
 
       # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '20' # Or your preferred version
           cache: 'npm'
 
       # 3. Install Dependencies
+      # We use 'npm ci' instead of 'install' for faster, consistent builds in CI
       - name: Install Dependencies
         run: npm ci
 
-      # 4. Build the project (Next.js static export outputs to 'out' folder)
+      # 4. Build the project
+      # This generates the 'dist' folder
       - name: Build
         run: npm run build
 
-      # 5. Push built files to main branch
-      - name: Push to main branch
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          
-          # Checkout or create main branch
-          if git show-ref --verify --quiet refs/heads/main; then
-            git checkout main
-          else
-            git checkout --orphan main
-          fi
-          
-          # Remove all files except .git
-          git rm -rf . 2>/dev/null || true
-          git clean -fxd
-          
-          # Copy built files
-          cp -r out/* .
-          
-          # Add all files
-          git add .
-          
-          # Commit (skip if no changes)
-          git commit -m "Deploy: Build from dev branch [skip ci]" || exit 0
-          
-          # Push to main branch
-          git push origin main --force
-
-      # 6. Setup Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      # 7. Upload artifact for GitHub Pages
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # 5. Push the 'dist' folder to the 'pre-deployment' branch
+      # If the branch doesn't exist, this action creates it automatically.
+      - name: Deploy to pre-deployment branch
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: './out'  # Next.js static export output folder
-
-      # 8. Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          branch: main # The branch the action should deploy to.
+          folder: dist           # The folder the action should deploy.
+          clean: true            # Automatically remove deleted files from the deploy branch
