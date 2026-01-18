@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // Required for static export
   },
-  // Optional: If your repo name is not the root, uncomment and set basePath
-  // basePath: '/orchademy_poc',
-  // trailingSlash: true,
+  // Set basePath for GitHub Pages (repo name)
+  basePath: '/orchademy_poc',
+  trailingSlash: true,
 };
 
 export default nextConfig;
