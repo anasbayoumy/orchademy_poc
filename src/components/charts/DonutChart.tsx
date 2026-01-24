@@ -24,7 +24,7 @@ export default function DonutChart({ data, height = 250, innerRadius = 60, outer
                     labelStyle={{ color: textColor, fontWeight: 600 }}
                     itemStyle={{ color: textColor }}
                 />
-                {showLegend && <Legend wrapperStyle={{ fontSize: 12, color: textColor }} iconType="circle" iconSize={8} layout="horizontal" verticalAlign="bottom" />}
+                {showLegend && <Legend wrapperStyle={{ fontSize: 11, color: textColor, paddingTop: 8 }} iconType="circle" iconSize={8} layout="horizontal" verticalAlign="bottom" align="center" />}
             </PieChart>
         </ResponsiveContainer>
     );

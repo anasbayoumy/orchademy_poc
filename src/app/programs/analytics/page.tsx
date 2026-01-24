@@ -86,7 +86,7 @@ export default function ProgramAnalytics() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                 <div
-                    className="rounded-xl p-5 lg:col-span-2"
+                    className="rounded-xl p-4 sm:p-5 lg:col-span-2 order-2 lg:order-1"
                     style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
                 >
                     <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>Revenue vs Cost by Department (in $M)</h2>
@@ -103,11 +103,13 @@ export default function ProgramAnalytics() {
                 </div>
 
                 <div
-                    className="rounded-xl p-5"
-                    style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
+                    className="rounded-xl p-4 sm:p-5 order-1 lg:order-2"
+                    style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}`, minHeight: '280px' }}
                 >
                     <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>Enrollment by Degree</h2>
-                    <DonutChart data={degreeData} height={200} />
+                    <div className="h-[220px] sm:h-[200px]">
+                        <DonutChart data={degreeData} height={220} innerRadius={50} outerRadius={80} />
+                    </div>
                 </div>
             </div>
 
