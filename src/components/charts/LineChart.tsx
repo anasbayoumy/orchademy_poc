@@ -18,7 +18,7 @@ export default function LineChartComponent({ data, xKey, lines, height = 300, sh
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
                 <XAxis dataKey={xKey} tick={{ fontSize: 11, fill: textColor }} axisLine={{ stroke: gridColor }} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: textColor }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }} labelStyle={{ color: textColor }} />
+                <Tooltip contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }} labelStyle={{ color: textColor }} itemStyle={{ color: textColor }} />
                 {showLegend && <Legend wrapperStyle={{ fontSize: 12, paddingTop: 16 }} iconType="circle" iconSize={8} />}
                 {lines.map((line) => (<Line key={line.dataKey} type="monotone" dataKey={line.dataKey} stroke={line.color} name={line.name || line.dataKey} strokeWidth={2} dot={{ r: 4, fill: line.color, strokeWidth: 2 }} activeDot={{ r: 6, fill: line.color, stroke: bgColor, strokeWidth: 2 }} animationDuration={800} />))}
             </LineChart>

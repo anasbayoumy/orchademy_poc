@@ -18,7 +18,7 @@ export default function BarChartComponent({ data, xKey, bars, height = 300, show
                 <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
                 <XAxis dataKey={xKey} tick={{ fontSize: 11, fill: textColor }} axisLine={{ stroke: gridColor }} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: textColor }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }} labelStyle={{ color: textColor }} cursor={{ fill: isDark ? '#334155' : '#f1f5f9', opacity: 0.5 }} />
+                <Tooltip contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }} labelStyle={{ color: textColor }} itemStyle={{ color: textColor }} cursor={{ fill: isDark ? '#334155' : '#f1f5f9', opacity: 0.5 }} />
                 {showLegend && <Legend wrapperStyle={{ fontSize: 12, paddingTop: 16 }} iconType="circle" iconSize={8} />}
                 {bars.map((bar) => (<Bar key={bar.dataKey} dataKey={bar.dataKey} fill={bar.color} name={bar.name || bar.dataKey} radius={[4, 4, 0, 0]} animationDuration={800} animationEasing="ease-out" />))}
             </BarChart>

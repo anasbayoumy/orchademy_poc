@@ -18,7 +18,12 @@ export default function DonutChart({ data, height = 250, innerRadius = 60, outer
                 <Pie data={data} cx="50%" cy="50%" innerRadius={innerRadius} outerRadius={outerRadius} paddingAngle={3} dataKey="value" animationDuration={800} animationEasing="ease-out">
                     {data.map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.color} stroke={bgColor} strokeWidth={2} />))}
                 </Pie>
-                <Tooltip contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }} formatter={(value) => [String(value), '']} />
+                <Tooltip
+                    contentStyle={{ background: bgColor, border: `1px solid ${gridColor}`, borderRadius: 8, fontSize: 12, color: textColor }}
+                    formatter={(value, name) => [`${Number(value).toLocaleString()} students`, name]}
+                    labelStyle={{ color: textColor, fontWeight: 600 }}
+                    itemStyle={{ color: textColor }}
+                />
                 {showLegend && <Legend wrapperStyle={{ fontSize: 12, color: textColor }} iconType="circle" iconSize={8} layout="horizontal" verticalAlign="bottom" />}
             </PieChart>
         </ResponsiveContainer>
