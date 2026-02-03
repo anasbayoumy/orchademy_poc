@@ -3,7 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, ClipboardList, Scale, Settings2, GraduationCap, Grid3X3, GitBranch, BarChart3, Target, Briefcase, Map, TrendingUp, ChevronDown, Search, LogOut, Settings, X } from 'lucide-react';
+import { 
+    LayoutDashboard, Users, ClipboardList, Scale, Settings2, GraduationCap, 
+    Grid3X3, GitBranch, BarChart3, Target, Briefcase, Map, TrendingUp, 
+    ChevronDown, Search, LogOut, Settings, X, FileCheck, PieChart, 
+    Landmark, Leaf, Layers, DollarSign, Activity, ScrollText, Network, Globe
+} from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
 import SettingsModal from '@/components/ui/SettingsModal';
@@ -11,32 +16,112 @@ import SettingsModal from '@/components/ui/SettingsModal';
 interface MenuItem { labelKey: string; href: string; icon: React.ReactNode; children?: MenuItem[]; }
 
 const getMenuItems = (): MenuItem[] => [
-    { labelKey: 'sidebar.dashboard', href: '/', icon: <LayoutDashboard size={18} strokeWidth={1.5} /> },
+    // 1. Dashboard
+    { 
+        labelKey: 'sidebar.dashboard', 
+        href: '/', 
+        icon: <LayoutDashboard size={18} strokeWidth={1.5} /> 
+    },
+
+    // 2. Strategic Alignment & Governance Hub
     {
-        labelKey: 'sidebar.faculty', href: '/faculty', icon: <Users size={18} strokeWidth={1.5} />,
+        labelKey: 'sidebar.strategy.title', 
+        href: '/strategy', 
+        icon: <Target size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.loadSummary', href: '/faculty', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.workloadGap', href: '/faculty/workload', icon: <Scale size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.smartAllocation', href: '/faculty/allocation', icon: <Settings2 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.simulation', href: '/faculty/simulation', icon: <GitBranch size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.dashboard', href: '/strategy', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.alignment', href: '/strategy/alignment', icon: <Network size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.priorities', href: '/strategy/priorities', icon: <Landmark size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.kpi', href: '/strategy/kpi', icon: <Target size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.mission', href: '/strategy/mission', icon: <ScrollText size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.compliance', href: '/strategy/compliance', icon: <FileCheck size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.accreditation', href: '/strategy/accreditation', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
         ],
     },
+
+    // 3. Academic Workload Management
     {
-        labelKey: 'sidebar.programs', href: '/programs', icon: <GraduationCap size={18} strokeWidth={1.5} />,
+        labelKey: 'sidebar.workload.title', 
+        href: '/workload', 
+        icon: <Users size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.viabilityMatrix', href: '/programs', icon: <Grid3X3 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.scenarios', href: '/programs/scenarios', icon: <GitBranch size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.analytics', href: '/programs/analytics', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.kpiReport', href: '/programs/kpi', icon: <Target size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.dashboard', href: '/workload', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.requirements', href: '/workload/requirements', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.credentials', href: '/workload/credentials', icon: <FileCheck size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.optimization', href: '/workload/optimization', icon: <Scale size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.balancing', href: '/workload/balancing', icon: <GitBranch size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.tracking', href: '/workload/tracking', icon: <Activity size={16} strokeWidth={1.5} /> },
         ],
     },
+
+    // 4. Academic Program Intelligence
     {
-        labelKey: 'sidebar.employability', href: '/employability', icon: <Briefcase size={18} strokeWidth={1.5} />,
+        labelKey: 'sidebar.programs.title', 
+        href: '/programs', 
+        icon: <GraduationCap size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.scorecard', href: '/employability', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.skillsMap', href: '/employability/skills', icon: <Map size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.impact', href: '/employability/impact', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.dashboard', href: '/programs', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.rationalization', href: '/programs/rationalization', icon: <Settings2 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.sentiment', href: '/programs/sentiment', icon: <PieChart size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.heatmaps', href: '/programs/heatmaps', icon: <Map size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.advising', href: '/programs/advising', icon: <Users size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.portfolio', href: '/programs/portfolio', icon: <Grid3X3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.demand', href: '/programs/demand', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.classSize', href: '/programs/class-size', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.cost', href: '/programs/cost', icon: <DollarSign size={16} strokeWidth={1.5} /> },
         ],
+    },
+
+    // 5. ROI & Impact Matrix
+    {
+        labelKey: 'sidebar.roi.title', 
+        href: '/roi', 
+        icon: <TrendingUp size={18} strokeWidth={1.5} />,
+        children: [
+            { labelKey: 'sidebar.dashboard', href: '/roi', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.employability', href: '/roi/employability', icon: <Briefcase size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.analytics', href: '/roi/analytics', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.research', href: '/roi/research', icon: <Search size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.grants', href: '/roi/grants', icon: <FileCheck size={16} strokeWidth={1.5} /> },
+        ],
+    },
+
+    // 6. Efficiency Monitor
+    {
+        labelKey: 'sidebar.efficiency.title', 
+        href: '/efficiency', 
+        icon: <Activity size={18} strokeWidth={1.5} />,
+        children: [
+            { labelKey: 'sidebar.dashboard', href: '/efficiency', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.benchmarking', href: '/efficiency/benchmarking', icon: <Scale size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.resource', href: '/efficiency/resource', icon: <Layers size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.dashboard', href: '/efficiency/dashboard', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+        ],
+    },
+
+    // 7. Sustainability Engine
+    {
+        labelKey: 'sidebar.sustainability.title', 
+        href: '/sustainability', 
+        icon: <Leaf size={18} strokeWidth={1.5} />,
+        children: [
+            { labelKey: 'sidebar.dashboard', href: '/sustainability', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.sustainability.sdgs', href: '/sustainability/sdgs', icon: <Globe size={16} strokeWidth={1.5} /> },
+        ],
+    },
+
+    // 8. Financials
+    {
+        labelKey: 'sidebar.financials', 
+        href: '/financials', 
+        icon: <DollarSign size={18} strokeWidth={1.5} /> 
+    },
+
+    // 9. Services
+    {
+        labelKey: 'sidebar.services', 
+        href: '/services', 
+        icon: <Layers size={18} strokeWidth={1.5} /> 
     },
 ];
 
@@ -46,7 +131,8 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     const pathname = usePathname();
     const { theme } = useTheme();
     const { t, isRTL } = useLanguage();
-    const [expandedItems, setExpandedItems] = useState<string[]>(['sidebar.faculty', 'sidebar.programs', 'sidebar.employability']);
+    // All dropdowns closed by default - click to expand
+    const [expandedItems, setExpandedItems] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -74,11 +160,20 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     };
 
     const toggleExpand = (labelKey: string) => setExpandedItems(prev => prev.includes(labelKey) ? prev.filter(i => i !== labelKey) : [...prev, labelKey]);
+    
+    // Improved active state checking for nested routes
     const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
+    
     const filteredMenuItems = menuItems.filter(item => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
-        return t(item.labelKey).toLowerCase().includes(q) || item.children?.some(c => t(c.labelKey).toLowerCase().includes(q));
+        // Fallback to labelKey if translation fails during dev
+        const itemLabel = t(item.labelKey) !== item.labelKey ? t(item.labelKey) : item.labelKey.split('.').pop() || '';
+        
+        return itemLabel.toLowerCase().includes(q) || item.children?.some(c => {
+            const childLabel = t(c.labelKey) !== c.labelKey ? t(c.labelKey) : c.labelKey.split('.').pop() || '';
+            return childLabel.toLowerCase().includes(q);
+        });
     });
 
     return (
@@ -114,25 +209,26 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     </div>
                 </div>
 
-                <nav className="flex-1 overflow-y-auto px-3 py-2" style={{ opacity: isOpen ? 1 : 0 }}>
+                <nav className="flex-1 overflow-y-auto px-3 py-2 custom-scrollbar" style={{ opacity: isOpen ? 1 : 0 }}>
                     {filteredMenuItems.map((item, index) => (
-                        <div key={item.labelKey} className="mb-0.5 animate-slide-in" style={{ animationDelay: `${index * 50}ms` }}>
+                        <div key={item.labelKey} className="mb-0.5 animate-slide-in" style={{ animationDelay: `${index * 30}ms` }}>
                             {item.children ? (
                                 <>
                                     <button onClick={() => toggleExpand(item.labelKey)}
                                         className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
                                         style={{ backgroundColor: isActive(item.href) ? colors.activeHoverBg : 'transparent', color: isActive(item.href) ? colors.activeText : colors.textSecondary }}
                                     >
-                                        <span className="flex items-center gap-3">{item.icon}{t(item.labelKey)}</span>
+                                        <span className="flex items-center gap-3">{item.icon}
+                                        <span className="truncate">{t(item.labelKey)}</span></span>
                                         <ChevronDown size={14} className={`transition-transform duration-200 ${expandedItems.includes(item.labelKey) ? 'rotate-180' : ''}`} />
                                     </button>
-                                    <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expandedItems.includes(item.labelKey) ? '400px' : '0', opacity: expandedItems.includes(item.labelKey) ? 1 : 0 }}>
+                                    <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expandedItems.includes(item.labelKey) ? '800px' : '0', opacity: expandedItems.includes(item.labelKey) ? 1 : 0 }}>
                                         <div className="mt-0.5 space-y-0.5 pl-3" style={{ borderLeft: isRTL ? 'none' : `1px solid ${colors.border}`, borderRight: isRTL ? `1px solid ${colors.border}` : 'none', marginLeft: isRTL ? 0 : 12, marginRight: isRTL ? 12 : 0 }}>
                                             {item.children.map((child) => (
                                                 <Link key={child.href} href={child.href}
-                                                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all duration-200"
+                                                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-all duration-200"
                                                     style={{ backgroundColor: pathname === child.href ? colors.activeBg : 'transparent', color: pathname === child.href ? '#ffffff' : colors.textSecondary, boxShadow: pathname === child.href ? '0 4px 6px -1px rgba(99, 102, 241, 0.3)' : 'none' }}
-                                                >{child.icon}{t(child.labelKey)}</Link>
+                                                >{child.icon}<span className="truncate">{t(child.labelKey)}</span></Link>
                                             ))}
                                         </div>
                                     </div>
@@ -140,7 +236,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                             ) : (
                                 <Link href={item.href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
                                     style={{ backgroundColor: isActive(item.href) ? colors.activeBg : 'transparent', color: isActive(item.href) ? '#ffffff' : colors.textSecondary, boxShadow: isActive(item.href) ? '0 4px 6px -1px rgba(99, 102, 241, 0.3)' : 'none' }}
-                                >{item.icon}{t(item.labelKey)}</Link>
+                                >{item.icon}<span>{t(item.labelKey)}</span></Link>
                             )}
                         </div>
                     ))}

@@ -3,7 +3,7 @@
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
 import BarChartComponent from '@/components/charts/BarChart';
-import { GraduationCap, CheckCircle, DollarSign, TrendingUp } from 'lucide-react';
+import { GraduationCap, CheckCircle, DollarSign, TrendingUp, Users, BarChart3, TrendingDown } from 'lucide-react';
 import { PROGRAMS_DATA, getViabilityMatrix } from '@/data/programs';
 import { useColors } from '@/hooks/useColors';
 import { useDateFilter, getDateAdjustments } from '@/context/DateFilterContext';
@@ -16,6 +16,7 @@ export default function ViabilityMatrix() {
     const { t, isRTL } = useLanguage();
 
     const matrix = getViabilityMatrix();
+    const totalEnrollment = PROGRAMS_DATA.reduce((sum, p) => sum + p.enrollment, 0);
     const totalRevenue = PROGRAMS_DATA.reduce((sum, p) => sum + p.revenue, 0) * adjustments.value;
     const avgViability = PROGRAMS_DATA.reduce((sum, p) => sum + p.viabilityScore, 0) / PROGRAMS_DATA.length;
 
@@ -50,100 +51,95 @@ export default function ViabilityMatrix() {
         }));
     };
 
-    const programs = getPrograms();
-
     return (
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
-            <Header title={t('programs.viabilityTitle')} subtitle={t('programs.viabilitySubtitle')} />
+            <Header 
+                title={t('sidebar.programs.title')} 
+                subtitle="Academic program portfolio, sentiment analysis, and enrollment optimization" 
+            />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                <MetricCard title={t('programs.totalPrograms')} value={Math.round(PROGRAMS_DATA.length * adjustments.value)} icon={<GraduationCap size={20} strokeWidth={1.5} />} />
-                <MetricCard title={t('programs.viable')} value={viableCount} change={Math.round(adjustments.growth * 0.8)} changeLabel={t('common.vsLastYear')} icon={<CheckCircle size={20} strokeWidth={1.5} />} />
-                <MetricCard title={t('programs.portfolioRevenue')} value={`$${(totalRevenue / 1000000).toFixed(1)}M`} change={Math.round(adjustments.growth * 0.6)} icon={<DollarSign size={20} strokeWidth={1.5} />} />
-                <MetricCard title={t('programs.avgViability')} value={Math.round(avgViability + adjustments.growth * 0.3)} icon={<TrendingUp size={20} strokeWidth={1.5} />} />
+                {[
+                    { title: 'Total Programs', value: Math.round(PROGRAMS_DATA.length * adjustments.value), change: Math.round(adjustments.growth * 0.8), label: 'vs last year', icon: <GraduationCap size={20} strokeWidth={1.5} /> },
+                    { title: 'Total Enrollment', value: Math.round(totalEnrollment).toLocaleString(), change: Math.round(adjustments.growth * 0.6), label: 'students', icon: <Users size={20} strokeWidth={1.5} /> },
+                    { title: 'Viable Programs', value: viableCount, change: Math.round(adjustments.growth * 0.5), label: 'improvement', icon: <CheckCircle size={20} strokeWidth={1.5} /> },
+                    { title: 'Portfolio Revenue', value: `$${(totalRevenue / 1000000).toFixed(1)}M`, change: Math.round(adjustments.growth * 0.7), label: 'annual', icon: <DollarSign size={20} strokeWidth={1.5} /> },
+                ].map((m, i) => (
+                    <div key={m.title} className="animate-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+                        <MetricCard title={m.title} value={m.value} change={m.change} changeLabel={m.label} icon={m.icon} />
+                    </div>
+                ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-                <div className="p-4 sm:p-5 lg:col-span-2 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                    <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>
-                        {t('programs.viabilityByDept')}
-                        <span className="text-xs font-normal" style={{ color: colors.textSecondary, marginLeft: isRTL ? 0 : 8, marginRight: isRTL ? 8 : 0 }}>({dateRange})</span>
-                    </h2>
-                    <BarChartComponent data={chartData} xKey="name" bars={[
-                        { dataKey: 'viable', color: '#22c55e', name: t('programs.viable') },
-                        { dataKey: 'marginal', color: '#eab308', name: t('programs.marginal') },
-                        { dataKey: 'atRisk', color: '#ef4444', name: t('programs.atRisk') },
-                    ]} height={240} showLegend />
+                <div className="p-5 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 rounded-lg" style={{ backgroundColor: colors.successBg }}>
+                            <CheckCircle size={20} style={{ color: colors.successText }} />
+                        </div>
+                        <div>
+                            <p className="text-xs" style={{ color: colors.textSecondary }}>Viable Programs</p>
+                            <p className="text-2xl font-semibold" style={{ color: colors.textPrimary }}>{viableCount}</p>
+                        </div>
+                    </div>
+                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
+                        <div className="h-full rounded-full" style={{ width: `${(viableCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#22c55e' }} />
+                    </div>
                 </div>
 
-                <div className="space-y-4">
-                    {[
-                        { label: t('programs.viable'), count: viableCount, color: colors.successText, bg: colors.successBg, barColor: '#22c55e' },
-                        { label: t('programs.marginal'), count: marginalCount, color: colors.warningText, bg: colors.warningBg, barColor: '#eab308' },
-                        { label: t('programs.atRisk'), count: atRiskCount, color: colors.dangerText, bg: colors.dangerBg, barColor: '#ef4444' },
-                    ].map((item) => (
-                        <div key={item.label} className="p-4 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>{item.label}</span>
-                                <span className="text-lg font-semibold" style={{ color: item.color }}>{item.count}</span>
-                            </div>
-                            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                                <div className="h-full rounded-full transition-all duration-500" style={{ width: `${(item.count / PROGRAMS_DATA.length) * 100}%`, backgroundColor: item.barColor }} />
-                            </div>
+                <div className="p-5 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 rounded-lg" style={{ backgroundColor: colors.warningBg }}>
+                            <BarChart3 size={20} style={{ color: colors.warningText }} />
                         </div>
-                    ))}
+                        <div>
+                            <p className="text-xs" style={{ color: colors.textSecondary }}>Marginal Programs</p>
+                            <p className="text-2xl font-semibold" style={{ color: colors.textPrimary }}>{marginalCount}</p>
+                        </div>
+                    </div>
+                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
+                        <div className="h-full rounded-full" style={{ width: `${(marginalCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#eab308' }} />
+                    </div>
+                </div>
+
+                <div className="p-5 rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 rounded-lg" style={{ backgroundColor: colors.dangerBg }}>
+                            <TrendingDown size={20} style={{ color: colors.dangerText }} />
+                        </div>
+                        <div>
+                            <p className="text-xs" style={{ color: colors.textSecondary }}>At-Risk Programs</p>
+                            <p className="text-2xl font-semibold" style={{ color: colors.textPrimary }}>{atRiskCount}</p>
+                        </div>
+                    </div>
+                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
+                        <div className="h-full rounded-full" style={{ width: `${(atRiskCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#ef4444' }} />
+                    </div>
                 </div>
             </div>
 
-            <div className="overflow-hidden rounded-xl card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                <div className="px-4 sm:px-5 py-4" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                    <h2 className="text-sm font-medium" style={{ color: colors.textPrimary }}>{t('common.allPrograms')}</h2>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full min-w-[800px]">
-                        <thead>
-                            <tr style={{ backgroundColor: colors.tableHeader }}>
-                                {[t('programs.programName'), t('common.department'), t('programs.enrollment'), t('programs.revenue'), t('programs.margin'), t('programs.employment'), t('programs.score'), t('common.status')].map(h => (
-                                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}`, textAlign: isRTL ? 'right' : 'left' }}>{h}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {programs.map(prog => {
-                                const status = prog.viabilityScore >= 60 ? t('programs.viable') : prog.viabilityScore >= 40 ? t('programs.marginal') : t('programs.atRisk');
-                                const statusStyle = prog.viabilityScore >= 60 ? { bg: colors.successBg, color: colors.successText }
-                                    : prog.viabilityScore >= 40 ? { bg: colors.warningBg, color: colors.warningText }
-                                        : { bg: colors.dangerBg, color: colors.dangerText };
-
-                                return (
-                                    <tr key={prog.id} className="transition-colors" style={{ borderBottom: `1px solid ${colors.border}` }}
-                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.tableHover}
-                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-                                        <td className="px-4 py-3 text-sm font-medium" style={{ color: colors.textPrimary }}>{prog.name}</td>
-                                        <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{prog.department.split(' ')[0]}</td>
-                                        <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{prog.enrollment}</td>
-                                        <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>${(prog.revenue / 1000000).toFixed(2)}M</td>
-                                        <td className="px-4 py-3 text-sm font-medium" style={{ color: prog.profitMargin >= 20 ? colors.successText : prog.profitMargin >= 0 ? colors.warningText : colors.dangerText }}>{prog.profitMargin}%</td>
-                                        <td className="px-4 py-3 text-sm" style={{ color: colors.textSecondary }}>{prog.employmentRate}%</td>
-                                        <td className="px-4 py-3">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-12 h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                                                    <div className="h-full rounded-full" style={{
-                                                        width: `${prog.viabilityScore}%`,
-                                                        backgroundColor: prog.viabilityScore >= 60 ? '#22c55e' : prog.viabilityScore >= 40 ? '#eab308' : '#ef4444'
-                                                    }} />
-                                                </div>
-                                                <span className="text-xs" style={{ color: colors.textSecondary }}>{prog.viabilityScore}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-3">
-                                            <span className="text-xs px-2 py-1 rounded-md font-medium" style={{ backgroundColor: statusStyle.bg, color: statusStyle.color }}>{status}</span>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+            <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                <h2 className="text-lg font-semibold mb-2" style={{ color: colors.textPrimary }}>
+                    Academic Program Intelligence
+                </h2>
+                <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>
+                    Access detailed analytics through the submenu:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                        { label: 'Program Rationalization', desc: 'Data-driven program portfolio optimization' },
+                        { label: 'Learning Sentiment', desc: 'Student feedback and satisfaction analysis' },
+                        { label: 'Engagement Heatmaps', desc: 'Visual engagement patterns across programs' },
+                        { label: 'Academic Advising', desc: 'Advising effectiveness and student guidance' },
+                        { label: 'Portfolio Management', desc: 'Comprehensive program performance tracking' },
+                        { label: 'Demand-Supply', desc: 'Market demand vs. program capacity analysis' },
+                        { label: 'Class Size Optimization', desc: 'Optimal class sizes for learning outcomes' },
+                    ].map((item, i) => (
+                        <div key={i} className="p-3 rounded-lg" style={{ backgroundColor: colors.isDark ? '#0f172a' : '#f8fafc', border: `1px solid ${colors.border}` }}>
+                            <p className="text-sm font-medium mb-1" style={{ color: colors.textPrimary }}>{item.label}</p>
+                            <p className="text-xs" style={{ color: colors.textSecondary }}>{item.desc}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
