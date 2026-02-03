@@ -68,7 +68,6 @@ const getMenuItems = (): MenuItem[] => [
             { labelKey: 'sidebar.programs.portfolio', href: '/programs/portfolio', icon: <Grid3X3 size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.programs.demand', href: '/programs/demand', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.programs.classSize', href: '/programs/class-size', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.cost', href: '/programs/cost', icon: <DollarSign size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -80,6 +79,7 @@ const getMenuItems = (): MenuItem[] => [
         children: [
             { labelKey: 'sidebar.dashboard', href: '/roi', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.employability', href: '/roi/employability', icon: <Briefcase size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.cost', href: '/roi/cost', icon: <DollarSign size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.analytics', href: '/roi/analytics', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.research', href: '/roi/research', icon: <Search size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.grants', href: '/roi/grants', icon: <FileCheck size={16} strokeWidth={1.5} /> },

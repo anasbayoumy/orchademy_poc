@@ -35,15 +35,16 @@ export default function ROIDashboard() {
                     ROI & Impact Matrix
                 </h2>
                 <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>
-                    Explore program impact, ROI analytics, research impact assessment, and grant tracking through the submenu:
+                    Access comprehensive impact analytics through the submenu:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
-                        { label: 'Cost Per Student', desc: 'Financial efficiency and cost analysis per student' },
-                        { label: 'Program Impact', desc: 'Long-term impact and outcomes of academic programs' },
-                        { label: 'ROI Analytics', desc: 'Return on investment metrics and trends' },
-                        { label: 'Research Impact', desc: 'Research output and citation impact analysis' },
-                        { label: 'Grant Tracking', desc: 'Research grants, funding, and allocation tracking' },
+                        { label: 'Program Impact', desc: 'Employability outcomes and graduate success metrics' },
+                        { label: 'Cost Per Student', desc: 'Financial efficiency and cost analysis per program' },
+                        { label: 'Research Impact', desc: 'Research output and citation impact assessment' },
+                        { label: 'Grant Tracking', desc: 'Research funding and grant success monitoring' },
+                        { label: 'Alumni ROI', desc: 'Long-term career outcomes and earning potential' },
+                        { label: 'Social Impact', desc: 'Community engagement and societal contribution' },
                     ].map((item, i) => (
                         <div key={i} className="p-3 rounded-lg" style={{ backgroundColor: colors.isDark ? '#0f172a' : '#f8fafc', border: `1px solid ${colors.border}` }}>
                             <p className="text-sm font-medium mb-1" style={{ color: colors.textPrimary }}>{item.label}</p>

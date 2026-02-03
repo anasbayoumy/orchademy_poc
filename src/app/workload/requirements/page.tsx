@@ -87,10 +87,10 @@ function LoadSummaryTab() {
     return (
         <div className="space-y-6 animate-fadeIn">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <MetricCard title={t('faculty.totalFaculty')} value={totalFaculty.toString()} trend={{ value: 5, isPositive: true }} icon={<Users size={24} />} description={t('faculty.allFaculty')} />
-                <MetricCard title={t('faculty.totalFTE')} value={totalFTE.toFixed(1)} trend={{ value: 3, isPositive: true }} icon={<Briefcase size={24} />} description={t('faculty.fteDescription')} />
-                <MetricCard title={t('faculty.overloaded')} value={overloaded.toString()} trend={{ value: 2, isPositive: false }} icon={<AlertTriangle size={24} />} description={t('faculty.overloadedDescription')} />
-                <MetricCard title={t('faculty.underloaded')} value={underloaded.toString()} trend={{ value: 1, isPositive: true }} icon={<CheckCircle2 size={24} />} description={t('faculty.underloadedDescription')} />
+                <MetricCard title={t('faculty.totalFaculty')} value={totalFaculty.toString()} change={5} icon={<Users size={24} />} changeLabel={t('faculty.allFaculty')} />
+                <MetricCard title={t('faculty.totalFTE')} value={totalFTE.toFixed(1)} change={3} icon={<Briefcase size={24} />} changeLabel={t('faculty.fteDescription')} />
+                <MetricCard title={t('faculty.overloaded')} value={overloaded.toString()} change={-2} icon={<AlertTriangle size={24} />} changeLabel={t('faculty.overloadedDescription')} />
+                <MetricCard title={t('faculty.underloaded')} value={underloaded.toString()} change={1} icon={<CheckCircle2 size={24} />} changeLabel={t('faculty.underloadedDescription')} />
             </div>
 
             <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
@@ -194,8 +194,8 @@ function WorkloadGapTab() {
                             {WORKLOAD_RULES.map((rule, i) => (
                                 <tr key={i} className="border-b" style={{ borderColor: colors.border }}>
                                     <td className="py-3 px-4 text-sm" style={{ color: colors.textPrimary }}>{rule.rank}</td>
-                                    <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{rule.expectedLoad}%</td>
-                                    <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{rule.thresholdHours}h</td>
+                                    <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{rule.expectedCreditHours}h</td>
+                                    <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{rule.overloadThreshold}h</td>
                                     <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{rule.releaseHours}h</td>
                                 </tr>
                             ))}
@@ -287,7 +287,7 @@ function SmartAllocationTab() {
         low: suggestions.filter(s => s.priority === 'Low').length,
     };
 
-    const totalSavings = suggestions.reduce((sum, s) => sum + (s.costSavings || 0), 0);
+    const totalSavings = suggestions.reduce((sum, s) => sum + (s.savings || 0), 0);
 
     const getTypeIcon = (type: string) => {
         switch (type) {
@@ -396,13 +396,13 @@ function SmartAllocationTab() {
                                                 </span>
                                                 <span className="text-xs font-medium" style={{ color: colors.textSecondary }}>{suggestion.type}</span>
                                             </div>
-                                            <h4 className="text-sm font-semibold mb-1" style={{ color: colors.textPrimary }}>{suggestion.suggestion}</h4>
+                                            <h4 className="text-sm font-semibold mb-1" style={{ color: colors.textPrimary }}>{suggestion.description}</h4>
                                             <p className="text-xs mb-2" style={{ color: colors.textSecondary }}>{suggestion.impact}</p>
-                                            {suggestion.costSavings && (
+                                            {suggestion.savings && (
                                                 <div className="flex items-center gap-1">
                                                     <DollarSign size={14} style={{ color: colors.success }} />
                                                     <span className="text-xs font-medium" style={{ color: colors.success }}>
-                                                        ${suggestion.costSavings.toLocaleString()} {t('faculty.savings')}
+                                                        ${suggestion.savings.toLocaleString()} {t('faculty.savings')}
                                                     </span>
                                                 </div>
                                             )}
@@ -440,8 +440,10 @@ function SimulationTab() {
     const [saved, setSaved] = useState(false);
     const [comparing, setComparing] = useState(false);
 
-    const getDepartmentSummary = () => {
-        const deptMap: any = {};
+    type DeptSummary = { totalFTE: number; avgLoad: number; count: number; overloaded: number; underloaded: number };
+    
+    const getDepartmentSummary = (): DeptSummary => {
+        const deptMap: Record<string, DeptSummary> = {};
         FACULTY_DATA.forEach(f => {
             if (selectedDept !== 'All' && f.department !== selectedDept) return;
             if (!deptMap[f.department]) {
@@ -453,13 +455,13 @@ function SimulationTab() {
             if (f.status === 'Overloaded') deptMap[f.department].overloaded += 1;
             if (f.status === 'Underloaded') deptMap[f.department].underloaded += 1;
         });
-        return Object.values(deptMap).reduce((acc: any, d: any) => ({
+        return Object.values(deptMap).reduce((acc, d) => ({
             totalFTE: acc.totalFTE + d.totalFTE,
             avgLoad: acc.avgLoad + d.avgLoad,
             count: acc.count + d.count,
             overloaded: acc.overloaded + d.overloaded,
             underloaded: acc.underloaded + d.underloaded,
-        }), { totalFTE: 0, avgLoad: 0, count: 0, overloaded: 0, underloaded: 0 });
+        }), { totalFTE: 0, avgLoad: 0, count: 0, overloaded: 0, underloaded: 0 } as DeptSummary);
     };
 
     const currentSummary = getDepartmentSummary();
