@@ -7,11 +7,16 @@ import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { DateFilterProvider } from '@/context/DateFilterContext';
 import { LanguageProvider, useLanguage } from '@/context/LanguageContext';
 
-function MainContent({ children, sidebarOpen, onToggleSidebar }: {
+function MainContent({
+    children,
+    sidebarOpen,
+    onToggleSidebar
+}: {
     children: ReactNode;
     sidebarOpen: boolean;
     onToggleSidebar: () => void;
 }) {
+
     const { theme } = useTheme();
     const { isRTL } = useLanguage();
     const isDark = theme === 'dark';
@@ -34,26 +39,44 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
                 marginRight: isRTL ? sidebarWidth : 0,
                 backgroundColor: isDark ? '#0f172a' : '#f8fafc',
                 color: isDark ? '#f1f5f9' : '#0f172a',
+                fontFamily: 'Inter, sans-serif'
             }}
         >
+
+            {/* Mobile Header */}
             <div
                 className="lg:hidden flex items-center gap-4 mb-4 -mt-2 -mx-2 px-4 py-3 sticky top-0 z-30"
                 style={{
-                    backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                    borderBottom: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                    marginLeft: -16, marginRight: -16, width: 'calc(100% + 32px)',
+                    backgroundColor: '#0b1c3d',   // brand primary
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    marginLeft: -16,
+                    marginRight: -16,
+                    width: 'calc(100% + 32px)',
                 }}
             >
                 <button
                     onClick={onToggleSidebar}
                     className="p-2 rounded-lg transition-colors"
-                    style={{ backgroundColor: isDark ? '#334155' : '#f1f5f9', color: isDark ? '#f1f5f9' : '#1e293b' }}
+                    style={{
+                        backgroundColor: '#2493a2',  // secondary aqua
+                        color: '#ffffff'
+                    }}
                 >
                     <Menu size={20} />
                 </button>
-                <span className="font-bold text-lg" style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>EcliptixAI</span>
+
+                <span
+                    className="text-lg"
+                    style={{
+                        fontFamily: 'Libre Baskerville, serif',
+                        color: '#ffffff'
+                    }}
+                >
+                    EcliptixAI
+                </span>
             </div>
 
+            {/* Floating Sidebar Toggle (Desktop) */}
             {!isMobile && !sidebarOpen && (
                 <button
                     onClick={onToggleSidebar}
@@ -62,15 +85,16 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
                         left: isRTL ? 'auto' : 16,
                         right: isRTL ? 16 : 'auto',
                         top: 16,
-                        backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                        border: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
-                        color: isDark ? '#f1f5f9' : '#1e293b',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: '#2493a2', // secondary
+                        border: 'none',
+                        color: '#ffffff',
+                        boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
                     }}
                 >
                     <Menu size={20} />
                 </button>
             )}
+
             {children}
         </main>
     );
@@ -93,8 +117,14 @@ function AppLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="flex min-h-screen">
-            <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(prev => !prev)} />
-            <MainContent sidebarOpen={sidebarOpen} onToggleSidebar={() => setSidebarOpen(prev => !prev)}>
+            <Sidebar
+                isOpen={sidebarOpen}
+                onToggle={() => setSidebarOpen(prev => !prev)}
+            />
+            <MainContent
+                sidebarOpen={sidebarOpen}
+                onToggleSidebar={() => setSidebarOpen(prev => !prev)}
+            >
                 {children}
             </MainContent>
         </div>

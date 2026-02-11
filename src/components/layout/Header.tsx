@@ -1,6 +1,5 @@
 'use client';
 
-import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface HeaderProps {
@@ -9,19 +8,44 @@ interface HeaderProps {
 }
 
 export default function Header({ title, subtitle }: HeaderProps) {
-    const { theme } = useTheme();
+
     const { isRTL } = useLanguage();
-    const isDark = theme === 'dark';
 
     const colors = {
-        textPrimary: isDark ? '#f1f5f9' : '#0f172a',
-        textSecondary: isDark ? '#94a3b8' : '#64748b',
+        textPrimary: '#0b1c3d',     // Dark Sapphire
+        textSecondary: '#304a78',   // Power Blue
     };
 
     return (
-        <header className="mb-6 animate-fade-in" style={{ textAlign: isRTL ? 'right' : 'left' }}>
-            <h1 className="text-lg sm:text-xl font-semibold" style={{ color: colors.textPrimary }}>{title}</h1>
-            {subtitle && <p className="text-xs sm:text-sm mt-0.5" style={{ color: colors.textSecondary }}>{subtitle}</p>}
+        <header
+            className="mb-8 animate-fade-in"
+            style={{
+                textAlign: isRTL ? 'right' : 'left',
+                fontFamily: 'var(--font-libre), serif'
+            }}
+        >
+            <h1
+                className="text-xl sm:text-2xl font-bold tracking-tight"
+                style={{
+                    color: colors.textPrimary,
+                    letterSpacing: '-0.5px'
+                }}
+            >
+                {title}
+            </h1>
+
+            {subtitle && (
+                <p
+                    className="text-sm sm:text-base mt-2"
+                    style={{
+                        color: colors.textSecondary,
+                        maxWidth: '600px',
+                        lineHeight: '1.6'
+                    }}
+                >
+                    {subtitle}
+                </p>
+            )}
         </header>
     );
 }

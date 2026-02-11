@@ -5,6 +5,8 @@
     --font-geist-mono: monospace;
     --bg-light: #f8fafc;
     --bg-dark: #0f172a;
+    --font-heading: var(--font-heading);
+    --font-body: var(--font-body);
 }
 
 html {
@@ -17,12 +19,22 @@ html[data-theme="dark"] {
 }
 
 body {
-    font-family: 'Inter', var(--font-geist-sans);
+    font-family: var(--font-body), monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     min-height: 100vh;
 }
+
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading), serif;
+}
+
+
 
 /* Smooth theme transitions */
 *,
