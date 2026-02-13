@@ -78,9 +78,9 @@ export default function FacultyLoadSummary() {
                         <span className="text-xs font-normal" style={{ color: colors.textSecondary, marginLeft: isRTL ? 0 : 8, marginRight: isRTL ? 8 : 0 }}>({dateRange})</span>
                     </h2>
                     <BarChartComponent data={workloadChartData} xKey="name" bars={[
-                        { dataKey: 'overloaded', color: '#ef4444', name: t('faculty.overloaded') },
-                        { dataKey: 'balanced', color: '#22c55e', name: t('faculty.optimal') },
-                        { dataKey: 'underloaded', color: '#3b82f6', name: t('faculty.underloaded') },
+                        { dataKey: 'overloaded', color: colors.danger, name: t('faculty.overloaded') },
+                        { dataKey: 'balanced', color: colors.success, name: t('faculty.optimal') },
+                        { dataKey: 'underloaded', color: colors.info, name: t('faculty.underloaded') },
                     ]} height={240} showLegend />
                 </div>
 

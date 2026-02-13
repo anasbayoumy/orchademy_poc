@@ -32,7 +32,7 @@ export default function ProgramAnalytics() {
     const degreeData = ['Bachelor', 'Master', 'Doctorate', 'Certificate'].map(level => ({
         name: level,
         value: PROGRAMS_DATA.filter(p => p.degreeLevel === level).reduce((sum, p) => sum + p.enrollment, 0),
-        color: level === 'Bachelor' ? '#6366f1' : level === 'Master' ? '#22c55e' : level === 'Doctorate' ? '#eab308' : '#ef4444',
+        color: level === 'Bachelor' ? colors.primary1 : level === 'Master' ? colors.success : level === 'Doctorate' ? colors.warning : colors.danger,
     }));
 
     const topPrograms = [...PROGRAMS_DATA].sort((a, b) => b.profitMargin - a.profitMargin).slice(0, 5);
@@ -94,8 +94,8 @@ export default function ProgramAnalytics() {
                         data={revenueChartData}
                         xKey="name"
                         bars={[
-                            { dataKey: 'revenue', color: '#22c55e', name: 'Revenue' },
-                            { dataKey: 'cost', color: '#ef4444', name: 'Cost' },
+                            { dataKey: 'revenue', color: colors.success, name: 'Revenue' },
+                            { dataKey: 'cost', color: colors.danger, name: 'Cost' },
                         ]}
                         height={240}
                         showLegend

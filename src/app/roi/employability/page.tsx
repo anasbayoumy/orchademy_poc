@@ -108,7 +108,7 @@ function ScorecardTab() {
 
             <div className="rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>{t('employability.employmentRateByProgram')}</h2>
-                <BarChartComponent data={chartData} xKey="name" bars={[{ dataKey: 'rate', color: '#6366f1', name: t('dashboard.employmentRate') }]} height={200} />
+                <BarChartComponent data={chartData} xKey="name" bars={[{ dataKey: 'rate', color: colors.primary1, name: t('dashboard.employmentRate') }]} height={200} />
             </div>
 
             <div>
@@ -237,15 +237,15 @@ function SkillsMapTab() {
                                 <Radar
                                     name="Curriculum Coverage"
                                     dataKey="curriculum"
-                                    stroke="#6366f1"
-                                    fill="#6366f1"
+                                    stroke={colors.primary1}
+                                    fill={colors.primary1}
                                     fillOpacity={0.5}
                                 />
                                 <Radar
                                     name="Market Demand"
                                     dataKey="market"
-                                    stroke="#10b981"
-                                    fill="#10b981"
+                                    stroke={colors.success}
+                                    fill={colors.success}
                                     fillOpacity={0.3}
                                 />
                                 <Legend
@@ -259,7 +259,7 @@ function SkillsMapTab() {
                         </ResponsiveContainer>
                     </div>
                 ) : (
-                    <BarChartComponent data={chartData} xKey="name" bars={[{ dataKey: 'coverage', color: '#6366f1', name: 'Coverage %' }]} height={220} />
+                    <BarChartComponent data={chartData} xKey="name" bars={[{ dataKey: 'coverage', color: colors.primary1, name: 'Coverage %' }]} height={220} />
                 )}
             </div>
 
@@ -347,7 +347,7 @@ function ImpactAnalysisTab() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                     <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>Employment Rate Trend</h2>
-                    <LineChartComponent data={trendData} xKey="year" lines={[{ dataKey: 'rate', color: '#22c55e', name: 'Employment Rate' }]} height={200} />
+                    <LineChartComponent data={trendData} xKey="year" lines={[{ dataKey: 'rate', color: colors.success, name: 'Employment Rate' }]} height={200} />
                 </div>
 
                 <div className="rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
@@ -388,7 +388,7 @@ function ImpactAnalysisTab() {
                             </div>
 
                             <div className="flex items-center gap-2 mb-3">
-                                <Star size={12} className="fill-yellow-500" style={{ color: '#eab308' }} />
+                                <Star size={12} className="fill-yellow-500" style={{ color: colors.warning }} />
                                 <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>{emp.satisfactionScore.toFixed(1)}</span>
                                 <span style={{ color: colors.textSecondary }}>•</span>
                                 <span className="text-xs" style={{ color: colors.textSecondary }}>{emp.hiresCount} hires</span>

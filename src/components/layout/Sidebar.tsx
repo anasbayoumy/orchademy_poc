@@ -12,6 +12,7 @@ import {
 import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
 import SettingsModal from '@/components/ui/SettingsModal';
+import { DESIGN_TOKENS } from '@/config/design-tokens';
 
 interface MenuItem { labelKey: string; href: string; icon: React.ReactNode; children?: MenuItem[]; }
 
@@ -148,15 +149,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     }, []);
 
     const colors = {
-        sidebarBg: isDark ? '#1e293b' : '#f8fafc',
-        border: isDark ? '#334155' : '#e2e8f0',
+        sidebarBg: isDark ? DESIGN_TOKENS.colors.primary[3] : '#f8fafc',
+        border: isDark ? '#2a3647' : '#e2e8f0',
         textPrimary: isDark ? '#f1f5f9' : '#1e293b',
         textSecondary: isDark ? '#94a3b8' : '#64748b',
-        inputBg: isDark ? '#334155' : '#ffffff',
-        hoverBg: isDark ? '#334155' : '#e2e8f0',
-        activeBg: '#6366f1',
-        activeHoverBg: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)',
-        activeText: isDark ? '#a5b4fc' : '#4f46e5',
+        inputBg: isDark ? '#2a3647' : '#ffffff',
+        hoverBg: isDark ? '#2a3647' : '#e2e8f0',
+        activeBg: DESIGN_TOKENS.colors.primary[1],
+        activeHoverBg: isDark ? 'rgba(48, 74, 120, 0.2)' : 'rgba(48, 74, 120, 0.1)',
+        activeText: isDark ? '#5a7eb3' : DESIGN_TOKENS.colors.primary[1],
     };
 
     const toggleExpand = (labelKey: string) => setExpandedItems(prev => prev.includes(labelKey) ? prev.filter(i => i !== labelKey) : [...prev, labelKey]);
@@ -195,7 +196,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 }}
             >
                 <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                    <span className="font-bold text-lg tracking-tight" style={{ color: colors.textPrimary, opacity: isOpen ? 1 : 0 }}>EcliptixAI</span>
+                    <span className="font-bold text-lg tracking-tight" style={{ color: colors.textPrimary, opacity: isOpen ? 1 : 0 }}>orchademy</span>
                     {isMobile && <button onClick={onToggle} className="p-2 rounded-lg" style={{ color: colors.textSecondary }}><X size={20} /></button>}
                 </div>
 
@@ -252,8 +253,8 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     </button>
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ backgroundColor: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)', color: colors.activeText }}>DS</div>
-                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>D. Steward</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ backgroundColor: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)', color: colors.activeText }}>MS</div>
+                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>Mr.Shreif</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
                         </div>
                         <button className="p-1.5 rounded" style={{ color: colors.textSecondary }}><LogOut size={16} strokeWidth={1.5} /></button>
                     </div>

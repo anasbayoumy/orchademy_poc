@@ -96,7 +96,7 @@ function LoadSummaryTab() {
             <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h3 className="text-lg font-semibold mb-4" style={{ color: colors.textPrimary }}>{t('faculty.workloadByDepartment')}</h3>
                 <BarChartComponent data={workloadData} xKey="name" bars={[
-                    { dataKey: 'avgLoad', color: '#6366f1', name: t('faculty.avgWorkload') }
+                    { dataKey: 'avgLoad', color: colors.primary1, name: t('faculty.avgWorkload') }
                 ]} height={300} />
             </div>
 
@@ -635,14 +635,14 @@ function SimulationTab() {
             <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h3 className="text-lg font-semibold mb-4" style={{ color: colors.textPrimary }}>{t('faculty.projectionTrend')}</h3>
                 <LineChartComponent data={trendData} xKey="name" lines={[
-                    { dataKey: 'avgLoad', color: '#6366f1', name: t('faculty.avgWorkload') }
+                    { dataKey: 'avgLoad', color: colors.primary1, name: t('faculty.avgWorkload') }
                 ]} height={300} />
             </div>
 
             <div className="flex flex-wrap gap-3">
                 <button onClick={handleSave}
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
-                    style={{ backgroundColor: saved ? colors.successBg : '#6366f1', color: saved ? colors.successText : '#ffffff', boxShadow: saved ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)' }}>
+                    style={{ backgroundColor: saved ? colors.successBg : colors.primary1, color: saved ? colors.successText : '#ffffff', boxShadow: saved ? 'none' : `0 4px 12px ${colors.primary1}40` }}>
                     {saved ? <Check size={16} /> : <Save size={16} />}
                     {saved ? t('common.saved') : t('faculty.saveScenario')}
                 </button>

@@ -51,7 +51,7 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
                 >
                     <Menu size={20} />
                 </button>
-                <span className="font-bold text-lg" style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>EcliptixAI</span>
+                <span className="font-bold text-lg" style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>orchademy</span>
             </div>
 
             {!isMobile && !sidebarOpen && (

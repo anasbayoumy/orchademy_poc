@@ -76,7 +76,7 @@ function ViabilityMatrixTab() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(viableCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#22c55e' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(viableCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.success }} />
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@ function ViabilityMatrixTab() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(marginalCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#eab308' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(marginalCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.warning }} />
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@ function ViabilityMatrixTab() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(atRiskCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#ef4444' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(atRiskCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.danger }} />
                     </div>
                 </div>
             </div>
@@ -210,8 +210,8 @@ function ScenariosTab() {
                             className="rounded-xl cursor-pointer transition-all duration-200"
                             style={{
                                 backgroundColor: colors.cardBg,
-                                border: isSelected ? '2px solid #6366f1' : `1px solid ${colors.border}`,
-                                boxShadow: isSelected ? '0 4px 20px rgba(99, 102, 241, 0.25)' : undefined,
+                            border: isSelected ? `2px solid ${colors.primary1}` : `1px solid ${colors.border}`,
+                            boxShadow: isSelected ? `0 4px 20px ${colors.primary1}40` : undefined,
                                 transform: isSelected ? 'scale(1.02)' : undefined,
                             }}
                         >
@@ -226,35 +226,35 @@ function ScenariosTab() {
                                             <p className="text-xs" style={{ color: colors.textSecondary }}>{scenario.type}</p>
                                         </div>
                                     </div>
-                                    <div className="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200" style={{ backgroundColor: isSelected ? '#6366f1' : 'transparent', borderColor: isSelected ? '#6366f1' : colors.border }}>
-                                        {isSelected && <Check size={12} className="text-white" />}
-                                    </div>
+                                <div className="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200" style={{ backgroundColor: isSelected ? colors.primary1 : 'transparent', borderColor: isSelected ? colors.primary1 : colors.border }}>
+                                    {isSelected && <Check size={12} className="text-white" />}
                                 </div>
+                            </div>
 
-                                <p className="text-xs mb-4 leading-relaxed" style={{ color: colors.textSecondary }}>{scenario.description}</p>
+                            <p className="text-xs mb-4 leading-relaxed" style={{ color: colors.textSecondary }}>{scenario.description}</p>
 
-                                <div className="space-y-2 text-xs">
-                                    <div className="flex justify-between items-center">
-                                        <span style={{ color: colors.textSecondary }}>Savings</span>
-                                        <span className="font-medium" style={{ color: scenario.projectedSavings > 0 ? colors.successText : colors.dangerText }}>
-                                            {scenario.projectedSavings > 0 ? '+' : ''}${(scenario.projectedSavings / 1000).toFixed(0)}K
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span style={{ color: colors.textSecondary }}>Revenue Impact</span>
-                                        <span className="font-medium" style={{ color: scenario.projectedRevenueLoss <= 0 ? colors.successText : colors.dangerText }}>
-                                            {scenario.projectedRevenueLoss > 0 ? '-' : '+'}${(Math.abs(scenario.projectedRevenueLoss) / 1000).toFixed(0)}K
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between items-center pt-2" style={{ borderTop: `1px solid ${colors.border}` }}>
-                                        <span className="font-medium" style={{ color: colors.textPrimary }}>Net Impact</span>
-                                        <span className="font-bold" style={{ color: scenario.netImpact >= 0 ? colors.successText : colors.dangerText }}>
-                                            {scenario.netImpact >= 0 ? '+' : ''}${(scenario.netImpact / 1000).toFixed(0)}K
-                                        </span>
-                                    </div>
+                            <div className="space-y-2 text-xs">
+                                <div className="flex justify-between items-center">
+                                    <span style={{ color: colors.textSecondary }}>Savings</span>
+                                    <span className="font-medium" style={{ color: scenario.projectedSavings > 0 ? colors.successText : colors.dangerText }}>
+                                        {scenario.projectedSavings > 0 ? '+' : ''}${(scenario.projectedSavings / 1000).toFixed(0)}K
+                                    </span>
                                 </div>
+                                <div className="flex justify-between items-center">
+                                    <span style={{ color: colors.textSecondary }}>Revenue Impact</span>
+                                    <span className="font-medium" style={{ color: scenario.projectedRevenueLoss <= 0 ? colors.successText : colors.dangerText }}>
+                                        {scenario.projectedRevenueLoss > 0 ? '-' : '+'}${(Math.abs(scenario.projectedRevenueLoss) / 1000).toFixed(0)}K
+                                    </span>
+                                </div>
+                                <div className="flex justify-between items-center pt-2" style={{ borderTop: `1px solid ${colors.border}` }}>
+                                    <span className="font-medium" style={{ color: colors.textPrimary }}>Net Impact</span>
+                                    <span className="font-bold" style={{ color: scenario.netImpact >= 0 ? colors.successText : colors.dangerText }}>
+                                        {scenario.netImpact >= 0 ? '+' : ''}${(scenario.netImpact / 1000).toFixed(0)}K
+                                    </span>
+                                </div>
+                            </div>
 
-                                <div className="mt-4 flex items-center gap-2">
+                            <div className="mt-4 flex items-center gap-2">
                                     <span className="px-2.5 py-1 rounded-full text-xs font-medium" style={{ backgroundColor: riskStyles.bg, color: riskStyles.text }}>
                                         {scenario.riskLevel} Risk
                                     </span>
@@ -403,7 +403,7 @@ function AnalyticsTab() {
     const degreeData = ['Bachelor', 'Master', 'Doctorate', 'Certificate'].map(level => ({
         name: level,
         value: PROGRAMS_DATA.filter(p => p.degreeLevel === level).reduce((sum, p) => sum + p.enrollment, 0),
-        color: level === 'Bachelor' ? '#6366f1' : level === 'Master' ? '#22c55e' : level === 'Doctorate' ? '#eab308' : '#ef4444',
+        color: level === 'Bachelor' ? colors.primary1 : level === 'Master' ? colors.success : level === 'Doctorate' ? colors.warning : colors.danger,
     }));
 
     const topPrograms = [...PROGRAMS_DATA].sort((a, b) => b.profitMargin - a.profitMargin).slice(0, 5);
@@ -434,8 +434,8 @@ function AnalyticsTab() {
                 <div className="rounded-xl p-5 shadow-sm border lg:col-span-2" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                     <h2 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>Revenue vs Cost by Department (in $M)</h2>
                     <BarChartComponent data={revenueChartData} xKey="name" bars={[
-                        { dataKey: 'revenue', color: '#22c55e', name: 'Revenue' },
-                        { dataKey: 'cost', color: '#ef4444', name: 'Cost' },
+                        { dataKey: 'revenue', color: colors.success, name: 'Revenue' },
+                        { dataKey: 'cost', color: colors.danger, name: 'Cost' },
                     ]} height={240} showLegend />
                 </div>
 

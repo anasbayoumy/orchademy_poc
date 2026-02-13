@@ -75,7 +75,7 @@ function FacultyFTEChartWidget() {
                 data={deptChartData}
                 xKey="name"
                 bars={[
-                    { dataKey: 'current', color: '#6366f1', name: t('dashboard.currentFTE') },
+                    { dataKey: 'current', color: colors.primary1, name: t('dashboard.currentFTE') },
                     { dataKey: 'required', color: '#94a3b8', name: t('dashboard.requiredFTE') }
                 ]}
                 height={260}
@@ -93,9 +93,9 @@ function ProgramViabilityWidget() {
     const viabilityMatrix = getViabilityMatrix();
 
     const viabilityChartData = [
-        { name: t('dashboard.viable'), value: Math.round(viabilityMatrix.viable.length * adjustments.value), color: '#22c55e' },
-        { name: t('dashboard.marginal'), value: Math.round(viabilityMatrix.marginal.length * adjustments.variation), color: '#eab308' },
-        { name: t('dashboard.atRisk'), value: Math.round(viabilityMatrix.atRisk.length * (2 - adjustments.value)), color: '#ef4444' },
+        { name: t('dashboard.viable'), value: Math.round(viabilityMatrix.viable.length * adjustments.value), color: colors.success },
+        { name: t('dashboard.marginal'), value: Math.round(viabilityMatrix.marginal.length * adjustments.variation), color: colors.warning },
+        { name: t('dashboard.atRisk'), value: Math.round(viabilityMatrix.atRisk.length * (2 - adjustments.value)), color: colors.danger },
     ];
 
     return (

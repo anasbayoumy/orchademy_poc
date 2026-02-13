@@ -83,7 +83,7 @@ export default function ViabilityMatrix() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(viableCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#22c55e' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(viableCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.success }} />
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@ export default function ViabilityMatrix() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(marginalCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#eab308' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(marginalCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.warning }} />
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@ export default function ViabilityMatrix() {
                         </div>
                     </div>
                     <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.isDark ? '#334155' : '#e2e8f0' }}>
-                        <div className="h-full rounded-full" style={{ width: `${(atRiskCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: '#ef4444' }} />
+                        <div className="h-full rounded-full" style={{ width: `${(atRiskCount / PROGRAMS_DATA.length) * 100}%`, backgroundColor: colors.danger }} />
                     </div>
                 </div>
             </div>

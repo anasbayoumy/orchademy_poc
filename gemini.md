@@ -2,7 +2,7 @@
 
 ## 🎯 Project Overview
 
-This is **EcliptixAI** - An advanced **Academic Analytics Dashboard** built with Next.js 16 that provides comprehensive faculty workload management, program viability analysis, and employability tracking for academic institutions.
+This is **orchademy** - An advanced **Academic Analytics Dashboard** built with Next.js 16 that provides comprehensive faculty workload management, program viability analysis, and employability tracking for academic institutions.
 
 ---
 
