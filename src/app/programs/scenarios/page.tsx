@@ -82,7 +82,7 @@ export default function ProgramScenarios() {
                             className="rounded-xl cursor-pointer transition-all duration-200"
                             style={{
                                 backgroundColor: colors.cardBg,
-                                border: isSelected ? '2px solid #6366f1' : `1px solid ${colors.border}`,
+                                border: isSelected ? `2px solid ${colors.primary1}` : `1px solid ${colors.border}`,
                                 boxShadow: isSelected ? '0 4px 20px rgba(99, 102, 241, 0.25)' : undefined,
                                 transform: isSelected ? 'scale(1.02)' : undefined,
                             }}
@@ -104,8 +104,8 @@ export default function ProgramScenarios() {
                                     <div
                                         className="w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200"
                                         style={{
-                                            backgroundColor: isSelected ? '#6366f1' : 'transparent',
-                                            borderColor: isSelected ? '#6366f1' : colors.border,
+                                        backgroundColor: isSelected ? colors.primary1 : 'transparent',
+                                        borderColor: isSelected ? colors.primary1 : colors.border,
                                         }}
                                     >
                                         {isSelected && <Check size={12} className="text-white" />}

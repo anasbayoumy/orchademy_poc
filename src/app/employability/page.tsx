@@ -104,7 +104,7 @@ export default function EmployabilityScorecard() {
                 <BarChartComponent
                     data={chartData}
                     xKey="name"
-                    bars={[{ dataKey: 'rate', color: '#6366f1', name: t('dashboard.employmentRate') }]}
+                    bars={[{ dataKey: 'rate', color: colors.primary1, name: t('dashboard.employmentRate') }]}
                     height={200}
                 />
             </div>

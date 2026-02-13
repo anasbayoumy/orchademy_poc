@@ -1,10 +1,30 @@
+/* Import Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 :root {
-    --font-geist-sans: system-ui, -apple-system, sans-serif;
+    /* Fonts */
+    --font-primary: 'Libre Baskerville', Georgia, serif;
+    --font-secondary: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Legacy font variables (kept for compatibility) */
+    --font-geist-sans: var(--font-secondary);
     --font-geist-mono: monospace;
+    
+    /* Background colors */
     --bg-light: #f8fafc;
-    --bg-dark: #0f172a;
+    --bg-dark: #0b1c3d;
+    
+    /* Primary colors */
+    --primary-1: #304a78;
+    --primary-2: #2c3259;
+    --primary-3: #0b1c3d;
+    
+    /* Secondary colors */
+    --secondary-1: #57bda2;
+    --secondary-2: #2493a2;
+    --secondary-3: #d4af37;
 }
 
 html {
@@ -17,11 +37,25 @@ html[data-theme="dark"] {
 }
 
 body {
-    font-family: 'Inter', var(--font-geist-sans);
+    font-family: var(--font-secondary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     min-height: 100vh;
+}
+
+/* Typography - Apply primary font to headings */
+h1, h2, h3, h4, h5, h6,
+.font-heading {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Body text uses secondary font */
+p, span, div, a, button, input, textarea, select,
+.font-body {
+    font-family: var(--font-secondary);
 }
 
 /* Smooth theme transitions */

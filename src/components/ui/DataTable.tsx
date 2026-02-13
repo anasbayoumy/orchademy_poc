@@ -79,7 +79,7 @@ export default function DataTable<T extends Record<string, unknown>>({ data, col
                     <thead><tr style={{ backgroundColor: colors.tableHeader }}>
                         {columns.map((col) => (
                             <th key={String(col.key)} onClick={() => col.sortable !== false && handleSort(String(col.key))} className={`text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide ${col.sortable !== false ? 'cursor-pointer' : ''}`} style={{ color: colors.textSecondary, borderBottom: `1px solid ${colors.border}` }}>
-                                <div className="flex items-center gap-1">{col.header}{col.sortable !== false && sortKey === col.key && <span style={{ color: '#6366f1' }}>{sortDir === 'asc' ? '↑' : '↓'}</span>}</div>
+                                <div className="flex items-center gap-1">{col.header}{col.sortable !== false && sortKey === col.key && <span style={{ color: colors.primary1 }}>{sortDir === 'asc' ? '↑' : '↓'}</span>}</div>
                             </th>
                         ))}
                     </tr></thead>
@@ -97,7 +97,7 @@ export default function DataTable<T extends Record<string, unknown>>({ data, col
                 <div className="flex items-center gap-1">
                     <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-1.5 rounded disabled:opacity-40" style={{ color: colors.textSecondary }}><ChevronLeft size={16} /></button>
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => i + 1).map((page) => (
-                        <button key={page} onClick={() => setCurrentPage(page)} className="w-7 h-7 rounded text-xs font-medium" style={{ backgroundColor: currentPage === page ? '#6366f1' : 'transparent', color: currentPage === page ? '#ffffff' : colors.textSecondary }}>{page}</button>
+                        <button key={page} onClick={() => setCurrentPage(page)} className="w-7 h-7 rounded text-xs font-medium" style={{ backgroundColor: currentPage === page ? colors.primary1 : 'transparent', color: currentPage === page ? '#ffffff' : colors.textSecondary }}>{page}</button>
                     ))}
                     <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-1.5 rounded disabled:opacity-40" style={{ color: colors.textSecondary }}><ChevronRight size={16} /></button>
                 </div>

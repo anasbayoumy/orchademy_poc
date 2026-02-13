@@ -47,7 +47,7 @@ export default function ImpactDashboard() {
                     <LineChartComponent
                         data={trendData}
                         xKey="year"
-                        lines={[{ dataKey: 'rate', color: '#22c55e', name: 'Employment Rate' }]}
+                        lines={[{ dataKey: 'rate', color: colors.success, name: 'Employment Rate' }]}
                         height={200}
                     />
                 </div>
@@ -115,7 +115,7 @@ export default function ImpactDashboard() {
                             </div>
 
                             <div className="flex items-center gap-2 mb-3">
-                                <Star size={12} className="fill-yellow-500" style={{ color: '#eab308' }} />
+                                <Star size={12} className="fill-yellow-500" style={{ color: colors.warning }} />
                                 <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>{emp.satisfactionScore.toFixed(1)}</span>
                                 <span style={{ color: colors.textSecondary }}>•</span>
                                 <span className="text-xs" style={{ color: colors.textSecondary }}>{emp.hiresCount} hires</span>

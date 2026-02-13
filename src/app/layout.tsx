@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
 
 export const metadata: Metadata = {
-  title: "EcliptixAI | Academic Analytics Dashboard",
+  title: "orchademy | Academic Analytics Dashboard",
   description: "Academic program management, faculty workload optimization, and employability analytics",
 };
 
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
+      <body className="antialiased">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

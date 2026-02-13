@@ -97,7 +97,7 @@ export default function SkillsMap() {
                 <BarChartComponent
                     data={chartData}
                     xKey="name"
-                    bars={[{ dataKey: 'coverage', color: '#6366f1', name: 'Coverage %' }]}
+                    bars={[{ dataKey: 'coverage', color: colors.primary1, name: 'Coverage %' }]}
                     height={220}
                 />
             </div>

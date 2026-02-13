@@ -77,7 +77,7 @@ export default function FacultySimulation() {
                         <label className="block text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: colors.textSecondary }}>{t('faculty.courseLoadChange')}</label>
                         <div className="flex items-center gap-3">
                             <input type="range" min="-6" max="6" value={courseLoadChange} onChange={(e) => setCourseLoadChange(Number(e.target.value))}
-                                className="flex-1" style={{ accentColor: '#6366f1' }} />
+                            className="flex-1" style={{ accentColor: colors.primary1 }} />
                             <span className="w-12 text-sm font-medium" style={{ color: courseLoadChange > 0 ? colors.dangerText : courseLoadChange < 0 ? colors.successText : colors.textSecondary, textAlign: isRTL ? 'left' : 'right' }}>
                                 {courseLoadChange > 0 ? '+' : ''}{courseLoadChange}h
                             </span>
@@ -87,7 +87,7 @@ export default function FacultySimulation() {
                         <label className="block text-xs font-medium mb-2 uppercase tracking-wide" style={{ color: colors.textSecondary }}>{t('faculty.newHires')}</label>
                         <div className="flex items-center gap-3">
                             <input type="range" min="0" max="10" value={newHires} onChange={(e) => setNewHires(Number(e.target.value))}
-                                className="flex-1" style={{ accentColor: '#6366f1' }} />
+                            className="flex-1" style={{ accentColor: colors.primary1 }} />
                             <span className="w-12 text-sm font-medium" style={{ color: colors.accentText, textAlign: isRTL ? 'left' : 'right' }}>+{newHires}</span>
                         </div>
                     </div>
@@ -143,15 +143,15 @@ export default function FacultySimulation() {
             <div className="p-4 sm:p-5 mb-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                 <h3 className="text-sm font-medium mb-4" style={{ color: colors.textPrimary }}>{t('faculty.projectedTrend')}</h3>
                 <LineChartComponent data={trendData} xKey="month" lines={[
-                    { dataKey: 'overloaded', color: '#ef4444', name: t('faculty.overloaded') },
-                    { dataKey: 'avgLoad', color: '#6366f1', name: t('faculty.avgTeachingLoad') },
+                    { dataKey: 'overloaded', color: colors.danger, name: t('faculty.overloaded') },
+                    { dataKey: 'avgLoad', color: colors.primary1, name: t('faculty.avgTeachingLoad') },
                 ]} height={200} showLegend />
             </div>
 
             <div className="flex flex-wrap gap-3">
                 <button onClick={handleSave}
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all"
-                    style={{ backgroundColor: saved ? colors.successBg : '#6366f1', color: saved ? colors.successText : '#ffffff', boxShadow: saved ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)' }}>
+                    style={{ backgroundColor: saved ? colors.successBg : colors.primary1, color: saved ? colors.successText : '#ffffff', boxShadow: saved ? 'none' : `0 4px 12px ${colors.primary1}40` }}>
                     {saved ? <Check size={16} /> : <Save size={16} />}
                     {saved ? t('common.saved') : t('faculty.saveScenario')}
                 </button>
