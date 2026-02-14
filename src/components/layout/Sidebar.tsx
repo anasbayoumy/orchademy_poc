@@ -7,7 +7,8 @@ import {
     LayoutDashboard, Users, ClipboardList, Scale, Settings2, GraduationCap, 
     Grid3X3, GitBranch, BarChart3, Target, Briefcase, Map, TrendingUp, 
     ChevronDown, Search, LogOut, Settings, X, FileCheck, PieChart, 
-    Landmark, Leaf, Layers, DollarSign, Activity, ScrollText, Network, Globe
+    Landmark, Leaf, Layers, DollarSign, Activity, ScrollText, Network, Globe, Sparkles,
+    CheckCircle, FileText, Zap, AlertTriangle
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -30,13 +31,12 @@ const getMenuItems = (): MenuItem[] => [
         href: '/strategy', 
         icon: <Target size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/strategy', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.strategy.dashboard', href: '/strategy', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.strategy.alignment', href: '/strategy/alignment', icon: <Network size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.strategy.priorities', href: '/strategy/priorities', icon: <Landmark size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.strategy.kpi', href: '/strategy/kpi', icon: <Target size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.strategy.mission', href: '/strategy/mission', icon: <ScrollText size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.strategy.compliance', href: '/strategy/compliance', icon: <FileCheck size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.strategy.accreditation', href: '/strategy/accreditation', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -46,12 +46,11 @@ const getMenuItems = (): MenuItem[] => [
         href: '/workload', 
         icon: <Users size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/workload', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.workload.dashboard', href: '/workload', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.workload.requirements', href: '/workload/requirements', icon: <ClipboardList size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.workload.credentials', href: '/workload/credentials', icon: <FileCheck size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.workload.optimization', href: '/workload/optimization', icon: <Scale size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.workload.balancing', href: '/workload/balancing', icon: <GitBranch size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.workload.tracking', href: '/workload/tracking', icon: <Activity size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -61,14 +60,12 @@ const getMenuItems = (): MenuItem[] => [
         href: '/programs', 
         icon: <GraduationCap size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/programs', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.rationalization', href: '/programs/rationalization', icon: <Settings2 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.sentiment', href: '/programs/sentiment', icon: <PieChart size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.heatmaps', href: '/programs/heatmaps', icon: <Map size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.dashboard', href: '/programs', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.programs.advising', href: '/programs/advising', icon: <Users size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.portfolio', href: '/programs/portfolio', icon: <Grid3X3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.analytics', href: '/programs/analytics', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.sentiment', href: '/programs/sentiment', icon: <PieChart size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.programs.kpi', href: '/programs/kpi', icon: <Target size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.programs.demand', href: '/programs/demand', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.programs.classSize', href: '/programs/class-size', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -78,12 +75,12 @@ const getMenuItems = (): MenuItem[] => [
         href: '/roi', 
         icon: <TrendingUp size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/roi', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.roi.employability', href: '/roi/employability', icon: <Briefcase size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.dashboard', href: '/roi', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.cost', href: '/roi/cost', icon: <DollarSign size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.analytics', href: '/roi/analytics', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.roi.research', href: '/roi/research', icon: <Search size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.employability', href: '/roi/employability', icon: <Briefcase size={16} strokeWidth={1.5} /> },
             { labelKey: 'sidebar.roi.grants', href: '/roi/grants', icon: <FileCheck size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.roi.research', href: '/roi/research', icon: <Search size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -93,10 +90,14 @@ const getMenuItems = (): MenuItem[] => [
         href: '/efficiency', 
         icon: <Activity size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/efficiency', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.efficiency.benchmarking', href: '/efficiency/benchmarking', icon: <Scale size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.efficiency.resource', href: '/efficiency/resource', icon: <Layers size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.efficiency.dashboard', href: '/efficiency/dashboard', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.dashboard', href: '/efficiency', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.costStructure', href: '/efficiency/benchmarking', icon: <DollarSign size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.productivity', href: '/efficiency/resource', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.serviceDelivery', href: '/efficiency/service-delivery', icon: <Layers size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.capacityUtilization', href: '/efficiency/capacity', icon: <Activity size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.workforceRatios', href: '/efficiency/workforce', icon: <Users size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.normativeTargets', href: '/efficiency/targets', icon: <Target size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.efficiency.growthPressure', href: '/efficiency/growth', icon: <TrendingUp size={16} strokeWidth={1.5} /> },
         ],
     },
 
@@ -106,16 +107,24 @@ const getMenuItems = (): MenuItem[] => [
         href: '/sustainability', 
         icon: <Leaf size={18} strokeWidth={1.5} />,
         children: [
-            { labelKey: 'sidebar.dashboard', href: '/sustainability', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
-            { labelKey: 'sidebar.sustainability.sdgs', href: '/sustainability/sdgs', icon: <Globe size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.sustainability.dashboard', href: '/sustainability', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.sustainability.energyCarbon', href: '/sustainability/sdgs', icon: <Zap size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.sustainability.investment', href: '/sustainability/investment', icon: <DollarSign size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.sustainability.climateRisk', href: '/sustainability/climate-risk', icon: <AlertTriangle size={16} strokeWidth={1.5} /> },
         ],
     },
 
     // 8. Financials
     {
-        labelKey: 'sidebar.financials', 
+        labelKey: 'sidebar.financials.title', 
         href: '/financials', 
-        icon: <DollarSign size={18} strokeWidth={1.5} /> 
+        icon: <DollarSign size={18} strokeWidth={1.5} />,
+        children: [
+            { labelKey: 'sidebar.financials.dashboard', href: '/financials', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.financials.plNatural', href: '/financials/p-l-natural', icon: <BarChart3 size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.financials.plFunctional', href: '/financials/p-l-functional', icon: <PieChart size={16} strokeWidth={1.5} /> },
+            { labelKey: 'sidebar.financials.simulations', href: '/financials/simulations', icon: <Sparkles size={16} strokeWidth={1.5} /> },
+        ],
     },
 
     // 9. Services

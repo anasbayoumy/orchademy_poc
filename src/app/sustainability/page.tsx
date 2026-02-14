@@ -14,7 +14,7 @@ export default function SustainabilityDashboard() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.sustainability.title')} 
-                subtitle="Sustainable development goals compliance and environmental impact tracking" 
+                subtitle={t('sidebar.sustainability.dashboard')} 
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
