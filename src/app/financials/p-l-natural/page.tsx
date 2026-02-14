@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Header from '@/components/layout/Header';
+import LineChart from '@/components/charts/LineChart';
 import { TrendingUp, TrendingDown, BarChart3, ChevronDown, ChevronUp } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
@@ -32,20 +33,20 @@ const YEARS = ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'];
 
 // Compute totals
 const computeTotals = () => {
-    const totalOtherRevenue = YEARS.map((_, i) => 
+    const totalOtherRevenue = YEARS.map((_, i) =>
         FINANCIAL_DATA.revenue.fees[i] + FINANCIAL_DATA.revenue.grants[i] + FINANCIAL_DATA.revenue.other[i]
     );
-    const totalRevenue = YEARS.map((_, i) => 
+    const totalRevenue = YEARS.map((_, i) =>
         FINANCIAL_DATA.revenue.tuition[i] + totalOtherRevenue[i]
     );
-    const totalSalaries = YEARS.map((_, i) => 
+    const totalSalaries = YEARS.map((_, i) =>
         FINANCIAL_DATA.expenses.facultySalaries[i] + FINANCIAL_DATA.expenses.staffSalaries[i] + FINANCIAL_DATA.expenses.benefits[i]
     );
-    const totalOperating = YEARS.map((_, i) => 
-        FINANCIAL_DATA.expenses.academicSupplies[i] + FINANCIAL_DATA.expenses.facilities[i] + 
+    const totalOperating = YEARS.map((_, i) =>
+        FINANCIAL_DATA.expenses.academicSupplies[i] + FINANCIAL_DATA.expenses.facilities[i] +
         FINANCIAL_DATA.expenses.itSystems[i] + FINANCIAL_DATA.expenses.marketing[i] + FINANCIAL_DATA.expenses.professionalServices[i]
     );
-    const totalExpenses = YEARS.map((_, i) => 
+    const totalExpenses = YEARS.map((_, i) =>
         totalSalaries[i] + FINANCIAL_DATA.expenses.scholarships[i] + totalOperating[i] + FINANCIAL_DATA.expenses.depreciation[i]
     );
     const netSurplus = YEARS.map((_, i) => totalRevenue[i] - totalExpenses[i]);
@@ -80,16 +81,16 @@ interface CategorySelectorProps {
 
 function CategorySelector({ categories, selectedIndex, onSelect, colors }: CategorySelectorProps) {
     const [isOpen, setIsOpen] = useState(false);
-    
+
     const selectedCategory = selectedIndex !== null ? categories[selectedIndex] : null;
-    
+
     return (
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full px-4 py-3 rounded-lg flex items-center justify-between transition-all hover:shadow-md"
-                style={{ 
-                    backgroundColor: colors.cardBg, 
+                style={{
+                    backgroundColor: colors.cardBg,
                     border: `2px solid ${colors.primary1}`,
                 }}
             >
@@ -108,13 +109,13 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
                 </div>
                 {isOpen ? <ChevronUp size={20} style={{ color: colors.primary1 }} /> : <ChevronDown size={20} style={{ color: colors.primary1 }} />}
             </button>
-            
+
             {isOpen && (
-                <div 
+                <div
                     className="absolute top-full mt-2 left-0 right-0 rounded-lg overflow-hidden shadow-xl z-50 max-h-96 overflow-y-auto"
                     style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
                 >
-                    <div 
+                    <div
                         className="px-4 py-2 cursor-pointer hover:opacity-80 transition-all"
                         style={{ backgroundColor: colors.primary1 }}
                         onClick={() => {
@@ -127,7 +128,7 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
                     {categories.map((cat, idx) => {
                         const isSelected = selectedIndex === idx;
                         const catColor = cat.categoryType === 'revenue' ? colors.success : cat.categoryType === 'expense' ? colors.danger : colors.info;
-                        
+
                         return (
                             <button
                                 key={idx}
@@ -136,7 +137,7 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
                                     setIsOpen(false);
                                 }}
                                 className="w-full px-4 py-3 text-left transition-all hover:opacity-90"
-                                style={{ 
+                                style={{
                                     backgroundColor: isSelected ? colors.primary1 + '20' : 'transparent',
                                     borderBottom: `1px solid ${colors.border}`,
                                 }}
@@ -154,9 +155,9 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
                                         <p className="text-lg font-bold" style={{ color: colors.textPrimary }}>
                                             {formatCurrency(cat.value)}
                                         </p>
-                                        <div 
+                                        <div
                                             className="px-2 py-1 rounded text-xs font-bold"
-                                            style={{ 
+                                            style={{
                                                 backgroundColor: parseFloat(cat.growth) >= 0 ? colors.successBg : colors.dangerBg,
                                                 color: parseFloat(cat.growth) >= 0 ? colors.successText : colors.dangerText
                                             }}
@@ -181,28 +182,28 @@ interface DetailViewProps {
 
 function DetailView({ category, colors }: DetailViewProps) {
     const categoryColors: Record<'revenue' | 'expense' | 'net', { solid: string; light: string }> = {
-        revenue: { 
-            solid: colors.secondary1, 
-            light: colors.successBg 
+        revenue: {
+            solid: colors.secondary1,
+            light: colors.successBg
         },
-        expense: { 
-            solid: colors.primary1, 
-            light: colors.accentBg 
+        expense: {
+            solid: colors.primary1,
+            light: colors.accentBg
         },
-        net: { 
-            solid: colors.secondary2, 
-            light: colors.infoBg 
+        net: {
+            solid: colors.secondary2,
+            light: colors.infoBg
         },
     };
-    
+
     const catColor = categoryColors[category.categoryType as 'revenue' | 'expense' | 'net'];
     const maxValue = Math.max(...category.trendData.map((d: any) => d.value));
     const minValue = Math.min(...category.trendData.map((d: any) => d.value));
-    
+
     return (
         <div className="animate-fade-in space-y-6">
             {/* Header Banner */}
-            <div 
+            <div
                 className="relative overflow-hidden rounded-xl p-6"
                 style={{ backgroundColor: catColor.solid }}
             >
@@ -245,25 +246,25 @@ function DetailView({ category, colors }: DetailViewProps) {
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="relative h-64 flex items-end justify-between gap-3 px-2">
                         {/* Grid lines */}
                         <div className="absolute inset-0 flex flex-col justify-between">
                             {[0, 1, 2, 3, 4].map((i) => (
-                                <div 
-                                    key={i} 
-                                    className="w-full border-t" 
+                                <div
+                                    key={i}
+                                    className="w-full border-t"
                                     style={{ borderColor: colors.border, opacity: 0.5 }}
                                 />
                             ))}
                         </div>
-                        
+
                         {/* Bars */}
                         {category.trendData.map((item: any, idx: number) => {
                             const percentage = ((item.value - minValue) / (maxValue - minValue)) * 100;
                             const height = Math.max(percentage, 5);
                             const isCurrent = idx === category.trendData.length - 1;
-                            
+
                             return (
                                 <div key={idx} className="flex-1 flex flex-col items-center gap-2 relative z-10">
                                     <div className="text-center">
@@ -272,9 +273,9 @@ function DetailView({ category, colors }: DetailViewProps) {
                                         </p>
                                     </div>
                                     <div className="w-full flex flex-col items-center">
-                                        <div 
+                                        <div
                                             className="w-full rounded-t-lg transition-all duration-500 hover:opacity-80"
-                                            style={{ 
+                                            style={{
                                                 height: `${height * 2}px`,
                                                 backgroundColor: isCurrent ? catColor.solid : colors.primary1,
                                                 opacity: isCurrent ? 1 : 0.4,
@@ -289,7 +290,7 @@ function DetailView({ category, colors }: DetailViewProps) {
                             );
                         })}
                     </div>
-                    
+
                     <div className="mt-6 grid grid-cols-3 gap-3">
                         <div className="p-3 rounded-lg" style={{ backgroundColor: catColor.light }}>
                             <p className="text-xs mb-1" style={{ color: colors.textSecondary }}>Peak</p>
@@ -319,10 +320,10 @@ function DetailView({ category, colors }: DetailViewProps) {
                     </h3>
                     <div className="space-y-2">
                         {category.insights.map((insight: string, idx: number) => (
-                            <div 
-                                key={idx} 
-                                className="p-2.5 rounded-lg border-l-2" 
-                                style={{ 
+                            <div
+                                key={idx}
+                                className="p-2.5 rounded-lg border-l-2"
+                                style={{
                                     backgroundColor: colors.isDark ? '#1e293b' : '#f8fafc',
                                     borderLeftColor: catColor.solid
                                 }}
@@ -352,11 +353,11 @@ function DetailView({ category, colors }: DetailViewProps) {
                             const maxDetailVal = Math.max(...detail.values);
                             const minDetailVal = Math.min(...detail.values);
                             const detailCAGR = calculateCAGR(detail.values).toFixed(1);
-                            
+
                             return (
-                                <div 
-                                    key={idx} 
-                                    className="p-5 rounded-lg" 
+                                <div
+                                    key={idx}
+                                    className="p-5 rounded-lg"
                                     style={{ backgroundColor: colors.isDark ? '#1e293b' : '#f8fafc', border: `1px solid ${colors.border}` }}
                                 >
                                     {/* Header */}
@@ -371,9 +372,9 @@ function DetailView({ category, colors }: DetailViewProps) {
                                                 <span>CAGR: {detailCAGR}%</span>
                                             </div>
                                         </div>
-                                        <div 
+                                        <div
                                             className="px-2 py-1 rounded text-xs font-bold flex items-center gap-1"
-                                            style={{ 
+                                            style={{
                                                 backgroundColor: isPositive ? colors.successBg : colors.dangerBg,
                                                 color: isPositive ? colors.successText : colors.dangerText
                                             }}
@@ -382,110 +383,19 @@ function DetailView({ category, colors }: DetailViewProps) {
                                             {isPositive ? '+' : ''}{detailGrowth}%
                                         </div>
                                     </div>
-                                    
+
                                     {/* 5-Year Data Table */}
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full">
-                                            <thead>
-                                                <tr style={{ borderBottom: `1px solid ${colors.border}` }}>
-                                                    {YEARS.map((year, yIdx) => (
-                                                        <th 
-                                                            key={yIdx} 
-                                                            className="text-center py-2 text-xs font-semibold"
-                                                            style={{ color: colors.textSecondary }}
-                                                        >
-                                                            {year}
-                                                        </th>
-                                                    ))}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    {detail.values.map((val: number, vIdx: number) => {
-                                                        const isCurrent = vIdx === detail.values.length - 1;
-                                                        const isPeak = val === maxDetailVal;
-                                                        const isLow = val === minDetailVal;
-                                                        
-                                                        return (
-                                                            <td 
-                                                                key={vIdx} 
-                                                                className="text-center py-3"
-                                                            >
-                                                                <div className="flex flex-col items-center gap-1">
-                                                                    <p 
-                                                                        className="text-sm font-bold"
-                                                                        style={{ 
-                                                                            color: isCurrent ? catColor.solid : colors.textPrimary 
-                                                                        }}
-                                                                    >
-                                                                        {formatCurrency(val)}
-                                                                    </p>
-                                                                    {(isPeak || isLow) && (
-                                                                        <span 
-                                                                            className="text-xs px-1.5 py-0.5 rounded"
-                                                                            style={{ 
-                                                                                backgroundColor: isPeak ? colors.successBg : colors.warningBg,
-                                                                                color: isPeak ? colors.successText : colors.warningText
-                                                                            }}
-                                                                        >
-                                                                            {isPeak ? 'Peak' : 'Low'}
-                                                                        </span>
-                                                                    )}
-                                                                </div>
-                                                            </td>
-                                                        );
-                                                    })}
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    
-                                    {/* Visual Bar Chart */}
+
+                                    {/* Trend Line Chart */}
                                     <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: colors.isDark ? '#0f172a' : '#f1f5f9' }}>
-                                        <div className="h-32 flex items-end justify-between gap-3">
-                                            {detail.values.map((val: number, vIdx: number) => {
-                                                const percentage = ((val - minDetailVal) / (maxDetailVal - minDetailVal)) * 100;
-                                                const height = Math.max(percentage, 8);
-                                                const isCurrent = vIdx === detail.values.length - 1;
-                                                const prevVal = vIdx > 0 ? detail.values[vIdx - 1] : val;
-                                                const yearGrowth = ((val - prevVal) / prevVal * 100).toFixed(1);
-                                                const showGrowth = vIdx > 0;
-                                                
-                                                return (
-                                                    <div key={vIdx} className="flex-1 flex flex-col items-center gap-2">
-                                                        <div className="text-center">
-                                                            {showGrowth && (
-                                                                <span 
-                                                                    className="text-xs font-semibold"
-                                                                    style={{ 
-                                                                        color: parseFloat(yearGrowth) >= 0 ? colors.successText : colors.dangerText 
-                                                                    }}
-                                                                >
-                                                                    {parseFloat(yearGrowth) >= 0 ? '+' : ''}{yearGrowth}%
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <div className="w-full flex flex-col items-center">
-                                                            <div 
-                                                                className="w-full rounded-t transition-all duration-300 hover:opacity-80 relative"
-                                                                style={{ 
-                                                                    height: `${height}%`,
-                                                                    backgroundColor: isCurrent ? catColor.solid : colors.border,
-                                                                    opacity: isCurrent ? 1 : 0.6,
-                                                                    minHeight: '16px'
-                                                                }}
-                                                            >
-                                                                {isCurrent && (
-                                                                    <div className="absolute -top-1 left-0 right-0 h-1 rounded-full" style={{ backgroundColor: catColor.solid }} />
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                        <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>
-                                                            {YEARS[vIdx].split('-')[0]}
-                                                        </p>
-                                                    </div>
-                                                );
-                                            })}
+                                        <div className="h-32">
+                                            <LineChart
+                                                data={detail.values.map((v: number, i: number) => ({ year: YEARS[i], value: v }))}
+                                                xKey="year"
+                                                lines={[{ dataKey: 'value', color: catColor.solid }]}
+                                                height={120}
+                                                showLegend={false}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -502,7 +412,7 @@ export default function PLNaturalPage() {
     const colors = useColors();
     const { t, isRTL } = useLanguage();
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
-    
+
     const totals = computeTotals();
 
     // Prepare category data
@@ -655,14 +565,14 @@ export default function PLNaturalPage() {
 
     return (
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
-            <Header 
-                title="P&L Natural Account Analysis" 
-                subtitle="5-Year Financial Performance by Natural Classification (2019-20 to 2023-24)" 
+            <Header
+                title="P&L Natural Account Analysis"
+                subtitle="5-Year Financial Performance by Natural Classification (2019-20 to 2023-24)"
             />
 
             {/* Category Selector */}
             <div className="mb-6">
-                <CategorySelector 
+                <CategorySelector
                     categories={categories}
                     selectedIndex={expandedCard}
                     onSelect={setExpandedCard}
@@ -692,16 +602,16 @@ export default function PLNaturalPage() {
                                 {categories.map((cat, idx) => {
                                     const cagr = calculateCAGR(cat.trendData.map((d: any) => d.value)).toFixed(1);
                                     const catColor = cat.categoryType === 'revenue' ? colors.secondary1 : cat.categoryType === 'expense' ? colors.primary1 : colors.secondary2;
-                                    
+
                                     return (
-                                        <tr 
+                                        <tr
                                             key={idx}
                                             className="transition-all hover:opacity-80 cursor-pointer"
                                             onClick={() => setExpandedCard(idx)}
                                             style={{ borderBottom: `1px solid ${colors.border}` }}
                                         >
                                             <td className="py-3 px-4">
-                                                <div 
+                                                <div
                                                     className="w-8 h-8 rounded flex items-center justify-center text-xs font-bold"
                                                     style={{ backgroundColor: catColor + '20', color: catColor }}
                                                 >
@@ -714,9 +624,9 @@ export default function PLNaturalPage() {
                                                 </p>
                                             </td>
                                             <td className="text-right py-3 px-4">
-                                                <span 
+                                                <span
                                                     className="text-xs font-medium px-2 py-1 rounded"
-                                                    style={{ 
+                                                    style={{
                                                         backgroundColor: catColor + '20',
                                                         color: catColor
                                                     }}
@@ -732,7 +642,7 @@ export default function PLNaturalPage() {
                                             <td className="text-right py-3 px-4">
                                                 <div className="flex items-center justify-end gap-1">
                                                     {parseFloat(cat.growth) >= 0 ? <TrendingUp size={14} style={{ color: colors.successText }} /> : <TrendingDown size={14} style={{ color: colors.dangerText }} />}
-                                                    <span 
+                                                    <span
                                                         className="text-sm font-bold"
                                                         style={{ color: parseFloat(cat.growth) >= 0 ? colors.successText : colors.dangerText }}
                                                     >
@@ -756,8 +666,8 @@ export default function PLNaturalPage() {
 
             {/* Detail View - Show when category selected */}
             {expandedCard !== null && (
-                <DetailView 
-                    category={categories[expandedCard]} 
+                <DetailView
+                    category={categories[expandedCard]}
                     colors={colors}
                 />
             )}

@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-    LayoutDashboard, Users, ClipboardList, Scale, Settings2, GraduationCap, 
-    Grid3X3, GitBranch, BarChart3, Target, Briefcase, Map, TrendingUp, 
-    ChevronDown, Search, LogOut, Settings, X, FileCheck, PieChart, 
+import {
+    LayoutDashboard, Users, ClipboardList, Scale, Settings2, GraduationCap,
+    Grid3X3, GitBranch, BarChart3, Target, Briefcase, Map, TrendingUp,
+    ChevronDown, Search, LogOut, Settings, X, FileCheck, PieChart,
     Landmark, Leaf, Layers, DollarSign, Activity, ScrollText, Network, Globe, Sparkles,
     CheckCircle, FileText, Zap, AlertTriangle
 } from 'lucide-react';
@@ -14,21 +14,22 @@ import { useTheme } from '@/context/ThemeContext';
 import { useLanguage } from '@/context/LanguageContext';
 import SettingsModal from '@/components/ui/SettingsModal';
 import { DESIGN_TOKENS } from '@/config/design-tokens';
+import Image from 'next/image';
 
 interface MenuItem { labelKey: string; href: string; icon: React.ReactNode; children?: MenuItem[]; }
 
 const getMenuItems = (): MenuItem[] => [
     // 1. Dashboard
-    { 
-        labelKey: 'sidebar.dashboard', 
-        href: '/', 
-        icon: <LayoutDashboard size={18} strokeWidth={1.5} /> 
+    {
+        labelKey: 'sidebar.dashboard',
+        href: '/',
+        icon: <LayoutDashboard size={18} strokeWidth={1.5} />
     },
 
     // 2. Strategic Alignment & Governance Hub
     {
-        labelKey: 'sidebar.strategy.title', 
-        href: '/strategy', 
+        labelKey: 'sidebar.strategy.title',
+        href: '/strategy',
         icon: <Target size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.strategy.dashboard', href: '/strategy', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -42,8 +43,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 3. Academic Workload Management
     {
-        labelKey: 'sidebar.workload.title', 
-        href: '/workload', 
+        labelKey: 'sidebar.workload.title',
+        href: '/workload',
         icon: <Users size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.workload.dashboard', href: '/workload', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -56,8 +57,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 4. Academic Program Intelligence
     {
-        labelKey: 'sidebar.programs.title', 
-        href: '/programs', 
+        labelKey: 'sidebar.programs.title',
+        href: '/programs',
         icon: <GraduationCap size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.programs.dashboard', href: '/programs', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -71,8 +72,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 5. ROI & Impact Matrix
     {
-        labelKey: 'sidebar.roi.title', 
-        href: '/roi', 
+        labelKey: 'sidebar.roi.title',
+        href: '/roi',
         icon: <TrendingUp size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.roi.dashboard', href: '/roi', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -86,8 +87,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 6. Efficiency Monitor
     {
-        labelKey: 'sidebar.efficiency.title', 
-        href: '/efficiency', 
+        labelKey: 'sidebar.efficiency.title',
+        href: '/efficiency',
         icon: <Activity size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.efficiency.dashboard', href: '/efficiency', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -103,8 +104,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 7. Sustainability Engine
     {
-        labelKey: 'sidebar.sustainability.title', 
-        href: '/sustainability', 
+        labelKey: 'sidebar.sustainability.title',
+        href: '/sustainability',
         icon: <Leaf size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.sustainability.dashboard', href: '/sustainability', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -116,8 +117,8 @@ const getMenuItems = (): MenuItem[] => [
 
     // 8. Financials
     {
-        labelKey: 'sidebar.financials.title', 
-        href: '/financials', 
+        labelKey: 'sidebar.financials.title',
+        href: '/financials',
         icon: <DollarSign size={18} strokeWidth={1.5} />,
         children: [
             { labelKey: 'sidebar.financials.dashboard', href: '/financials', icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
@@ -129,9 +130,9 @@ const getMenuItems = (): MenuItem[] => [
 
     // 9. Services
     {
-        labelKey: 'sidebar.services', 
-        href: '/services', 
-        icon: <Layers size={18} strokeWidth={1.5} /> 
+        labelKey: 'sidebar.services',
+        href: '/services',
+        icon: <Layers size={18} strokeWidth={1.5} />
     },
 ];
 
@@ -170,16 +171,16 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     };
 
     const toggleExpand = (labelKey: string) => setExpandedItems(prev => prev.includes(labelKey) ? prev.filter(i => i !== labelKey) : [...prev, labelKey]);
-    
+
     // Improved active state checking for nested routes
     const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
-    
+
     const filteredMenuItems = menuItems.filter(item => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
         // Fallback to labelKey if translation fails during dev
         const itemLabel = t(item.labelKey) !== item.labelKey ? t(item.labelKey) : item.labelKey.split('.').pop() || '';
-        
+
         return itemLabel.toLowerCase().includes(q) || item.children?.some(c => {
             const childLabel = t(c.labelKey) !== c.labelKey ? t(c.labelKey) : c.labelKey.split('.').pop() || '';
             return childLabel.toLowerCase().includes(q);
@@ -205,7 +206,18 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 }}
             >
                 <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                    <span className="font-bold text-lg tracking-tight" style={{ color: colors.textPrimary, opacity: isOpen ? 1 : 0 }}>orchademy</span>
+                    <Link href="/" className="flex items-center">
+                        <Image
+                            src="/logo.png"
+                            alt="Orchademy Logo"
+                            width={150}
+                            height={42}
+                            priority
+                            style={{
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Link>
                     {isMobile && <button onClick={onToggle} className="p-2 rounded-lg" style={{ color: colors.textSecondary }}><X size={20} /></button>}
                 </div>
 
@@ -229,7 +241,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                                         style={{ backgroundColor: isActive(item.href) ? colors.activeHoverBg : 'transparent', color: isActive(item.href) ? colors.activeText : colors.textSecondary }}
                                     >
                                         <span className="flex items-center gap-3">{item.icon}
-                                        <span className="truncate">{t(item.labelKey)}</span></span>
+                                            <span className="truncate">{t(item.labelKey)}</span></span>
                                         <ChevronDown size={14} className={`transition-transform duration-200 ${expandedItems.includes(item.labelKey) ? 'rotate-180' : ''}`} />
                                     </button>
                                     <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expandedItems.includes(item.labelKey) ? '800px' : '0', opacity: expandedItems.includes(item.labelKey) ? 1 : 0 }}>
@@ -263,7 +275,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ backgroundColor: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)', color: colors.activeText }}>MS</div>
-                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>Mr.Shreif</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
+                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>Mr.ShreifM.</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
                         </div>
                         <button className="p-1.5 rounded" style={{ color: colors.textSecondary }}><LogOut size={16} strokeWidth={1.5} /></button>
                     </div>
