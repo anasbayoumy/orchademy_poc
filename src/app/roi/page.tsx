@@ -14,7 +14,7 @@ export default function ROIDashboard() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.roi.title')} 
-                subtitle="Return on investment analysis and institutional impact measurement" 
+                subtitle={t('sidebar.roi.dashboard')} 
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">

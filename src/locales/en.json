@@ -44,53 +44,67 @@
         "allPrograms": "All Programs"
     },
     "sidebar": {
-        "dashboard": "Dashboard",
+        "dashboard": "Institutional Performance",
         "strategy": {
             "title": "Strategy & Governance",
-            "alignment": "Institutional Alignment",
-            "priorities": "Priorities Integration",
-            "kpi": "Strategic KPIs",
-            "mission": "Mission Scorecard",
-            "compliance": "Compliance Monitor",
-            "accreditation": "Accreditation"
+            "dashboard": "Strategic Posture",
+            "alignment": "Strategy Posture",
+            "priorities": "Execution Discipline",
+            "kpi": "Governance Structure",
+            "mission": "Strategy Economics & Risk",
+            "compliance": "Compliance & External Signals"
         },
         "workload": {
             "title": "Academic Workload",
-            "requirements": "Requirements & Utilization",
-            "credentials": "Credential Audit",
-            "optimization": "Load Optimization",
-            "balancing": "Cross-College Balancing",
-            "tracking": "Efficiency Tracking"
+            "dashboard": "Workload Balance",
+            "requirements": "Workload Compliance & Distribution",
+            "credentials": "Staffing Model & Dependency",
+            "optimization": "Section Utilization & Stability",
+            "balancing": "Normative Class Size Standards"
         },
         "programs": {
             "title": "Program Intelligence",
-            "rationalization": "Program Rationalization",
-            "sentiment": "Learning Sentiment",
-            "heatmaps": "Engagement Heatmaps",
-            "advising": "Academic Advising",
-            "portfolio": "Portfolio Management",
-            "demand": "Demand-Supply",
-            "classSize": "Class Size Optimization"
+            "dashboard": "Program Health",
+            "advising": "Academic Progression & Advising Integrity",
+            "analytics": "Student Success & Risk",
+            "sentiment": "Student Experience & Validation",
+            "kpi": "Research & Innovation Outputs",
+            "demand": "Program Demand & Viability"
         },
         "roi": {
             "title": "ROI & Impact Matrix",
-            "employability": "Program Impact",
-            "cost": "Cost Per Student",
-            "analytics": "ROI Analytics",
-            "research": "Research Impact",
-            "grants": "Grant Tracker"
+            "dashboard": "Value Realization",
+            "cost": "Unit Economics (Academic Delivery)",
+            "analytics": "Strategic Investments",
+            "employability": "Graduate Outcomes",
+            "grants": "Work-Integrated Learning",
+            "research": "Cost of Outcomes"
         },
         "efficiency": {
             "title": "Efficiency Monitor",
-            "benchmarking": "Benchmarking Engine",
-            "resource": "Resource Utilization",
-            "dashboard": "Performance Dashboard"
+            "dashboard": "Operational Discipline",
+            "costStructure": "Cost Structure & Overheads",
+            "productivity": "Productivity & Revenue Efficiency",
+            "serviceDelivery": "Service Delivery & Process Performance",
+            "capacityUtilization": "Capacity Utilization",
+            "workforceRatios": "Workforce Ratios (Actual)",
+            "normativeTargets": "Normative Targets & Controls",
+            "growthPressure": "Growth Pressure"
         },
         "sustainability": {
             "title": "Sustainability Engine",
-            "sdgs": "SDGs Compliance"
+            "dashboard": "Institutional Resilience",
+            "energyCarbon": "Energy & Carbon Economics",
+            "investment": "Sustainability Investment Discipline",
+            "climateRisk": "Climate Risk & Asset Exposure"
         },
-        "financials": "Financials",
+        "financials": {
+            "title": "Financials",
+            "dashboard": "Financial Performance",
+            "plNatural": "P&L Natural",
+            "plFunctional": "P&L Functional",
+            "simulations": "Simulations"
+        },
         "services": "Services",
         "settings": "Settings"
     },
@@ -113,7 +127,7 @@
         "arabic": "العربية"
     },
     "dashboard": {
-        "title": "Dashboard",
+        "title": "Institutional Performance",
         "subtitle": "Overview of academic analytics and performance metrics",
         "totalFaculty": "Total Faculty",
         "activePrograms": "Active Programs",

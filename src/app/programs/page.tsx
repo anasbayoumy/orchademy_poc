@@ -55,7 +55,7 @@ export default function ViabilityMatrix() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.programs.title')} 
-                subtitle="Academic program portfolio, sentiment analysis, and enrollment optimization" 
+                subtitle={t('sidebar.programs.dashboard')} 
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">

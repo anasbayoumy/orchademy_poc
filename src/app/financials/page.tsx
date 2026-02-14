@@ -13,8 +13,8 @@ export default function FinancialsDashboard() {
     return (
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
-                title={t('sidebar.financials')} 
-                subtitle="Financial overview, budget management, and revenue analysis" 
+                title={t('sidebar.financials.title')} 
+                subtitle={t('sidebar.financials.dashboard')} 
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">

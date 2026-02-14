@@ -14,7 +14,7 @@ export default function EfficiencyDashboard() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.efficiency.title')} 
-                subtitle="Operational efficiency monitoring and resource utilization analysis" 
+                subtitle={t('sidebar.efficiency.dashboard')} 
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
