@@ -1,0 +1,3002 @@
+[
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 617986.9394495413,
+    "programSch": 505,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 555576.3772477064,
+    "programSch": 454,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 640014.1966972477,
+    "programSch": 523,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 521311.75486238534,
+    "programSch": 426,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 517640.5453211009,
+    "programSch": 423,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 482152.1864220184,
+    "programSch": 394,
+    "costPerSchAed": 1223.74
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 509526.54986642924,
+    "programSch": 347,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 701883.8352626893,
+    "programSch": 478,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 606439.3806767587,
+    "programSch": 413,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 465475.26313446125,
+    "programSch": 317,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 464006.8869100623,
+    "programSch": 316,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 550641.0841495992,
+    "programSch": 375,
+    "costPerSchAed": 1468.38
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 594255.7701335491,
+    "programSch": 449,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 611461.3937677054,
+    "programSch": 462,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 706754.0785107244,
+    "programSch": 534,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 375876.70093079726,
+    "programSch": 284,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 467198.8571428571,
+    "programSch": 353,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 514845.1995143667,
+    "programSch": 389,
+    "costPerSchAed": 1323.51
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 485362.58347386174,
+    "programSch": 348,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 608097.9494097808,
+    "programSch": 436,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 697360.0337268129,
+    "programSch": 500,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 913541.6441821249,
+    "programSch": 655,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 813121.7993254637,
+    "programSch": 583,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 617860.9898819563,
+    "programSch": 443,
+    "costPerSchAed": 1394.72
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 477340.46147919877,
+    "programSch": 389,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 656496.5215716487,
+    "programSch": 535,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 508017.86902927584,
+    "programSch": 414,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 408623.0685670262,
+    "programSch": 333,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 479794.6540832049,
+    "programSch": 391,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 655269.4252696456,
+    "programSch": 534,
+    "costPerSchAed": 1227.1
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 634051.4384449244,
+    "programSch": 516,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 556638.1814254859,
+    "programSch": 453,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 659855.8574514039,
+    "programSch": 537,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 541892.7991360691,
+    "programSch": 441,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 527147.4168466523,
+    "programSch": 429,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 493970.30669546436,
+    "programSch": 402,
+    "costPerSchAed": 1228.78
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 482301.29011553276,
+    "programSch": 345,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 708773.2002567394,
+    "programSch": 507,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 617904.8412494651,
+    "programSch": 442,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 465525.59306803596,
+    "programSch": 333,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 450147.8707744972,
+    "programSch": 322,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 542414.2045357296,
+    "programSch": 388,
+    "costPerSchAed": 1397.97
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 615861.2776025237,
+    "programSch": 460,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 629249.5662460568,
+    "programSch": 470,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 717612.2712933754,
+    "programSch": 536,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 407003.97476340696,
+    "programSch": 304,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 485994.87776025233,
+    "programSch": 363,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 539548.0323343849,
+    "programSch": 403,
+    "costPerSchAed": 1338.83
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 436074.8934891486,
+    "programSch": 342,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 564857.2450751252,
+    "programSch": 443,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 655387.4130217029,
+    "programSch": 514,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 846648.3312186978,
+    "programSch": 664,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 759943.3816360601,
+    "programSch": 596,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 555931.7355592655,
+    "programSch": 436,
+    "costPerSchAed": 1275.07
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 528603.9624201428,
+    "programSch": 418,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 710706.762871101,
+    "programSch": 562,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 519751.7429537768,
+    "programSch": 411,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 418583.5204810222,
+    "programSch": 331,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 514693.33183013904,
+    "programSch": 407,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 672768.6794438182,
+    "programSch": 532,
+    "costPerSchAed": 1264.6
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 483587.3882352941,
+    "programSch": 528,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 421307.1942959002,
+    "programSch": 460,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 506484.5183600713,
+    "programSch": 553,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 392914.7529411765,
+    "programSch": 429,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 397494.17896613193,
+    "programSch": 434,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 367269.967201426,
+    "programSch": 401,
+    "costPerSchAed": 915.89
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 414969.35296592343,
+    "programSch": 371,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 564850.4669751788,
+    "programSch": 505,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 485435.84686579724,
+    "programSch": 434,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 379176.84812789236,
+    "programSch": 339,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 375821.3007993269,
+    "programSch": 336,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 438458.18426588137,
+    "programSch": 392,
+    "costPerSchAed": 1118.52
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 431081.62255285826,
+    "programSch": 457,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 450890.62490211433,
+    "programSch": 478,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 524466.9193422083,
+    "programSch": 556,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 281099.1761942052,
+    "programSch": 298,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 345242.6123727486,
+    "programSch": 366,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 376371.0446358653,
+    "programSch": 399,
+    "costPerSchAed": 943.29
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 330325.82171581767,
+    "programSch": 348,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 413856.48927613936,
+    "programSch": 436,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 477453.702077748,
+    "programSch": 503,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 620784.7339142092,
+    "programSch": 654,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 558136.7332439678,
+    "programSch": 588,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 431891.51977211796,
+    "programSch": 455,
+    "costPerSchAed": 949.21
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 386290.79136690643,
+    "programSch": 410,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 506888.8920863309,
+    "programSch": 538,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 392886,
+    "programSch": 417,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 304321.76978417265,
+    "programSch": 323,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 389117.309352518,
+    "programSch": 413,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 508773.23741007195,
+    "programSch": 540,
+    "costPerSchAed": 942.17
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 478078.7432289835,
+    "programSch": 531,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 407852.4871614492,
+    "programSch": 453,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 487982.4460077383,
+    "programSch": 542,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 415055.18009145267,
+    "programSch": 461,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 388045.08160393947,
+    "programSch": 431,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 382643.06190643687,
+    "programSch": 425,
+    "costPerSchAed": 900.34
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 368195.7284411277,
+    "programSch": 359,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 550755.1703980099,
+    "programSch": 537,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 469731.5978441128,
+    "programSch": 458,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 339478.5128524047,
+    "programSch": 331,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 319991.8308457711,
+    "programSch": 312,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 425630.1596185738,
+    "programSch": 415,
+    "costPerSchAed": 1025.61
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 447881.0779674166,
+    "programSch": 467,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 450758.25833979825,
+    "programSch": 470,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 515015.2866563227,
+    "programSch": 537,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 303062.9992242048,
+    "programSch": 316,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 360606.6066718386,
+    "programSch": 376,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 395132.7711404189,
+    "programSch": 412,
+    "costPerSchAed": 959.06
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 320991.4691943128,
+    "programSch": 330,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 419234.31279620854,
+    "programSch": 431,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 500941.23222748813,
+    "programSch": 515,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 635174.028436019,
+    "programSch": 653,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 562221.4218009479,
+    "programSch": 578,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 434797.5355450237,
+    "programSch": 447,
+    "costPerSchAed": 972.7
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 387681.5226939971,
+    "programSch": 428,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 509964.24597364565,
+    "programSch": 563,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 384964.1288433382,
+    "programSch": 425,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 317935.0805270864,
+    "programSch": 351,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 369565.5636896047,
+    "programSch": 408,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 504529.458272328,
+    "programSch": 557,
+    "costPerSchAed": 905.8
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 678281.5585426247,
+    "programSch": 526,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 591884.477891758,
+    "programSch": 459,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 729861.9051998586,
+    "programSch": 566,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 560936.2698974177,
+    "programSch": 435,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 563515.2872302794,
+    "programSch": 437,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 520961.5012380616,
+    "programSch": 404,
+    "costPerSchAed": 1289.51
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 545028.2418952618,
+    "programSch": 377,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 741643.204488778,
+    "programSch": 513,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 653455.6109725686,
+    "programSch": 452,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 478526.1221945137,
+    "programSch": 331,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 461177.74314214464,
+    "programSch": 319,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 598519.0773067331,
+    "programSch": 414,
+    "costPerSchAed": 1445.7
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 547504.9306313328,
+    "programSch": 449,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 573112.065471551,
+    "programSch": 470,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 659688.5689789555,
+    "programSch": 541,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 397520.28371005453,
+    "programSch": 326,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 467025.3639906469,
+    "programSch": 383,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 484096.78721745906,
+    "programSch": 397,
+    "costPerSchAed": 1219.39
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 481930.5755395684,
+    "programSch": 350,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 601724.7471736895,
+    "programSch": 437,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 684341.417266187,
+    "programSch": 497,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 859213.3689619732,
+    "programSch": 624,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 800004.7553956835,
+    "programSch": 581,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 592086.1356628983,
+    "programSch": 430,
+    "costPerSchAed": 1376.94
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 487797.1787170931,
+    "programSch": 409,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 663117.9251019652,
+    "programSch": 556,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 515228.31590656284,
+    "programSch": 432,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 422200.98109010013,
+    "programSch": 354,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 485411.8624397479,
+    "programSch": 407,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 642842.736744531,
+    "programSch": 539,
+    "costPerSchAed": 1192.66
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 628297.0918727915,
+    "programSch": 522,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 557282.6696113074,
+    "programSch": 463,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 648758.8745583039,
+    "programSch": 539,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 557282.6696113074,
+    "programSch": 463,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 521173.64134275616,
+    "programSch": 433,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 493490.05300353357,
+    "programSch": 410,
+    "costPerSchAed": 1203.63
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 474799.98937040067,
+    "programSch": 378,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 683310.0376124284,
+    "programSch": 544,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 580311.0981193787,
+    "programSch": 462,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 414507.92722812755,
+    "programSch": 330,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 400690.9963205233,
+    "programSch": 319,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 518762.9513491415,
+    "programSch": 413,
+    "costPerSchAed": 1256.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 584529.9687137891,
+    "programSch": 451,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 587122.1193511008,
+    "programSch": 453,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 701176.7473928158,
+    "programSch": 541,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 426408.77983777516,
+    "programSch": 329,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 513245.82618771726,
+    "programSch": 396,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 543055.5585168019,
+    "programSch": 419,
+    "costPerSchAed": 1296.08
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 396266.5353003161,
+    "programSch": 318,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 514648.0474183351,
+    "programSch": 413,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 636767.9230769231,
+    "programSch": 511,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 780071.8587987355,
+    "programSch": 626,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 720258.0421496312,
+    "programSch": 578,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 499694.593256059,
+    "programSch": 401,
+    "costPerSchAed": 1246.12
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 524446.1890977443,
+    "programSch": 421,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 660229.1691729323,
+    "programSch": 530,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 541886.2048872181,
+    "programSch": 435,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 414823.232706767,
+    "programSch": 333,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 489566.15751879703,
+    "programSch": 393,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 682652.0466165413,
+    "programSch": 548,
+    "costPerSchAed": 1245.72
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 672074.1340643791,
+    "programSch": 531,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 570820.0272373541,
+    "programSch": 451,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 716372.8058012027,
+    "programSch": 566,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 549303.5295366113,
+    "programSch": 434,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 544240.82419526,
+    "programSch": 430,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 525255.6791651928,
+    "programSch": 415,
+    "costPerSchAed": 1265.68
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 528991.3948550429,
+    "programSch": 389,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 712574.5267456104,
+    "programSch": 524,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 618743.1482237647,
+    "programSch": 455,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 475956.26786443446,
+    "programSch": 350,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 441959.39158840344,
+    "programSch": 325,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 552109.270722744,
+    "programSch": 406,
+    "costPerSchAed": 1359.88
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 574355.5715957861,
+    "programSch": 453,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 597177.647288334,
+    "programSch": 471,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 658036.5158017948,
+    "programSch": 519,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 414601.0417479516,
+    "programSch": 327,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 493210.4135778385,
+    "programSch": 389,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 512228.809988295,
+    "programSch": 404,
+    "costPerSchAed": 1267.89
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 410886.2748118954,
+    "programSch": 331,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 526331.6632031531,
+    "programSch": 424,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 569778.8523826585,
+    "programSch": 459,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 751015.6986743103,
+    "programSch": 605,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 696396.3751343604,
+    "programSch": 561,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 510194.13579362235,
+    "programSch": 411,
+    "costPerSchAed": 1241.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 471989.5332581736,
+    "programSch": 388,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 677572.6031567081,
+    "programSch": 557,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 514565.908680947,
+    "programSch": 423,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 408733.2040586246,
+    "programSch": 336,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 501184.762119504,
+    "programSch": 412,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 662974.9887260428,
+    "programSch": 545,
+    "costPerSchAed": 1216.47
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 602661.5839493136,
+    "programSch": 526,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 513293.51636747626,
+    "programSch": 448,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 603807.3284054911,
+    "programSch": 527,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 541937.1277719112,
+    "programSch": 473,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 504127.560718057,
+    "programSch": 440,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 489232.8827877508,
+    "programSch": 427,
+    "costPerSchAed": 1145.74
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 454382.9460215914,
+    "programSch": 381,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 675015.0851659336,
+    "programSch": 566,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 576028.7740903639,
+    "programSch": 483,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 406678.6997201119,
+    "programSch": 341,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 381633.97041183524,
+    "programSch": 320,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 488968.5245901639,
+    "programSch": 410,
+    "costPerSchAed": 1192.61
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 542585.2381691233,
+    "programSch": 466,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 511147.8960434445,
+    "programSch": 439,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 613610.3444530644,
+    "programSch": 527,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 399370.67959658656,
+    "programSch": 343,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 462245.3638479441,
+    "programSch": 397,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 472724.4778898371,
+    "programSch": 406,
+    "costPerSchAed": 1164.35
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 376457.99298245617,
+    "programSch": 320,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 490571.8221052631,
+    "programSch": 417,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 584686.3203508772,
+    "programSch": 497,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 736445.9487719298,
+    "programSch": 626,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 689388.6996491228,
+    "programSch": 586,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 475278.21614035085,
+    "programSch": 404,
+    "costPerSchAed": 1176.43
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 477056.20140688634,
+    "programSch": 416,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 627283.0340614588,
+    "programSch": 547,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 490817.4379859312,
+    "programSch": 428,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 389901.7030729359,
+    "programSch": 340,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 470175.583117364,
+    "programSch": 410,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 642191.0403554239,
+    "programSch": 560,
+    "costPerSchAed": 1146.77
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 628030.7488487425,
+    "programSch": 529,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 517620.8062345023,
+    "programSch": 436,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 679080.5072617782,
+    "programSch": 572,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 529492.8430747432,
+    "programSch": 446,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 506935.9730782855,
+    "programSch": 427,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 490315.12150194834,
+    "programSch": 413,
+    "costPerSchAed": 1187.2
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 518456.22312045266,
+    "programSch": 394,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 697415.7316087307,
+    "programSch": 530,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 618463.0072756669,
+    "programSch": 470,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 447398.77122069517,
+    "programSch": 340,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 419765.31770412286,
+    "programSch": 319,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 553984.9490703314,
+    "programSch": 421,
+    "costPerSchAed": 1315.88
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 510583.58010184095,
+    "programSch": 442,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 514049.0795142969,
+    "programSch": 445,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 601841.7312965139,
+    "programSch": 521,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 383515.26831179,
+    "programSch": 332,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 472463.0865648257,
+    "programSch": 409,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 466687.25421073247,
+    "programSch": 404,
+    "costPerSchAed": 1155.17
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 385303.88624910003,
+    "programSch": 323,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 505785.90640748735,
+    "programSch": 424,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 569009.1447084234,
+    "programSch": 477,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 722892.120950324,
+    "programSch": 606,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 642968.4046076314,
+    "programSch": 539,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 487892.5370770338,
+    "programSch": 409,
+    "costPerSchAed": 1192.89
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 459766.7344968437,
+    "programSch": 396,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 647853.125881916,
+    "programSch": 558,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 510851.92721871525,
+    "programSch": 440,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 394749.21648718906,
+    "programSch": 340,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 470215.978462681,
+    "programSch": 405,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 643209.017452655,
+    "programSch": 554,
+    "costPerSchAed": 1161.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "programCostAed": 553031.0083188908,
+    "programSch": 533,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "programCostAed": 475212.38613518194,
+    "programSch": 458,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "programCostAed": 570669.8960138648,
+    "programSch": 550,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "programCostAed": 511527.74315424607,
+    "programSch": 493,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "programCostAed": 438897.02911611786,
+    "programSch": 423,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "programCostAed": 444084.9372616984,
+    "programSch": 428,
+    "costPerSchAed": 1037.58
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "programCostAed": 447663.4655241132,
+    "programSch": 395,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "programCostAed": 652795.3320047827,
+    "programSch": 576,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "programCostAed": 563262.6388999601,
+    "programSch": 497,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "programCostAed": 370597.34994021524,
+    "programSch": 327,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "programCostAed": 363797.3985651654,
+    "programSch": 321,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "programCostAed": 445396.8150657632,
+    "programSch": 393,
+    "costPerSchAed": 1133.33
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "programCostAed": 511683.4152091255,
+    "programSch": 466,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "programCostAed": 495212.91901140683,
+    "programSch": 451,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "programCostAed": 613800.491634981,
+    "programSch": 559,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "programCostAed": 385409.61102661595,
+    "programSch": 351,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "programCostAed": 446899.4634980989,
+    "programSch": 407,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "programCostAed": 434821.0996197719,
+    "programSch": 396,
+    "costPerSchAed": 1098.03
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "programCostAed": 348428.52686308493,
+    "programSch": 330,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "programCostAed": 447677.8648180242,
+    "programSch": 424,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "programCostAed": 518419.41421143844,
+    "programSch": 491,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "programCostAed": 692633.6776429809,
+    "programSch": 656,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "programCostAed": 613445.3760831889,
+    "programSch": 581,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "programCostAed": 425505.14038128254,
+    "programSch": 403,
+    "costPerSchAed": 1055.84
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "programCostAed": 453407.56131386856,
+    "programSch": 434,
+    "costPerSchAed": 1044.72
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "programCostAed": 561013.5032846716,
+    "programSch": 537,
+    "costPerSchAed": 1044.72
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "programCostAed": 471167.7653284672,
+    "programSch": 451,
+    "costPerSchAed": 1044.72
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "programCostAed": 359382.9518248175,
+    "programSch": 344,
+    "costPerSchAed": 1044.72
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "programCostAed": 417887.1532846715,
+    "programSch": 400,
+    "costPerSchAed": 1044.72
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "programCostAed": 599668.0649635036,
+    "programSch": 574,
+    "costPerSchAed": 1044.72
+  }
+]

@@ -629,7 +629,19 @@ export default function SimulationsPage() {
                     {/* Impact Summary Cards */}
                     <div className="grid grid-cols-3 gap-4">
                         {Object.entries(appliedScenario.affectedMetrics).map(([key, data]: [string, any]) => {
-                            const isPositive = data.change > 0;
+                            // Determine if this is an expense metric (where decrease is good) or revenue metric (where increase is good)
+                            const isExpenseMetric = key.toLowerCase().includes('expense') || 
+                                                   key.toLowerCase().includes('cost') || 
+                                                   key.toLowerCase().includes('scholarships') || 
+                                                   key.toLowerCase().includes('admin') ||
+                                                   key.toLowerCase().includes('operation') ||
+                                                   key.toLowerCase().includes('services') ||
+                                                   key.toLowerCase().includes('instruction');
+                            
+                            // For expenses: negative change is good (savings), positive is bad (increase)
+                            // For revenue/surplus: positive change is good (growth), negative is bad (loss)
+                            const isGoodChange = isExpenseMetric ? data.change < 0 : data.change > 0;
+                            
                             const metricColor = key.includes('Revenue') || key.includes('tuition') || key.includes('grants') || key.includes('fees') 
                                 ? colors.secondary1 
                                 : key.includes('Surplus') 
@@ -662,14 +674,14 @@ export default function SimulationsPage() {
                                     </div>
                                     <div 
                                         className="p-2 rounded-lg flex items-center justify-center gap-2"
-                                        style={{ backgroundColor: (isPositive ? colors.successText : colors.dangerText) + '20' }}
+                                        style={{ backgroundColor: (isGoodChange ? colors.successText : colors.dangerText) + '20' }}
                                     >
-                                        {isPositive ? <TrendingUp size={16} style={{ color: colors.successText }} /> : <TrendingDown size={16} style={{ color: colors.dangerText }} />}
+                                        {data.change > 0 ? <TrendingUp size={16} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} /> : <TrendingDown size={16} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} />}
                                         <span 
                                             className="text-sm font-bold"
-                                            style={{ color: isPositive ? colors.successText : colors.dangerText }}
+                                            style={{ color: isGoodChange ? colors.successText : colors.dangerText }}
                                         >
-                                            {isPositive ? '+' : ''}{data.change.toFixed(1)}%
+                                            {data.change > 0 ? '+' : ''}{data.change.toFixed(1)}%
                                         </span>
                                     </div>
                                 </div>
@@ -677,16 +689,28 @@ export default function SimulationsPage() {
                         })}
                     </div>
 
-                    {/* Before/After Comparison Chart */}
+                    {/* Before/After Comparison Chart - Overlapping Bars */}
                     <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                         <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>
                             Before vs After Comparison
                         </h3>
                         <div className="grid grid-cols-3 gap-6">
                             {Object.entries(appliedScenario.affectedMetrics).map(([key, data]: [string, any]) => {
-                                const maxValue = Math.max(data.before, data.after);
+                                const maxValue = Math.max(data.before, data.after) * 1.1; // Add 10% padding
                                 const beforeHeight = (data.before / maxValue) * 100;
                                 const afterHeight = (data.after / maxValue) * 100;
+                                
+                                // Determine if this is an expense metric
+                                const isExpenseMetric = key.toLowerCase().includes('expense') || 
+                                                       key.toLowerCase().includes('cost') || 
+                                                       key.toLowerCase().includes('scholarships') || 
+                                                       key.toLowerCase().includes('admin') ||
+                                                       key.toLowerCase().includes('operation') ||
+                                                       key.toLowerCase().includes('services') ||
+                                                       key.toLowerCase().includes('instruction');
+                                
+                                const isGoodChange = isExpenseMetric ? data.after < data.before : data.after > data.before;
+                                
                                 const metricColor = key.includes('Revenue') || key.includes('tuition') || key.includes('grants') || key.includes('fees')
                                     ? colors.secondary1 
                                     : key.includes('Surplus') 
@@ -698,43 +722,83 @@ export default function SimulationsPage() {
                                         <p className="text-xs font-semibold mb-4 text-center" style={{ color: colors.textSecondary }}>
                                             {key.replace(/([A-Z])/g, ' $1').trim()}
                                         </p>
-                                        <div className="flex items-end justify-center gap-4" style={{ height: '200px' }}>
-                                            <div className="flex-1 flex flex-col items-center gap-2">
-                                                <p className="text-xs font-bold" style={{ color: colors.textPrimary }}>
-                                                    {formatCurrency(data.before)}
-                                                </p>
-                                                <div className="w-full flex flex-col items-center justify-end" style={{ height: '160px' }}>
+                                        <div className="flex items-end justify-center" style={{ height: '220px' }}>
+                                            <div className="flex-1 flex flex-col items-center gap-3 max-w-[200px]">
+                                                {/* Labels with colors */}
+                                                <div className="w-full space-y-1">
+                                                    <div className="flex items-center justify-between text-xs">
+                                                        <span style={{ color: colors.textSecondary }}>Before:</span>
+                                                        <span className="font-bold" style={{ color: colors.textPrimary }}>
+                                                            {formatCurrency(data.before)}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between text-xs">
+                                                        <span style={{ color: colors.textSecondary }}>After:</span>
+                                                        <span className="font-bold" style={{ color: isGoodChange ? colors.successText : colors.dangerText }}>
+                                                            {formatCurrency(data.after)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Overlapping bars */}
+                                                <div className="w-full relative flex flex-col items-center justify-end" style={{ height: '160px' }}>
+                                                    {/* Before bar (wider, more transparent) */}
                                                     <div 
-                                                        className="w-full rounded-t-lg"
+                                                        className="absolute bottom-0 rounded-t-lg"
                                                         style={{ 
                                                             height: `${beforeHeight}%`,
+                                                            width: '85%',
                                                             backgroundColor: colors.border,
+                                                            opacity: 0.6,
                                                             minHeight: '20px'
                                                         }}
                                                     />
-                                                </div>
-                                                <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>Before</p>
-                                            </div>
-                                            <div className="flex-1 flex flex-col items-center gap-2">
-                                                <p className="text-xs font-bold" style={{ color: metricColor }}>
-                                                    {formatCurrency(data.after)}
-                                                </p>
-                                                <div className="w-full flex flex-col items-center justify-end" style={{ height: '160px' }}>
+                                                    {/* After bar (narrower, solid, overlapping) */}
                                                     <div 
-                                                        className="w-full rounded-t-lg"
+                                                        className="absolute bottom-0 rounded-t-lg"
                                                         style={{ 
                                                             height: `${afterHeight}%`,
-                                                            backgroundColor: metricColor,
-                                                            minHeight: '20px'
+                                                            width: '60%',
+                                                            backgroundColor: isGoodChange ? colors.successText : colors.dangerText,
+                                                            minHeight: '20px',
+                                                            zIndex: 10
                                                         }}
                                                     />
                                                 </div>
-                                                <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>After</p>
+                                                
+                                                {/* Change indicator */}
+                                                <div 
+                                                    className="px-3 py-1 rounded-full flex items-center gap-1.5"
+                                                    style={{ backgroundColor: (isGoodChange ? colors.successText : colors.dangerText) + '20' }}
+                                                >
+                                                    {data.change > 0 ? <TrendingUp size={12} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} /> : <TrendingDown size={12} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} />}
+                                                    <span 
+                                                        className="text-xs font-bold"
+                                                        style={{ color: isGoodChange ? colors.successText : colors.dangerText }}
+                                                    >
+                                                        {data.change > 0 ? '+' : ''}{data.change.toFixed(1)}%
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 );
                             })}
+                        </div>
+                        {/* Legend */}
+                        <div className="flex items-center justify-center gap-6 mt-6 pt-4" style={{ borderTop: `1px solid ${colors.border}` }}>
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-3 rounded" style={{ backgroundColor: colors.border, opacity: 0.6 }} />
+                                <span className="text-xs font-medium" style={{ color: colors.textSecondary }}>Before</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-3 rounded" style={{ backgroundColor: colors.successText }} />
+                                <span className="text-xs font-medium" style={{ color: colors.textSecondary }}>After (Improved)</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-3 rounded" style={{ backgroundColor: colors.dangerText }} />
+                                <span className="text-xs font-medium" style={{ color: colors.textSecondary }}>After (Worsened)</span>
+                            </div>
                         </div>
                     </div>
 

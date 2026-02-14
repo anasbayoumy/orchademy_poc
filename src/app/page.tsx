@@ -163,11 +163,12 @@ function DepartmentTableWidget() {
     );
 }
 
+// Widget registry - titles will be translated at render time
 const WIDGET_REGISTRY: Widget[] = [
-    { id: 'metrics-overview', title: 'Key Metrics', size: 'large', component: MetricsOverviewWidget },
-    { id: 'faculty-fte-chart', title: 'Faculty FTE by Department', size: 'medium', component: FacultyFTEChartWidget },
-    { id: 'program-viability', title: 'Program Viability', size: 'small', component: ProgramViabilityWidget },
-    { id: 'department-table', title: 'Department Overview', size: 'large', component: DepartmentTableWidget },
+    { id: 'metrics-overview', title: 'dashboard.keyMetrics', size: 'large', component: MetricsOverviewWidget },
+    { id: 'faculty-fte-chart', title: 'dashboard.facultyFTEByDept', size: 'medium', component: FacultyFTEChartWidget },
+    { id: 'program-viability', title: 'dashboard.programViability', size: 'small', component: ProgramViabilityWidget },
+    { id: 'department-table', title: 'dashboard.departmentOverview', size: 'large', component: DepartmentTableWidget },
 ];
 
 // ============================================
@@ -239,7 +240,7 @@ export default function DashboardHome() {
                     }}
                 >
                     {isEditing ? <X size={16} /> : <Settings size={16} />}
-                    {isEditing ? 'Done' : 'Customize'}
+                    {isEditing ? t('dashboard.done') : t('dashboard.customize')}
                 </button>
             </div>
 
@@ -251,7 +252,7 @@ export default function DashboardHome() {
                 >
                     <div className="flex items-center gap-2 mb-3">
                         <Plus size={18} style={{ color: colors.accent }} />
-                        <h3 className="text-sm font-semibold" style={{ color: colors.textPrimary }}>Add Widgets</h3>
+                        <h3 className="text-sm font-semibold" style={{ color: colors.textPrimary }}>{t('dashboard.addWidgets')}</h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {availableWidgets.map(widget => (
@@ -265,8 +266,8 @@ export default function DashboardHome() {
                                     border: `1px solid ${colors.accent}`,
                                 }}
                             >
-                                <Plus size={14} className="inline mr-1" />
-                                {widget.title}
+                                <Plus size={14} className={isRTL ? "inline ml-1" : "inline mr-1"} />
+                                {t(widget.title)}
                             </button>
                         ))}
                     </div>
@@ -291,7 +292,7 @@ export default function DashboardHome() {
                                         backgroundColor: colors.dangerBg,
                                         color: colors.dangerText,
                                     }}
-                                    title="Remove widget"
+                                    title={t('dashboard.removeWidget')}
                                 >
                                     <X size={16} />
                                 </button>
@@ -304,13 +305,13 @@ export default function DashboardHome() {
 
             {activeWidgets.length === 0 && (
                 <div className="text-center py-12">
-                    <p className="text-lg mb-4" style={{ color: colors.textSecondary }}>No widgets added yet.</p>
+                    <p className="text-lg mb-4" style={{ color: colors.textSecondary }}>{t('dashboard.noWidgetsYet')}</p>
                     <button
                         onClick={() => setIsEditing(true)}
                         className="px-4 py-2 rounded-lg text-sm font-medium"
                         style={{ backgroundColor: colors.accent, color: '#ffffff' }}
                     >
-                        Add Widgets
+                        {t('dashboard.addWidgets')}
                     </button>
                 </div>
             )}

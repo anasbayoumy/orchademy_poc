@@ -2,6 +2,7 @@
 
 import { ReactNode, useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
+import Image from 'next/image';
 import Sidebar from '@/components/layout/Sidebar';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { DateFilterProvider } from '@/context/DateFilterContext';
@@ -37,21 +38,37 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
             }}
         >
             <div
-                className="lg:hidden flex items-center gap-4 mb-4 -mt-2 -mx-2 px-4 py-3 sticky top-0 z-30"
+                className="lg:hidden mb-4 -mt-2 -mx-2 px-4 py-3 sticky top-0 z-30"
                 style={{
                     backgroundColor: isDark ? '#1e293b' : '#ffffff',
                     borderBottom: `1px solid ${isDark ? '#334155' : '#e2e8f0'}`,
                     marginLeft: -16, marginRight: -16, width: 'calc(100% + 32px)',
                 }}
             >
-                <button
-                    onClick={onToggleSidebar}
-                    className="p-2 rounded-lg transition-colors"
-                    style={{ backgroundColor: isDark ? '#334155' : '#f1f5f9', color: isDark ? '#f1f5f9' : '#1e293b' }}
-                >
-                    <Menu size={20} />
-                </button>
-                <span className="font-bold text-lg" style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>orchademy</span>
+                <div className="flex items-center justify-center relative">
+                    <button
+                        onClick={onToggleSidebar}
+                        className="absolute p-2 rounded-lg transition-colors"
+                        style={{ 
+                            backgroundColor: isDark ? '#334155' : '#f1f5f9', 
+                            color: isDark ? '#f1f5f9' : '#1e293b',
+                            left: isRTL ? 'auto' : 8,
+                            right: isRTL ? 8 : 'auto'
+                        }}
+                    >
+                        <Menu size={20} />
+                    </button>
+                    <Image
+                        src={isDark ? "/logo_dark.png" : "/logo_light.png"}
+                        alt="Orchademy Logo"
+                        width={120}
+                        height={34}
+                        priority
+                        style={{
+                            objectFit: "contain",
+                        }}
+                    />
+                </div>
             </div>
 
             {!isMobile && !sidebarOpen && (

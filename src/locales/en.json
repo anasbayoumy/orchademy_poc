@@ -8,6 +8,7 @@
         "search": "Search...",
         "admin": "Admin",
         "logout": "Logout",
+        "userName": "Sherif M.",
         "vsLastYear": "vs last year",
         "vsLastTerm": "vs last term",
         "improvement": "improvement",
@@ -74,7 +75,7 @@
         "roi": {
             "title": "ROI & Impact Matrix",
             "dashboard": "Value Realization",
-            "cost": "Unit Economics (Academic Delivery)",
+            "cost": "Cost per SCH",
             "analytics": "Strategic Investments",
             "employability": "Graduate Outcomes",
             "grants": "Work-Integrated Learning",
@@ -142,7 +143,13 @@
         "requiredFTE": "Required FTE",
         "viable": "Viable",
         "marginal": "Marginal",
-        "atRisk": "At-Risk"
+        "atRisk": "At-Risk",
+        "customize": "Customize",
+        "done": "Done",
+        "addWidgets": "Add Widgets",
+        "removeWidget": "Remove widget",
+        "noWidgetsYet": "No widgets added yet.",
+        "keyMetrics": "Key Metrics"
     },
     "faculty": {
         "title": "Faculty",

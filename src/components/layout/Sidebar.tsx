@@ -205,10 +205,23 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     right: isRTL ? 0 : 'auto',
                 }}
             >
-                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                    <Link href="/" className="flex items-center">
+                <div className="px-5 py-4 flex items-center justify-center relative" style={{ borderBottom: `1px solid ${colors.border}` }}>
+                    {isMobile && (
+                        <button 
+                            onClick={onToggle} 
+                            className="absolute p-2 rounded-lg" 
+                            style={{ 
+                                color: colors.textSecondary,
+                                left: isRTL ? 'auto' : 12,
+                                right: isRTL ? 12 : 'auto'
+                            }}
+                        >
+                            <X size={20} />
+                        </button>
+                    )}
+                    <Link href="/" className="flex items-center justify-center">
                         <Image
-                            src="/logo.png"
+                            src={isDark ? "/logo_dark.png" : "/logo_light.png"}
                             alt="Orchademy Logo"
                             width={150}
                             height={42}
@@ -218,7 +231,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                             }}
                         />
                     </Link>
-                    {isMobile && <button onClick={onToggle} className="p-2 rounded-lg" style={{ color: colors.textSecondary }}><X size={20} /></button>}
                 </div>
 
                 <div className="px-4 py-3" style={{ opacity: isOpen ? 1 : 0 }}>
@@ -270,14 +282,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.hoverBg}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
-                        <Settings size={18} strokeWidth={1.5} />{t('sidebar.settings')}
+                        <Settings size={18} strokeWidth={1.5} />
+                        <span>{t('sidebar.settings')}</span>
                     </button>
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ backgroundColor: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)', color: colors.activeText }}>MS</div>
-                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>Mr.ShreifM.</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium" style={{ backgroundColor: isDark ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)', color: colors.activeText }}>SM</div>
+                            <div><p className="text-sm font-medium" style={{ color: colors.textPrimary }}>{t('common.userName')}</p><p className="text-xs" style={{ color: colors.textSecondary }}>{t('common.admin')}</p></div>
                         </div>
-                        <button className="p-1.5 rounded" style={{ color: colors.textSecondary }}><LogOut size={16} strokeWidth={1.5} /></button>
+                        <button className="p-1.5 rounded" style={{ color: colors.textSecondary }} title={t('common.logout')}><LogOut size={16} strokeWidth={1.5} /></button>
                     </div>
                 </div>
             </aside>
