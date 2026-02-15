@@ -141,6 +141,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    // Auto-expand parent menu when navigating to a child route
+    useEffect(() => {
+        for (const item of menuItems) {
+            if (item.children?.some(child => pathname === child.href || pathname.startsWith(child.href + '/'))) {
+                setExpandedItems(prev => prev.includes(item.labelKey) ? prev : [...prev, item.labelKey]);
+            }
+        }
+    }, [pathname]);
+
     // Global keyboard shortcut for spotlight search
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
