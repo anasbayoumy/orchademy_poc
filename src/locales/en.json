@@ -42,7 +42,8 @@
         "lowPriority": "Low Priority",
         "totalSuggestions": "Total Suggestions",
         "potentialSavings": "Potential savings",
-        "allPrograms": "All Programs"
+        "allPrograms": "All Programs",
+        "navigation": "Navigation"
     },
     "sidebar": {
         "dashboard": "Institutional Performance",
@@ -125,7 +126,16 @@
         "receiveUpdates": "Receive updates via email",
         "selectLanguage": "Select Language",
         "english": "English",
-        "arabic": "العربية"
+        "arabic": "العربية",
+        "unsavedChanges": "Unsaved changes"
+    },
+    "spotlight": {
+        "placeholder": "Search pages, modules, and features...",
+        "noResults": "No results found",
+        "tryDifferent": "Try a different search term",
+        "navigate": "Navigate",
+        "open": "Open",
+        "close": "Close"
     },
     "dashboard": {
         "title": "Institutional Performance",

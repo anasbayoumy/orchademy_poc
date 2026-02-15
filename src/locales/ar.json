@@ -42,7 +42,8 @@
         "lowPriority": "أولوية منخفضة",
         "totalSuggestions": "إجمالي الاقتراحات",
         "potentialSavings": "التوفير المحتمل",
-        "allPrograms": "جميع البرامج"
+        "allPrograms": "جميع البرامج",
+        "navigation": "التنقل"
     },
     "sidebar": {
         "dashboard": "لوحة التحكم",
@@ -125,7 +126,16 @@
         "receiveUpdates": "تلقي التحديثات عبر البريد الإلكتروني",
         "selectLanguage": "اختر اللغة",
         "english": "English",
-        "arabic": "العربية"
+        "arabic": "العربية",
+        "unsavedChanges": "تغييرات غير محفوظة"
+    },
+    "spotlight": {
+        "placeholder": "البحث في الصفحات والوحدات والميزات...",
+        "noResults": "لم يتم العثور على نتائج",
+        "tryDifferent": "جرب مصطلح بحث مختلف",
+        "navigate": "تنقل",
+        "open": "فتح",
+        "close": "إغلاق"
     },
     "dashboard": {
         "title": "الأداء المؤسسي",

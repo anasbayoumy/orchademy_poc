@@ -7,20 +7,20 @@
     /* Fonts */
     --font-primary: 'Libre Baskerville', Georgia, serif;
     --font-secondary: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-    
+
     /* Legacy font variables (kept for compatibility) */
     --font-geist-sans: var(--font-secondary);
     --font-geist-mono: monospace;
-    
+
     /* Background colors */
     --bg-light: #f8fafc;
     --bg-dark: #0b1c3d;
-    
+
     /* Primary colors */
     --primary-1: #304a78;
     --primary-2: #2c3259;
     --primary-3: #0b1c3d;
-    
+
     /* Secondary colors */
     --secondary-1: #57bda2;
     --secondary-2: #2493a2;
@@ -82,13 +82,37 @@ p, span, div, a, button, input, textarea, select,
     border-radius: 3px;
 }
 
-/* Animations */
+/* ============================================
+   CORE ANIMATIONS
+   ============================================ */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
@@ -100,7 +124,17 @@ p, span, div, a, button, input, textarea, select,
         opacity: 0;
         transform: translateX(-10px);
     }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
     to {
         opacity: 1;
         transform: translateX(0);
@@ -112,7 +146,6 @@ p, span, div, a, button, input, textarea, select,
         opacity: 0;
         transform: scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
@@ -124,19 +157,96 @@ p, span, div, a, button, input, textarea, select,
         opacity: 0;
         transform: scale(0.9) translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes pulse-soft {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes expandHeight {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 800px;
+    }
+}
+
+/* Spotlight-specific animations */
+@keyframes spotlightBackdropIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
+}
+
+@keyframes spotlightIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Sidebar menu item hover glow */
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(48, 74, 120, 0);
+    }
+    50% {
+        box-shadow: 0 0 8px 2px rgba(48, 74, 120, 0.15);
+    }
+}
+
+/* ============================================
+   ANIMATION UTILITY CLASSES
+   ============================================ */
+
 .animate-fade-in {
     animation: fadeIn 0.4s ease-out forwards;
 }
 
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.3s ease-out forwards;
+}
+
 .animate-slide-in {
     animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
 }
 
 .animate-scale-in {
@@ -147,14 +257,115 @@ p, span, div, a, button, input, textarea, select,
     animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+.animate-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Spotlight search */
+.spotlight-backdrop {
+    animation: spotlightBackdropIn 0.2s ease-out forwards;
+}
+
+.spotlight-modal {
+    animation: spotlightIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.spotlight-no-results {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ============================================
+   INTERACTIVE EFFECTS
+   ============================================ */
+
 /* Card hover effect */
 .card-hover {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-hover:active {
+    transform: translateY(0);
+}
+
+/* Sidebar menu item hover */
+.sidebar-item {
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-item:hover {
+    transform: translateX(2px);
+}
+
+.sidebar-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 60%;
+    border-radius: 0 3px 3px 0;
+    background: var(--primary-1);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-item:hover::before {
+    transform: translateY(-50%) scaleY(1);
+}
+
+.sidebar-item-active::before {
+    transform: translateY(-50%) scaleY(1) !important;
+}
+
+/* RTL sidebar item */
+[dir="rtl"] .sidebar-item:hover {
+    transform: translateX(-2px);
+}
+
+[dir="rtl"] .sidebar-item::before {
+    left: auto;
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* Sub-menu item animation */
+.sidebar-child-item {
+    transition: all 0.2s ease;
+}
+
+.sidebar-child-item:hover {
+    transform: translateX(4px);
+}
+
+[dir="rtl"] .sidebar-child-item:hover {
+    transform: translateX(-4px);
+}
+
+/* Search trigger button */
+.search-trigger {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-trigger:hover {
+    transform: scale(1.01);
+}
+
+.search-trigger:active {
+    transform: scale(0.99);
 }
 
 /* Focus ring */
@@ -171,4 +382,65 @@ select,
 input[type="checkbox"],
 input[type="radio"] {
     cursor: pointer;
+}
+
+/* ============================================
+   STAGGER ANIMATION HELPERS
+   ============================================ */
+
+.stagger-1 { animation-delay: 30ms; }
+.stagger-2 { animation-delay: 60ms; }
+.stagger-3 { animation-delay: 90ms; }
+.stagger-4 { animation-delay: 120ms; }
+.stagger-5 { animation-delay: 150ms; }
+.stagger-6 { animation-delay: 180ms; }
+.stagger-7 { animation-delay: 210ms; }
+.stagger-8 { animation-delay: 240ms; }
+.stagger-9 { animation-delay: 270ms; }
+.stagger-10 { animation-delay: 300ms; }
+
+/* ============================================
+   PAGE TRANSITION
+   ============================================ */
+
+.page-enter {
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Metric card number animation */
+.metric-value {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Table row hover animation */
+.table-row-hover {
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.table-row-hover:hover {
+    transform: scale(1.001);
+}
+
+/* Badge pop-in */
+.badge-pop {
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Logo area */
+.logo-area {
+    transition: opacity 0.3s ease;
+}
+
+.logo-area:hover {
+    opacity: 0.85;
+}
+
+/* User profile card hover */
+.user-profile-card {
+    transition: all 0.2s ease;
+}
+
+.user-profile-card:hover {
+    background-color: rgba(148, 163, 184, 0.05);
+    border-radius: 12px;
 }

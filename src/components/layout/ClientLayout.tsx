@@ -66,6 +66,7 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
                         priority
                         style={{
                             objectFit: "contain",
+                            filter: isDark ? 'none' : 'brightness(0)',
                         }}
                     />
                 </div>
