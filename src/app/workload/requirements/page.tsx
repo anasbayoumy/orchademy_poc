@@ -275,15 +275,15 @@ function WorkloadGapTab() {
 // ============================================
 function OverloadRateTab() {
     const colors = useColors();
-    const kpi = WLM_02;
+    const kpi = WLM_02 as any; // WLM-02 extends with collegeAggregates, riskFactors, actions, insights at runtime
     const [selectedCollege, setSelectedCollege] = useState<string>('All');
     const [selectedTerm, setSelectedTerm] = useState<string>('All');
     const [selectedYear, setSelectedYear] = useState<string>('All');
 
     // Extract unique values for filters
-    const colleges = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.college))).sort()];
+    const colleges = ['All', ...(Array.from(new Set(kpi.termData.map((d: any) => d.college))) as string[]).sort()];
     const terms = ['All', 'Fall', 'Spring'];
-    const years = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.academicYear))).sort()];
+    const years = ['All', ...(Array.from(new Set(kpi.termData.map((d: any) => d.academicYear))) as string[]).sort()];
 
     // Filter term data based on selections
     const filteredTermData = kpi.termData.filter((d: any) => {
@@ -321,11 +321,12 @@ function OverloadRateTab() {
     const metrics = calculateFilteredMetrics();
 
     // Get college aggregates based on filters
+    const collegeAggregates = kpi.collegeAggregates ?? [];
     const getFilteredCollegeAggregates = () => {
         if (selectedCollege !== 'All') {
-            return kpi.collegeAggregates.filter((c: any) => c.college === selectedCollege);
+            return collegeAggregates.filter((c: any) => c.college === selectedCollege);
         }
-        return kpi.collegeAggregates;
+        return collegeAggregates;
     };
 
     const filteredCollegeAggregates = getFilteredCollegeAggregates();
@@ -640,7 +641,6 @@ function OverloadRateTab() {
 
             {/* Risk Factors & Actions */}
             {selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All' && (
-            <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Risk Factors */}
                 <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
@@ -648,7 +648,7 @@ function OverloadRateTab() {
                         Risk Factors
                     </h3>
                     <div className="space-y-4">
-                        {kpi.riskFactors.map((risk, idx) => (
+                        {kpi.riskFactors.map((risk: any, idx: number) => (
                             <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
                                 <div className="flex items-start justify-between mb-2">
                                     <h4 className="text-sm font-bold" style={{ color: colors.textPrimary }}>
@@ -680,7 +680,7 @@ function OverloadRateTab() {
                         Priority Actions
                     </h3>
                     <div className="space-y-4">
-                        {kpi.actions.map((action, idx) => (
+                        {kpi.actions.map((action: any, idx: number) => (
                             <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
                                 <div className="flex items-start justify-between mb-2">
                                     <span 
@@ -711,6 +711,7 @@ function OverloadRateTab() {
                         ))}
                     </div>
                 </div>
+            </div>
             )}
 
             {/* Insights */}
