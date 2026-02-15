@@ -128,11 +128,11 @@ const getMenuItems = (): MenuItem[] => [
         ],
     },
 
-    // 9. Services
+    // 9. KPI Library
     {
-        labelKey: 'sidebar.services',
-        href: '/services',
-        icon: <Layers size={18} strokeWidth={1.5} />
+        labelKey: 'sidebar.kpiLibrary',
+        href: '/kpi-library',
+        icon: <BarChart3 size={18} strokeWidth={1.5} />
     },
 ];
 

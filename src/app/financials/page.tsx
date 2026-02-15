@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 import { 
@@ -15,7 +16,9 @@ import {
     Target,
     BarChart3,
     LineChart,
-    Zap
+    Zap,
+    Settings2,
+    Check
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -84,41 +87,40 @@ const formatPercent = (value: number, decimals = 1): string => {
     return `${value >= 0 ? '+' : ''}${value.toFixed(decimals)}%`;
 };
 
-// Simulation opportunities
+// Simulation opportunities: 4 natural + 4 functional (user selects which 4 to display)
 const SIMULATION_INSIGHTS = [
-    {
-        title: 'Tuition Optimization',
-        impact: '+$2.8M',
-        confidence: 92,
-        type: 'natural',
-        description: '3.5% tuition increase + 2% enrollment growth'
-    },
-    {
-        title: 'Operational Efficiency',
-        impact: '+$1.9M',
-        confidence: 88,
-        type: 'natural',
-        description: '8% reduction in administrative overhead'
-    },
-    {
-        title: 'Campus Sustainability',
-        impact: '+$1.5M',
-        confidence: 91,
-        type: 'functional',
-        description: 'Energy-efficient systems & carbon reduction'
-    },
-    {
-        title: 'Program Rationalization',
-        impact: '+$3.2M',
-        confidence: 84,
-        type: 'functional',
-        description: 'Consolidate underperforming programs'
-    }
+    // Natural classification
+    { id: 'tuition-opt', title: 'Tuition Optimization', impact: '+$2.8M', confidence: 92, type: 'natural', description: '3.5% tuition increase + 2% enrollment growth' },
+    { id: 'operational-eff', title: 'Operational Efficiency', impact: '+$1.9M', confidence: 88, type: 'natural', description: '8% reduction in administrative overhead' },
+    { id: 'revenue-diversification', title: 'Revenue Diversification', impact: '+$1.2M', confidence: 85, type: 'natural', description: 'Expand non-tuition revenue streams' },
+    { id: 'cost-rationalization', title: 'Cost Rationalization', impact: '+$2.1M', confidence: 86, type: 'natural', description: 'Strategic procurement and vendor consolidation' },
+    // Functional classification
+    { id: 'campus-sustainability', title: 'Campus Sustainability', impact: '+$1.5M', confidence: 91, type: 'functional', description: 'Energy-efficient systems & carbon reduction' },
+    { id: 'program-rationalization', title: 'Program Rationalization', impact: '+$3.2M', confidence: 84, type: 'functional', description: 'Consolidate underperforming programs' },
+    { id: 'instructional-efficiency', title: 'Instructional Efficiency', impact: '+$1.8M', confidence: 82, type: 'functional', description: 'Optimize student-faculty ratios and section sizing' },
+    { id: 'support-streamlining', title: 'Support Streamlining', impact: '+$0.9M', confidence: 79, type: 'functional', description: 'Consolidate administrative support functions' }
 ];
 
 export default function FinancialsDashboard() {
     const colors = useColors();
     const { t, isRTL } = useLanguage();
+    const [selectedInsightIds, setSelectedInsightIds] = useState<string[]>(
+        () => SIMULATION_INSIGHTS.slice(0, 4).map(i => i.id)
+    );
+    const [customizeOpen, setCustomizeOpen] = useState(false);
+
+    const displayedInsights = SIMULATION_INSIGHTS.filter(i => selectedInsightIds.includes(i.id));
+
+    const toggleInsight = (id: string) => {
+        setSelectedInsightIds(prev => {
+            if (prev.includes(id)) {
+                if (prev.length <= 1) return prev; // keep at least 1
+                return prev.filter(x => x !== id);
+            }
+            if (prev.length >= 4) return prev; // max 4
+            return [...prev, id];
+        });
+    };
 
     return (
         <div className="p-6 max-w-[1600px] mx-auto" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
@@ -611,21 +613,120 @@ export default function FinancialsDashboard() {
                 className="p-6 rounded-xl"
                 style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
             >
-                <div className="flex items-center gap-3 mb-6">
-                    <Sparkles size={24} style={{ color: colors.secondary3 }} />
-                    <div>
-                        <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                            AI-Powered Optimization Opportunities
-                        </h3>
-                        <p className="text-sm" style={{ color: colors.textSecondary }}>
-                            Potential improvements identified through scenario analysis
-                        </p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-3">
+                        <Sparkles size={24} style={{ color: colors.secondary3 }} />
+                        <div>
+                            <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
+                                AI-Powered Optimization Opportunities
+                            </h3>
+                            <p className="text-sm" style={{ color: colors.textSecondary }}>
+                                Potential improvements identified through scenario analysis • Select which to display (max 4)
+                            </p>
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <button
+                            onClick={() => setCustomizeOpen(!customizeOpen)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors hover:opacity-90"
+                            style={{
+                                backgroundColor: customizeOpen ? colors.primary1 + '15' : colors.surfaceBg,
+                                borderColor: customizeOpen ? colors.primary1 : colors.border,
+                                color: colors.textPrimary
+                            }}
+                        >
+                            <Settings2 size={16} />
+                            Customize ({selectedInsightIds.length}/4)
+                        </button>
+                        {customizeOpen && (
+                            <>
+                                <div className="fixed inset-0 z-40" onClick={() => setCustomizeOpen(false)} aria-hidden="true" />
+                                <div
+                                    className="absolute right-0 top-full mt-2 z-50 w-[340px] sm:w-[400px] p-4 rounded-xl shadow-xl"
+                                    style={{ backgroundColor: colors.cardBg, border: `2px solid ${colors.border}` }}
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <p className="text-sm font-semibold" style={{ color: colors.textPrimary }}>
+                                            Choose 4 cards to display
+                                        </p>
+                                        <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: colors.primary1 + '20', color: colors.primary1 }}>
+                                            {selectedInsightIds.length}/4
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedInsightIds(SIMULATION_INSIGHTS.filter(i => i.type === 'natural').map(i => i.id))}
+                                            className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                                            style={{ backgroundColor: colors.primary1 + '20', color: colors.primary1 }}
+                                        >
+                                            All Natural
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedInsightIds(SIMULATION_INSIGHTS.filter(i => i.type === 'functional').map(i => i.id))}
+                                            className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                                            style={{ backgroundColor: colors.secondary1 + '20', color: colors.secondary1 }}
+                                        >
+                                            All Functional
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedInsightIds([
+                                                ...SIMULATION_INSIGHTS.filter(i => i.type === 'natural').slice(0, 2).map(i => i.id),
+                                                ...SIMULATION_INSIGHTS.filter(i => i.type === 'functional').slice(0, 2).map(i => i.id)
+                                            ])}
+                                            className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                                            style={{ backgroundColor: colors.surfaceBg, border: `1px solid ${colors.border}`, color: colors.textPrimary }}
+                                        >
+                                            Mixed
+                                        </button>
+                                    </div>
+                                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                                        <div>
+                                            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.primary1 }}>Natural (4)</p>
+                                            {SIMULATION_INSIGHTS.filter(i => i.type === 'natural').map(insight => {
+                                                const isSelected = selectedInsightIds.includes(insight.id);
+                                                const canToggle = isSelected ? selectedInsightIds.length > 1 : selectedInsightIds.length < 4;
+                                                return (
+                                                    <button key={insight.id} type="button" onClick={() => canToggle && toggleInsight(insight.id)}
+                                                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors mb-1"
+                                                        style={{ backgroundColor: isSelected ? colors.primary1 + '15' : 'transparent', border: `1px solid ${isSelected ? colors.primary1 + '40' : colors.border}` }}>
+                                                        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ backgroundColor: isSelected ? colors.primary1 : colors.surfaceBg, border: `2px solid ${isSelected ? colors.primary1 : colors.border}` }}>
+                                                            {isSelected && <Check size={12} style={{ color: '#fff' }} />}
+                                                        </div>
+                                                        <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate" style={{ color: colors.textPrimary }}>{insight.title}</p></div>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.secondary1 }}>Functional (4)</p>
+                                            {SIMULATION_INSIGHTS.filter(i => i.type === 'functional').map(insight => {
+                                                const isSelected = selectedInsightIds.includes(insight.id);
+                                                const canToggle = isSelected ? selectedInsightIds.length > 1 : selectedInsightIds.length < 4;
+                                                return (
+                                                    <button key={insight.id} type="button" onClick={() => canToggle && toggleInsight(insight.id)}
+                                                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors mb-1"
+                                                        style={{ backgroundColor: isSelected ? colors.secondary1 + '15' : 'transparent', border: `1px solid ${isSelected ? colors.secondary1 + '40' : colors.border}` }}>
+                                                        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ backgroundColor: isSelected ? colors.secondary1 : colors.surfaceBg, border: `2px solid ${isSelected ? colors.secondary1 : colors.border}` }}>
+                                                            {isSelected && <Check size={12} style={{ color: '#fff' }} />}
+                                                        </div>
+                                                        <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate" style={{ color: colors.textPrimary }}>{insight.title}</p></div>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {SIMULATION_INSIGHTS.map((insight, idx) => (
+                    {displayedInsights.map((insight) => (
                         <div 
-                            key={idx}
+                            key={insight.id}
                             className="p-4 rounded-lg"
                             style={{ 
                                 backgroundColor: colors.isDark ? '#1e293b' : '#f8fafc',

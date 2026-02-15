@@ -1,0 +1,72 @@
+[
+  {
+    "AcademicYear": "2019-20",
+    "Term": "Fall",
+    "totalSections": 437,
+    "optimalSections": 43,
+    "pctOptimal": 9.84
+  },
+  {
+    "AcademicYear": "2019-20",
+    "Term": "Spring",
+    "totalSections": 438,
+    "optimalSections": 52,
+    "pctOptimal": 11.87
+  },
+  {
+    "AcademicYear": "2020-21",
+    "Term": "Fall",
+    "totalSections": 486,
+    "optimalSections": 38,
+    "pctOptimal": 7.82
+  },
+  {
+    "AcademicYear": "2020-21",
+    "Term": "Spring",
+    "totalSections": 479,
+    "optimalSections": 42,
+    "pctOptimal": 8.77
+  },
+  {
+    "AcademicYear": "2021-22",
+    "Term": "Fall",
+    "totalSections": 501,
+    "optimalSections": 31,
+    "pctOptimal": 6.19
+  },
+  {
+    "AcademicYear": "2021-22",
+    "Term": "Spring",
+    "totalSections": 470,
+    "optimalSections": 33,
+    "pctOptimal": 7.02
+  },
+  {
+    "AcademicYear": "2022-23",
+    "Term": "Fall",
+    "totalSections": 497,
+    "optimalSections": 25,
+    "pctOptimal": 5.03
+  },
+  {
+    "AcademicYear": "2022-23",
+    "Term": "Spring",
+    "totalSections": 450,
+    "optimalSections": 29,
+    "pctOptimal": 6.44
+  },
+  {
+    "AcademicYear": "2023-24",
+    "Term": "Fall",
+    "totalSections": 488,
+    "optimalSections": 21,
+    "pctOptimal": 4.3
+  },
+  {
+    "AcademicYear": "2023-24",
+    "Term": "Spring",
+    "totalSections": 431,
+    "optimalSections": 47,
+    "pctOptimal": 10.9
+  }
+]

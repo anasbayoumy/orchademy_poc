@@ -1,0 +1,118 @@
+{
+  "id": "PLN-01",
+  "code": "PLN-01",
+  "name": "Optimum Class Size (Lecture)",
+  "category": "Normative",
+  "domain": "Section Planning",
+  "description": "Ideal enrollment for lecture section. Compare Enrolled_Count to target band for section planning and optimization.",
+  "formula": {
+    "description": "Compare Enrolled_Count to target band (20–30). Section is optimal when enrolled falls within band.",
+    "expression": "Enrolled_Count within [20, 30] → Optimal",
+    "components": [
+      {
+        "name": "Enrolled_Count",
+        "key": "enrolledCount",
+        "description": "Number of students enrolled in the section",
+        "unit": "count"
+      },
+      {
+        "name": "Target Band",
+        "key": "targetBand",
+        "description": "Optimal range: 20–30 students (20/25/30 targets)",
+        "unit": "range"
+      },
+      {
+        "name": "Class Size Status",
+        "key": "classSizeStatus",
+        "description": "Underfilled | Optimal | Overfilled",
+        "unit": "label"
+      }
+    ]
+  },
+  "unit": "Count (enrollment)",
+  "frequency": "Each Term",
+  "granularity": [
+    "Section-Term",
+    "Course-Term",
+    "Term"
+  ],
+  "reportingPeriod": "Term",
+  "targets": {
+    "band": [
+      20,
+      25,
+      30
+    ],
+    "range": "20–30",
+    "boardApproved": 25,
+    "stretch": 30,
+    "minimum": 20,
+    "description": "Best-practice example for lecture sections"
+  },
+  "thresholds": {
+    "underfilled": {
+      "max": 19,
+      "label": "Underfilled - Below optimal band"
+    },
+    "optimal": {
+      "min": 20,
+      "max": 30,
+      "label": "Optimal - Within target band"
+    },
+    "overfilled": {
+      "min": 31,
+      "label": "Overfilled - Above optimal band"
+    }
+  },
+  "usage": {
+    "primary": "Section planning; optimization",
+    "secondary": [
+      "Capacity planning",
+      "Room allocation",
+      "Faculty workload",
+      "Schedule optimization"
+    ],
+    "audience": [
+      "Academic Affairs",
+      "Registrar",
+      "Department Chairs",
+      "Scheduling"
+    ]
+  },
+  "dataConnections": {
+    "tables": [
+      "FACT_SECTION"
+    ],
+    "description": "Section-level enrollment and target band comparison"
+  },
+  "dataFiles": {
+    "term": "PLN-01-term.json",
+    "courseTerm": "PLN-01-course-term.json",
+    "sectionTerm": "PLN-01-section-term.json"
+  },
+  "dimensions": {
+    "time": [
+      "Academic_Year",
+      "Term"
+    ],
+    "organization": [
+      "Course_ID",
+      "Course_Title",
+      "Section_ID"
+    ]
+  },
+  "metrics": {
+    "primary": "pct_optimal",
+    "supporting": [
+      "total_sections",
+      "optimal_sections",
+      "enrolledCount",
+      "class_size_status"
+    ]
+  },
+  "catalogMetadata": {
+    "source": "Best-practice example",
+    "granularityDetail": "Section; Course; Term",
+    "measureType": "Normative"
+  }
+}

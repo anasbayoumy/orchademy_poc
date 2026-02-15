@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:pln-01": "node scripts/build-pln-01-data.js"
   },
   "dependencies": {
     "lucide-react": "^0.562.0",
