@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next build:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd Spotlight search, animated sidebar, settings save/cancel, and UI polish\n\n- Replace inline sidebar search with macOS Spotlight-style modal \\(Ctrl+K / Cmd+K\\)\n- Fix Settings modal: Cancel reverts changes, Save persists them with confirmation\n- Add professional animations throughout \\(sidebar hover effects, page transitions, stagger\\)\n- Polish user avatar with gradient, add logo brightness filter for light theme\n- Add new translation keys for spotlight and settings in both EN/AR locales\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
+    ]
+  }
+}

@@ -25,7 +25,7 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const sidebarWidth = isMobile ? 0 : (sidebarOpen ? 240 : 0);
+    const sidebarWidth = isMobile ? 0 : (sidebarOpen ? 245 : 0);
 
     return (
         <main

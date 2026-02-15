@@ -182,7 +182,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
             <aside
                 className="fixed top-0 h-screen flex flex-col z-50 transition-all duration-300 ease-out"
                 style={{
-                    width: isMobile ? 280 : (isOpen ? 240 : 0),
+                    width: isMobile ? 280 : (isOpen ? 245 : 0),
                     backgroundColor: colors.sidebarBg,
                     borderRight: isOpen && !isRTL ? `1px solid ${colors.border}` : 'none',
                     borderLeft: isOpen && isRTL ? `1px solid ${colors.border}` : 'none',
