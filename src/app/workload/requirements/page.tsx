@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useDateFilter } from '@/context/DateFilterContext';
@@ -10,7 +10,7 @@ import BarChartComponent from '@/components/charts/BarChart';
 import LineChartComponent from '@/components/charts/LineChart';
 import { FACULTY_DATA, WORKLOAD_RULES, getSmartSuggestions } from '@/data/faculty';
 import WLM_02 from '@/data/KPIs/WLM-02';
-import { Users, Briefcase, AlertTriangle, CheckCircle2, TrendingUp, TrendingDown, Sparkles, Clock, DollarSign, Target, AlertCircle, Info, Zap, Save, Check, GitCompare, RotateCcw, ChevronRight, ChevronDown, ChevronUp, XCircle } from 'lucide-react';
+import { Users, Briefcase, AlertTriangle, CheckCircle2, TrendingUp, TrendingDown, Sparkles, Clock, DollarSign, Target, AlertCircle, Info, Zap, Save, Check, GitCompare, RotateCcw, ChevronRight, XCircle } from 'lucide-react';
 
 // ============================================
 // TAB COMPONENT
@@ -47,7 +47,6 @@ function Tab({ id, label, isActive, onClick, colors }: TabProps) {
 function LoadSummaryTab() {
     const { t } = useLanguage();
     const colors = useColors();
-    const wlm02 = (WLM_02 as any).institutionalMetrics;
 
     const getDepartmentSummary = () => {
         const deptMap: any = {};
@@ -88,32 +87,6 @@ function LoadSummaryTab() {
 
     return (
         <div className="space-y-6 animate-fadeIn">
-            {/* WLM-02 Overload Rate (official KPI - single source of truth) */}
-            <div className="rounded-xl p-4 border" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
-                <div className="flex items-center gap-2 mb-3">
-                    <Target size={18} style={{ color: colors.accent }} />
-                    <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>WLM-02 Overload Rate (Official KPI)</span>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div>
-                        <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{wlm02.currentRate.toFixed(2)}%</p>
-                        <p className="text-xs" style={{ color: colors.textSecondary }}>Overload Rate</p>
-                    </div>
-                    <div>
-                        <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{wlm02.totalOverloaded}</p>
-                        <p className="text-xs" style={{ color: colors.textSecondary }}>Overloaded Faculty</p>
-                    </div>
-                    <div>
-                        <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{wlm02.totalFaculty}</p>
-                        <p className="text-xs" style={{ color: colors.textSecondary }}>Faculty-Term Instances</p>
-                    </div>
-                    <div>
-                        <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: wlm02.status === 'red' ? colors.dangerBg : wlm02.status === 'amber' ? colors.warningBg : colors.successBg, color: wlm02.status === 'red' ? colors.dangerText : wlm02.status === 'amber' ? colors.warningText : colors.successText }}>{wlm02.status.toUpperCase()}</span>
-                        <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>Target &lt;10%</p>
-                    </div>
-                </div>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <MetricCard title={t('faculty.totalFaculty')} value={totalFaculty.toString()} change={5} icon={<Users size={24} />} changeLabel={t('faculty.allFaculty')} />
                 <MetricCard title={t('faculty.totalFTE')} value={totalFTE.toFixed(1)} change={3} icon={<Briefcase size={24} />} changeLabel={t('faculty.fteDescription')} />
@@ -170,7 +143,6 @@ function LoadSummaryTab() {
 function WorkloadGapTab() {
     const { t } = useLanguage();
     const colors = useColors();
-    const wlm02 = (WLM_02 as any).institutionalMetrics;
 
     const overloadedFaculty = FACULTY_DATA.filter(f => f.status === 'Overloaded');
     const underloadedFaculty = FACULTY_DATA.filter(f => f.status === 'Underloaded');
@@ -178,19 +150,6 @@ function WorkloadGapTab() {
 
     return (
         <div className="space-y-6 animate-fadeIn">
-            {/* WLM-02 Overload Rate reference */}
-            <div className="rounded-xl p-4 border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
-                <div className="flex items-center gap-2 mb-2">
-                    <Target size={16} style={{ color: colors.primary1 }} />
-                    <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>WLM-02 Overload Rate (official KPI)</span>
-                </div>
-                <div className="flex flex-wrap gap-6">
-                    <div><span className="text-lg font-bold" style={{ color: colors.textPrimary }}>{wlm02.currentRate.toFixed(2)}%</span> <span className="text-xs" style={{ color: colors.textSecondary }}>rate</span></div>
-                    <div><span className="text-lg font-bold" style={{ color: colors.dangerText }}>{wlm02.totalOverloaded}</span> <span className="text-xs" style={{ color: colors.textSecondary }}>overloaded</span></div>
-                    <div><span className="text-lg font-bold" style={{ color: colors.textPrimary }}>{wlm02.totalFaculty}</span> <span className="text-xs" style={{ color: colors.textSecondary }}>faculty-terms</span></div>
-                </div>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.dangerBg, borderColor: colors.border }}>
                     <div className="flex items-center gap-3 mb-2">
@@ -314,27 +273,17 @@ function WorkloadGapTab() {
 // ============================================
 // OVERLOAD RATE TAB (WLM-02 KPI)
 // ============================================
-// Parse academic year "2023-24" to sortable key (year = 2023, Spring > Fall within year)
-function getSortKey(d: { academicYear: string; term: string }) {
-    const [startYear] = d.academicYear.split('-').map(Number);
-    const termOrder = d.term === 'Spring' ? 1 : 0;
-    return startYear * 2 + termOrder;
-}
-
 function OverloadRateTab() {
     const colors = useColors();
-    const kpi = WLM_02 as any;
+    const kpi = WLM_02;
     const [selectedCollege, setSelectedCollege] = useState<string>('All');
     const [selectedTerm, setSelectedTerm] = useState<string>('All');
     const [selectedYear, setSelectedYear] = useState<string>('All');
-    const [sortYearOrder, setSortYearOrder] = useState<'desc' | 'asc'>('desc');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
 
     // Extract unique values for filters
-    const colleges = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.college))).sort()] as string[];
+    const colleges = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.college))).sort()];
     const terms = ['All', 'Fall', 'Spring'];
-    const years = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.academicYear))).sort()] as string[];
+    const years = ['All', ...Array.from(new Set(kpi.termData.map((d: any) => d.academicYear))).sort()];
 
     // Filter term data based on selections
     const filteredTermData = kpi.termData.filter((d: any) => {
@@ -343,30 +292,6 @@ function OverloadRateTab() {
         const yearMatch = selectedYear === 'All' || d.academicYear === selectedYear;
         return collegeMatch && termMatch && yearMatch;
     });
-
-    // Sort by academic year + term (default: descending = newest first)
-    const sortedTermData = [...filteredTermData].sort((a: any, b: any) => {
-        const keyA = getSortKey(a);
-        const keyB = getSortKey(b);
-        return sortYearOrder === 'desc' ? keyB - keyA : keyA - keyB;
-    });
-
-    // Pagination
-    const totalPages = Math.max(1, Math.ceil(sortedTermData.length / pageSize));
-    const paginatedTermData = sortedTermData.slice(
-        (currentPage - 1) * pageSize,
-        currentPage * pageSize
-    );
-
-    // Reset to page 1 when filters change
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [selectedCollege, selectedTerm, selectedYear]);
-
-    // Clamp current page if it exceeds total after filter
-    useEffect(() => {
-        if (currentPage > totalPages) setCurrentPage(totalPages);
-    }, [totalPages, currentPage]);
 
     // Calculate metrics based on filtered data
     const calculateFilteredMetrics = () => {
@@ -395,34 +320,12 @@ function OverloadRateTab() {
 
     const metrics = calculateFilteredMetrics();
 
-    // Compute college aggregates from filtered termData using WLM-02 formula:
-    // Overload Rate = (total overloaded ÷ total faculty) × 100
+    // Get college aggregates based on filters
     const getFilteredCollegeAggregates = () => {
-        const collegeMap: Record<string, { totalFaculty: number; totalOverloaded: number }> = {};
-        filteredTermData.forEach((d: any) => {
-            if (!collegeMap[d.college]) {
-                collegeMap[d.college] = { totalFaculty: 0, totalOverloaded: 0 };
-            }
-            collegeMap[d.college].totalFaculty += d.totalFaculty;
-            collegeMap[d.college].totalOverloaded += d.totalOverloaded;
-        });
-        return Object.entries(collegeMap)
-            .filter(([, agg]) => agg.totalFaculty > 0)
-            .map(([college, agg]) => {
-                const avgOverloadRate = (agg.totalOverloaded / agg.totalFaculty) * 100;
-                const status = avgOverloadRate >= 20 ? 'red' : avgOverloadRate >= 10 ? 'amber' : 'green';
-                const termCount = filteredTermData.filter((d: any) => d.college === college).length;
-                return {
-                    college,
-                    avgOverloadRate,
-                    status,
-                    totalFaculty: agg.totalFaculty,
-                    totalOverloaded: agg.totalOverloaded,
-                    termCount,
-                    trend: `${agg.totalOverloaded} overloaded of ${agg.totalFaculty} faculty-terms (${termCount} term${termCount !== 1 ? 's' : ''})`,
-                };
-            })
-            .sort((a, b) => b.avgOverloadRate - a.avgOverloadRate);
+        if (selectedCollege !== 'All') {
+            return kpi.collegeAggregates.filter((c: any) => c.college === selectedCollege);
+        }
+        return kpi.collegeAggregates;
     };
 
     const filteredCollegeAggregates = getFilteredCollegeAggregates();
@@ -453,8 +356,6 @@ function OverloadRateTab() {
             default: return <AlertCircle size={20} />;
         }
     };
-
-    const showInstitutionView = selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All';
 
     return (
         <div className="space-y-6 animate-fadeIn">
@@ -552,7 +453,7 @@ function OverloadRateTab() {
                         </h3>
                     </div>
                     <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>
-                        {selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All' ? 'Institution-wide' : 'Filtered'} (overloaded ÷ faculty × 100)
+                        {selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All' ? 'Institution-wide' : 'Filtered'} average
                     </p>
                 </div>
 
@@ -570,7 +471,7 @@ function OverloadRateTab() {
                         </h3>
                     </div>
                     <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>
-                        {filteredTermData.length > 1 ? 'Faculty-term instances in selected period(s)' : 'In selected period'}
+                        In selected period(s)
                     </p>
                 </div>
 
@@ -614,34 +515,9 @@ function OverloadRateTab() {
             {/* Term Data Table */}
             {filteredTermData.length > 0 && (
                 <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
-                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                            Term-Level Data
-                        </h3>
-                        <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setSortYearOrder(sortYearOrder === 'desc' ? 'asc' : 'desc')}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border"
-                                style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
-                            >
-                                Year {sortYearOrder === 'desc' ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
-                                <span style={{ color: colors.textSecondary }}>({sortYearOrder === 'desc' ? 'Newest first' : 'Oldest first'})</span>
-                            </button>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs" style={{ color: colors.textSecondary }}>Rows per page:</span>
-                                <select
-                                    value={pageSize}
-                                    onChange={(e) => { setPageSize(Number(e.target.value)); setCurrentPage(1); }}
-                                    className="px-2 py-1 rounded text-xs font-medium border"
-                                    style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
-                                >
-                                    {[5, 10, 25, 50, 100].map(n => (
-                                        <option key={n} value={n}>{n}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
+                        Term-Level Data
+                    </h3>
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
@@ -656,59 +532,36 @@ function OverloadRateTab() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {paginatedTermData.map((term: any, idx: number) => {
-                                    const rate = term.totalFaculty > 0 ? (term.totalOverloaded / term.totalFaculty) * 100 : 0;
-                                    const rowStatus = rate >= 20 ? 'red' : rate >= 10 ? 'amber' : 'green';
-                                    return (
-                                    <tr key={(currentPage - 1) * pageSize + idx} className="border-b" style={{ borderColor: colors.border }}>
+                                {filteredTermData.slice(0, 20).map((term: any, idx: number) => (
+                                    <tr key={idx} className="border-b" style={{ borderColor: colors.border }}>
                                         <td className="py-3 px-4 text-sm font-medium" style={{ color: colors.textPrimary }}>{term.college}</td>
                                         <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{term.academicYear}</td>
                                         <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{term.term}</td>
                                         <td className="py-3 px-4 text-sm text-right" style={{ color: colors.textPrimary }}>{term.totalFaculty}</td>
                                         <td className="py-3 px-4 text-sm text-right font-semibold" style={{ color: colors.dangerText }}>{term.totalOverloaded}</td>
-                                        <td className="py-3 px-4 text-sm text-right font-bold" style={{ color: getStatusColor(rowStatus) }}>{rate.toFixed(2)}%</td>
+                                        <td className="py-3 px-4 text-sm text-right font-bold" style={{ color: getStatusColor(term.status) }}>{term.overloadRate.toFixed(2)}%</td>
                                         <td className="py-3 px-4 text-center">
                                             <span 
                                                 className="inline-block px-2 py-1 rounded text-xs font-bold"
                                                 style={{ 
-                                                    backgroundColor: getStatusBg(rowStatus),
-                                                    color: getStatusColor(rowStatus)
+                                                    backgroundColor: getStatusBg(term.status),
+                                                    color: getStatusColor(term.status)
                                                 }}
                                             >
-                                                {rowStatus.toUpperCase()}
+                                                {term.status.toUpperCase()}
                                             </span>
                                         </td>
                                     </tr>
-                                    );
-                                })}
+                                ))}
                             </tbody>
                         </table>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-between gap-4 mt-4 pt-4 border-t" style={{ borderColor: colors.border }}>
-                        <span className="text-xs" style={{ color: colors.textSecondary }}>
-                            Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, sortedTermData.length)} of {sortedTermData.length} records
-                        </span>
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                disabled={currentPage <= 1}
-                                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all border disabled:opacity-40 disabled:cursor-not-allowed"
-                                style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
-                            >
-                                Previous
-                            </button>
-                            <span className="text-xs font-medium" style={{ color: colors.textPrimary }}>
-                                Page {currentPage} of {totalPages}
-                            </span>
-                            <button
-                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                disabled={currentPage >= totalPages}
-                                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all border disabled:opacity-40 disabled:cursor-not-allowed"
-                                style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
-                            >
-                                Next
-                            </button>
-                        </div>
+                        {filteredTermData.length > 20 && (
+                            <div className="mt-4 text-center">
+                                <span className="text-xs" style={{ color: colors.textSecondary }}>
+                                    Showing 20 of {filteredTermData.length} records
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
@@ -785,114 +638,115 @@ function OverloadRateTab() {
                 </div>
             )}
 
-            {/* Risk Factors, Actions & Insights */}
-            {showInstitutionView ? (
+            {/* Risk Factors & Actions */}
+            {selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All' && (
             <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Risk Factors */}
-                    <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
-                        <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
-                            Risk Factors
-                        </h3>
-                        <div className="space-y-4">
-                            {kpi.riskFactors.map((risk: any, idx: number) => (
-                                <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
-                                    <div className="flex items-start justify-between mb-2">
-                                        <h4 className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                            {risk.risk}
-                                        </h4>
-                                        <div className="flex gap-2">
-                                            <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: colors.dangerBg, color: colors.dangerText }}>
-                                                {risk.likelihood}
-                                            </span>
-                                            <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: colors.warningBg, color: colors.warningText }}>
-                                                {risk.impact}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <p className="text-xs mb-2" style={{ color: colors.textSecondary }}>
-                                        <strong>Affected:</strong> {risk.affectedColleges.join(', ')}
-                                    </p>
-                                    <p className="text-xs" style={{ color: colors.textPrimary }}>
-                                        <strong style={{ color: colors.primary1 }}>Mitigation:</strong> {risk.mitigation}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Priority Actions */}
-                    <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
-                        <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
-                            Priority Actions
-                        </h3>
-                        <div className="space-y-4">
-                            {kpi.actions.map((action: any, idx: number) => (
-                                <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
-                                    <div className="flex items-start justify-between mb-2">
-                                        <span 
-                                            className="px-2 py-0.5 rounded text-xs font-bold"
-                                            style={{ 
-                                                backgroundColor: action.priority === 'Critical' ? colors.dangerBg : colors.warningBg,
-                                                color: action.priority === 'Critical' ? colors.dangerText : colors.warningText
-                                            }}
-                                        >
-                                            {action.priority}
-                                        </span>
-                                    </div>
-                                    <h4 className="text-sm font-bold mb-2" style={{ color: colors.textPrimary }}>
-                                        {action.action}
-                                    </h4>
-                                    <div className="space-y-1">
-                                        <p className="text-xs" style={{ color: colors.textSecondary }}>
-                                            <strong>Owner:</strong> {action.owner}
-                                        </p>
-                                        <p className="text-xs" style={{ color: colors.textSecondary }}>
-                                            <strong>Deadline:</strong> {action.deadline}
-                                        </p>
-                                        <p className="text-xs" style={{ color: colors.primary1 }}>
-                                            <strong>Impact:</strong> {action.expectedImpact}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Risk Factors */}
                 <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                     <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
-                        Key Insights
+                        Risk Factors
                     </h3>
                     <div className="space-y-4">
-                        <div>
-                            <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.secondary1 }}>
-                                Trend Analysis
-                            </h4>
-                            <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
-                                {kpi.insights.trend}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.dangerText }}>
-                                Concern
-                            </h4>
-                            <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
-                                {kpi.insights.concern}
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.primary1 }}>
-                                Recommendation
-                            </h4>
-                            <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
-                                {kpi.insights.recommendation}
-                            </p>
-                        </div>
+                        {kpi.riskFactors.map((risk, idx) => (
+                            <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
+                                <div className="flex items-start justify-between mb-2">
+                                    <h4 className="text-sm font-bold" style={{ color: colors.textPrimary }}>
+                                        {risk.risk}
+                                    </h4>
+                                    <div className="flex gap-2">
+                                        <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: colors.dangerBg, color: colors.dangerText }}>
+                                            {risk.likelihood}
+                                        </span>
+                                        <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: colors.warningBg, color: colors.warningText }}>
+                                            {risk.impact}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p className="text-xs mb-2" style={{ color: colors.textSecondary }}>
+                                    <strong>Affected:</strong> {risk.affectedColleges.join(', ')}
+                                </p>
+                                <p className="text-xs" style={{ color: colors.textPrimary }}>
+                                    <strong style={{ color: colors.primary1 }}>Mitigation:</strong> {risk.mitigation}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </>
-            ) : null}
+
+                {/* Priority Actions */}
+                <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
+                        Priority Actions
+                    </h3>
+                    <div className="space-y-4">
+                        {kpi.actions.map((action, idx) => (
+                            <div key={idx} className="p-4 rounded-lg border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
+                                <div className="flex items-start justify-between mb-2">
+                                    <span 
+                                        className="px-2 py-0.5 rounded text-xs font-bold"
+                                        style={{ 
+                                            backgroundColor: action.priority === 'Critical' ? colors.dangerBg : colors.warningBg,
+                                            color: action.priority === 'Critical' ? colors.dangerText : colors.warningText
+                                        }}
+                                    >
+                                        {action.priority}
+                                    </span>
+                                </div>
+                                <h4 className="text-sm font-bold mb-2" style={{ color: colors.textPrimary }}>
+                                    {action.action}
+                                </h4>
+                                <div className="space-y-1">
+                                    <p className="text-xs" style={{ color: colors.textSecondary }}>
+                                        <strong>Owner:</strong> {action.owner}
+                                    </p>
+                                    <p className="text-xs" style={{ color: colors.textSecondary }}>
+                                        <strong>Deadline:</strong> {action.deadline}
+                                    </p>
+                                    <p className="text-xs" style={{ color: colors.primary1 }}>
+                                        <strong>Impact:</strong> {action.expectedImpact}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Insights */}
+            {selectedCollege === 'All' && selectedTerm === 'All' && selectedYear === 'All' && (
+            <div className="p-6 rounded-lg border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
+                    Key Insights
+                </h3>
+                <div className="space-y-4">
+                    <div>
+                        <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.secondary1 }}>
+                            Trend Analysis
+                        </h4>
+                        <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
+                            {kpi.insights.trend}
+                        </p>
+                    </div>
+                    <div>
+                        <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.dangerText }}>
+                            Concern
+                        </h4>
+                        <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
+                            {kpi.insights.concern}
+                        </p>
+                    </div>
+                    <div>
+                        <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.primary1 }}>
+                            Recommendation
+                        </h4>
+                        <p className="text-sm leading-relaxed" style={{ color: colors.textPrimary }}>
+                            {kpi.insights.recommendation}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            )}
         </div>
     );
 }
@@ -900,28 +754,13 @@ function OverloadRateTab() {
 // ============================================
 // SMART ALLOCATION TAB
 // ============================================
-const DEPT_TO_COLLEGE: Record<string, string> = { 'Computer Science': 'Computing', 'Business': 'Business', 'Engineering': 'Engineering', 'Healthcare': 'Health Sciences', 'Arts': 'Humanities' };
-
 function SmartAllocationTab() {
     const { t } = useLanguage();
     const colors = useColors();
     const [priorityFilter, setPriorityFilter] = useState<string>('All');
-    const wlm02 = (WLM_02 as any).institutionalMetrics;
-    const collegeAggregates = (WLM_02 as any).collegeAggregates;
 
     const suggestions = getSmartSuggestions();
-    const sortedSuggestions = [...suggestions].sort((a, b) => {
-        const collegeA = DEPT_TO_COLLEGE[a.department] || a.department;
-        const collegeB = DEPT_TO_COLLEGE[b.department] || b.department;
-        const statusOrder = { red: 0, amber: 1, green: 2 };
-        const aggA = collegeAggregates.find((c: any) => c.college === collegeA);
-        const aggB = collegeAggregates.find((c: any) => c.college === collegeB);
-        const orderA = aggA ? statusOrder[aggA.status as keyof typeof statusOrder] ?? 3 : 3;
-        const orderB = aggB ? statusOrder[aggB.status as keyof typeof statusOrder] ?? 3 : 3;
-        if (orderA !== orderB) return orderA - orderB;
-        return (aggB?.avgOverloadRate ?? 0) - (aggA?.avgOverloadRate ?? 0);
-    });
-    const filteredSuggestions = priorityFilter === 'All' ? sortedSuggestions : sortedSuggestions.filter(s => s.priority === priorityFilter);
+    const filteredSuggestions = priorityFilter === 'All' ? suggestions : suggestions.filter(s => s.priority === priorityFilter);
 
     const priorityCounts = {
         total: suggestions.length,
@@ -952,33 +791,21 @@ function SmartAllocationTab() {
 
     return (
         <div className="space-y-6 animate-fadeIn">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
-                    <div className="flex items-start gap-4">
-                        <div className="p-3 rounded-lg" style={{ backgroundColor: colors.accent + '20' }}>
-                            <Sparkles size={24} style={{ color: colors.accent }} />
-                        </div>
-                        <div className="flex-1">
-                            <h3 className="text-lg font-semibold mb-1" style={{ color: colors.textPrimary }}>{t('faculty.aiRecommendations')}</h3>
-                            <p className="text-sm mb-3" style={{ color: colors.textSecondary }}>{t('faculty.aiRecommendationsDescription')}</p>
-                            <div className="flex items-center gap-2">
-                                <DollarSign size={18} style={{ color: colors.success }} />
-                                <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>
-                                    {t('faculty.potentialSavings')}: <span style={{ color: colors.success }}>${totalSavings.toLocaleString()}</span>
-                                </span>
-                            </div>
+            <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
+                <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg" style={{ backgroundColor: colors.accent + '20' }}>
+                        <Sparkles size={24} style={{ color: colors.accent }} />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-lg font-semibold mb-1" style={{ color: colors.textPrimary }}>{t('faculty.aiRecommendations')}</h3>
+                        <p className="text-sm mb-3" style={{ color: colors.textSecondary }}>{t('faculty.aiRecommendationsDescription')}</p>
+                        <div className="flex items-center gap-2">
+                            <DollarSign size={18} style={{ color: colors.success }} />
+                            <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>
+                                {t('faculty.potentialSavings')}: <span style={{ color: colors.success }}>${totalSavings.toLocaleString()}</span>
+                            </span>
                         </div>
                     </div>
-                </div>
-                <div className="rounded-xl p-4 border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
-                    <div className="flex items-center gap-2 mb-2">
-                        <Target size={16} style={{ color: colors.primary1 }} />
-                        <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>WLM-02 Overload Rate</span>
-                    </div>
-                    <p className="text-sm mb-2" style={{ color: colors.textSecondary }}>{wlm02.currentRate.toFixed(2)}% • {wlm02.totalOverloaded} overloaded of {wlm02.totalFaculty} faculty-terms</p>
-                    {wlm02.concernedColleges.length > 0 && (
-                        <p className="text-xs" style={{ color: colors.dangerText }}>Focus: {wlm02.concernedColleges.join(', ')}</p>
-                    )}
                 </div>
             </div>
 
@@ -1094,7 +921,6 @@ function SimulationTab() {
     const [selectedDept, setSelectedDept] = useState<string>('All');
     const [saved, setSaved] = useState(false);
     const [comparing, setComparing] = useState(false);
-    const wlm02 = (WLM_02 as any).institutionalMetrics;
 
     type DeptSummary = { totalFTE: number; avgLoad: number; count: number; overloaded: number; underloaded: number };
     
@@ -1156,16 +982,6 @@ function SimulationTab() {
 
     return (
         <div className="space-y-6 animate-fadeIn">
-            <div className="rounded-xl p-4 border" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
-                <div className="flex items-center gap-2 mb-2">
-                    <Target size={16} style={{ color: colors.primary1 }} />
-                    <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>WLM-02 baseline</span>
-                </div>
-                <p className="text-sm" style={{ color: colors.textSecondary }}>
-                    Current overload rate: <strong style={{ color: colors.textPrimary }}>{wlm02.currentRate.toFixed(2)}%</strong> ({wlm02.totalOverloaded} overloaded of {wlm02.totalFaculty} faculty-terms). Use as reference for projections.
-                </p>
-            </div>
-
             <div className="rounded-xl p-6 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h3 className="text-lg font-semibold mb-4" style={{ color: colors.textPrimary }}>{t('faculty.simulationParameters')}</h3>
                 

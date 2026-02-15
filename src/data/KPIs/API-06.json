@@ -1,0 +1,117 @@
+{
+  "id": "API-06",
+  "code": "API-06",
+  "name": "At-Risk Student Rate",
+  "category": "Outcome",
+  "domain": "Student Success",
+  "description": "Percentage of students flagged as at-risk based on configurable early-warning rules (GPA, DFW rate, velocity, repeats, withdrawals). Supports intervention triage and retention strategy.",
+  "formula": {
+    "description": "Flagged students ÷ total active students",
+    "expression": "flaggedStudents / totalActiveStudents * 100",
+    "components": [
+      {
+        "name": "Flagged Students",
+        "key": "flaggedStudents",
+        "description": "Count of students flagged as at-risk (Critical, High, or Moderate risk level) based on early-warning rules",
+        "unit": "count"
+      },
+      {
+        "name": "Total Active Students",
+        "key": "totalActiveStudents",
+        "description": "Total enrolled/active students in the program or college for the term",
+        "unit": "count"
+      },
+      {
+        "name": "At-Risk Rate",
+        "key": "atRiskRate",
+        "formula": "(Flagged Students ÷ Total Active Students) × 100",
+        "unit": "%",
+        "description": "Percentage of students at risk"
+      }
+    ]
+  },
+  "granularity": ["Program-Term", "College-Term"],
+  "frequency": "Each Term",
+  "reportingPeriod": "Term",
+  "unit": "%",
+  "unitDisplay": "percent",
+  "riskLevels": {
+    "Critical": "Immediate intervention required",
+    "High": "High priority for advising",
+    "Moderate": "Monitor and early support",
+    "Low": "On track, minimal intervention"
+  },
+  "targets": {
+    "benchmark": "<25% / <15% / <8% (example)",
+    "excellent": 8,
+    "stretch": 15,
+    "max": 25,
+    "description": "Configurable by institution type. Lower is better."
+  },
+  "thresholds": {
+    "green": {
+      "max": 8,
+      "label": "Excellent (at-risk rate < 8%)",
+      "description": "Meets stretch target"
+    },
+    "amber": {
+      "min": 8,
+      "max": 25,
+      "label": "Acceptable (8% ≤ rate < 25%)",
+      "description": "Within target but requires attention"
+    },
+    "red": {
+      "min": 25,
+      "label": "High risk (rate ≥ 25%)",
+      "description": "Exceeds target - intervention needed"
+    }
+  },
+  "usage": {
+    "primary": "Intervention triage; advising; retention strategy",
+    "secondary": [
+      "Student success policy",
+      "Early warning system",
+      "Advising workload planning",
+      "Retention analytics",
+      "Program health monitoring"
+    ],
+    "audience": ["Student success teams", "Advising", "Deans", "Registrar"]
+  },
+  "dataConnections": {
+    "tables": [
+      "FACT_STUDENT_EARLY_WARNING",
+      "FACT_STUDENT_REGISTRATION",
+      "DIM_STUDENT"
+    ],
+    "description": "Early warning derived from GPA, DFW, velocity, repeats, withdrawals"
+  },
+  "dataFiles": {
+    "programTerm": "API-06-program-term.json",
+    "collegeTerm": "API-06-college-term.json"
+  },
+  "dimensions": {
+    "time": ["Academic_Year", "Term"],
+    "organization": ["Program", "College"]
+  },
+  "metrics": {
+    "primary": "atRiskRate",
+    "supporting": ["totalActiveStudents", "flaggedStudents"]
+  },
+  "catalogMetadata": {
+    "type": "Configurable",
+    "strategyArea": "Student success policy",
+    "sourceCatalog": "KPI Catalogue"
+  },
+  "validation": {
+    "minValue": 0,
+    "maxValue": 100,
+    "decimals": 2,
+    "allowNull": false
+  },
+  "display": {
+    "chartType": "bar",
+    "secondaryChartType": "line",
+    "format": "0.0",
+    "suffix": "%"
+  }
+}

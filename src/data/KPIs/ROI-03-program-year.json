@@ -1,0 +1,1502 @@
+[
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "totalRevenue": 1364222,
+    "totalCost": 1252038.378,
+    "marginAed": 112183.62,
+    "marginPct": 8.22
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "totalRevenue": 1524774,
+    "totalCost": 1112214.559,
+    "marginAed": 412559.44,
+    "marginPct": 27.06
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "totalRevenue": 1450633,
+    "totalCost": 1299870.054,
+    "marginAed": 150762.95,
+    "marginPct": 10.39
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "totalRevenue": 1200126,
+    "totalCost": 1063204.554,
+    "marginAed": 136921.45,
+    "marginPct": 11.41
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "totalRevenue": 1313183,
+    "totalCost": 1044787.962,
+    "marginAed": 268395.04,
+    "marginPct": 20.44
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "totalRevenue": 1303930,
+    "totalCost": 976122.4931,
+    "marginAed": 327807.51,
+    "marginPct": 25.14
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "totalRevenue": 1083831,
+    "totalCost": 991827.84,
+    "marginAed": 92003.16,
+    "marginPct": 8.49
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "totalRevenue": 1632483,
+    "totalCost": 1410657.036,
+    "marginAed": 221825.96,
+    "marginPct": 13.59
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "totalRevenue": 1127127,
+    "totalCost": 1224344.222,
+    "marginAed": -97217.22,
+    "marginPct": -8.63
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "totalRevenue": 838390,
+    "totalCost": 931000.8562,
+    "marginAed": -92610.86,
+    "marginPct": -11.05
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "totalRevenue": 877751,
+    "totalCost": 914154.7577,
+    "marginAed": -36403.76,
+    "marginPct": -4.15
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "totalRevenue": 1088805,
+    "totalCost": 1093055.289,
+    "marginAed": -4250.29,
+    "marginPct": -0.39
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "totalRevenue": 1404925,
+    "totalCost": 1210117.048,
+    "marginAed": 194807.95,
+    "marginPct": 13.87
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "totalRevenue": 1701173,
+    "totalCost": 1240710.96,
+    "marginAed": 460462.04,
+    "marginPct": 27.07
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "totalRevenue": 1883782,
+    "totalCost": 1424366.35,
+    "marginAed": 459415.65,
+    "marginPct": 24.39
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "totalRevenue": 1268691,
+    "totalCost": 782880.6757,
+    "marginAed": 485810.32,
+    "marginPct": 38.29
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "totalRevenue": 1163226,
+    "totalCost": 953193.7349,
+    "marginAed": 210032.27,
+    "marginPct": 18.06
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "totalRevenue": 1189560,
+    "totalCost": 1054393.232,
+    "marginAed": 135166.77,
+    "marginPct": 11.36
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "totalRevenue": 1512132,
+    "totalCost": 921437.477,
+    "marginAed": 590694.52,
+    "marginPct": 39.06
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "totalRevenue": 1322044,
+    "totalCost": 1172955.194,
+    "marginAed": 149088.81,
+    "marginPct": 11.28
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "totalRevenue": 1452294,
+    "totalCost": 1352747.447,
+    "marginAed": 99546.55,
+    "marginPct": 6.85
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "totalRevenue": 1998619,
+    "totalCost": 1760189.975,
+    "marginAed": 238429.02,
+    "marginPct": 11.93
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "totalRevenue": 2819798,
+    "totalCost": 1573065.181,
+    "marginAed": 1246732.82,
+    "marginPct": 44.21
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "totalRevenue": 1266186,
+    "totalCost": 1173792.725,
+    "marginAed": 92393.27,
+    "marginPct": 7.3
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "totalRevenue": 1118665,
+    "totalCost": 1005944.424,
+    "marginAed": 112720.58,
+    "marginPct": 10.08
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "totalRevenue": 1851974,
+    "totalCost": 1367203.284,
+    "marginAed": 484770.72,
+    "marginPct": 26.18
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "totalRevenue": 1324049,
+    "totalCost": 1027769.612,
+    "marginAed": 296279.39,
+    "marginPct": 22.38
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "totalRevenue": 1143816,
+    "totalCost": 827206.589,
+    "marginAed": 316609.41,
+    "marginPct": 27.68
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "totalRevenue": 1358932,
+    "totalCost": 994487.9859,
+    "marginAed": 364444.01,
+    "marginPct": 26.82
+  },
+  {
+    "academicYear": "2019-20",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "totalRevenue": 1489536,
+    "totalCost": 1328038.105,
+    "marginAed": 161497.9,
+    "marginPct": 10.84
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "totalRevenue": 1870407,
+    "totalCost": 961666.1315,
+    "marginAed": 908740.87,
+    "marginPct": 48.59
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "totalRevenue": 1310908,
+    "totalCost": 829159.6815,
+    "marginAed": 481748.32,
+    "marginPct": 36.75
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "totalRevenue": 1471701,
+    "totalCost": 994466.9644,
+    "marginAed": 477234.04,
+    "marginPct": 32.43
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "totalRevenue": 1591522,
+    "totalCost": 807969.933,
+    "marginAed": 783552.07,
+    "marginPct": 49.23
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "totalRevenue": 1630979,
+    "totalCost": 785539.2606,
+    "marginAed": 845439.74,
+    "marginPct": 51.84
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "totalRevenue": 1514923,
+    "totalCost": 749913.0291,
+    "marginAed": 765009.97,
+    "marginPct": 50.5
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "totalRevenue": 1032015,
+    "totalCost": 783165.0814,
+    "marginAed": 248849.92,
+    "marginPct": 24.11
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "totalRevenue": 1524638,
+    "totalCost": 1115605.637,
+    "marginAed": 409032.36,
+    "marginPct": 26.83
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "totalRevenue": 1283983,
+    "totalCost": 955167.4447,
+    "marginAed": 328815.56,
+    "marginPct": 25.61
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "totalRevenue": 996637,
+    "totalCost": 718655.361,
+    "marginAed": 277981.64,
+    "marginPct": 27.89
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "totalRevenue": 879075,
+    "totalCost": 695813.1316,
+    "marginAed": 183261.87,
+    "marginPct": 20.85
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "totalRevenue": 1144184,
+    "totalCost": 864088.3439,
+    "marginAed": 280095.66,
+    "marginPct": 24.48
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "totalRevenue": 1469377,
+    "totalCost": 878962.7005,
+    "marginAed": 590414.3,
+    "marginPct": 40.18
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "totalRevenue": 1609499,
+    "totalCost": 901648.8832,
+    "marginAed": 707850.12,
+    "marginPct": 43.98
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "totalRevenue": 2192935,
+    "totalCost": 1039482.206,
+    "marginAed": 1153452.79,
+    "marginPct": 52.6
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "totalRevenue": 1209236,
+    "totalCost": 584162.1754,
+    "marginAed": 625073.82,
+    "marginPct": 51.69
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "totalRevenue": 1207592,
+    "totalCost": 705849.219,
+    "marginAed": 501742.78,
+    "marginPct": 41.55
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "totalRevenue": 1335599,
+    "totalCost": 771503.8158,
+    "marginAed": 564095.18,
+    "marginPct": 42.24
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "totalRevenue": 1143950,
+    "totalCost": 651317.2909,
+    "marginAed": 492632.71,
+    "marginPct": 43.06
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "totalRevenue": 1692779,
+    "totalCost": 833090.8021,
+    "marginAed": 859688.2,
+    "marginPct": 50.79
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "totalRevenue": 1747192,
+    "totalCost": 978394.9343,
+    "marginAed": 768797.07,
+    "marginPct": 44
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "totalRevenue": 2230965,
+    "totalCost": 1255958.762,
+    "marginAed": 975006.24,
+    "marginPct": 43.7
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "totalRevenue": 1909445,
+    "totalCost": 1120358.155,
+    "marginAed": 789086.84,
+    "marginPct": 41.33
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "totalRevenue": 1524715,
+    "totalCost": 866689.0553,
+    "marginAed": 658025.94,
+    "marginPct": 43.16
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "totalRevenue": 1369321,
+    "totalCost": 773972.3141,
+    "marginAed": 595348.69,
+    "marginPct": 43.48
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "totalRevenue": 1596152,
+    "totalCost": 1016853.138,
+    "marginAed": 579298.86,
+    "marginPct": 36.29
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "totalRevenue": 1145022,
+    "totalCost": 777850.1288,
+    "marginAed": 367171.87,
+    "marginPct": 32.07
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "totalRevenue": 989236,
+    "totalCost": 622256.8503,
+    "marginAed": 366979.15,
+    "marginPct": 37.1
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "totalRevenue": 1148712,
+    "totalCost": 758682.873,
+    "marginAed": 390029.13,
+    "marginPct": 33.95
+  },
+  {
+    "academicYear": "2020-21",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "totalRevenue": 1891360,
+    "totalCost": 1013302.696,
+    "marginAed": 878057.3,
+    "marginPct": 46.42
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "totalRevenue": 2135566,
+    "totalCost": 1306578.65,
+    "marginAed": 828987.35,
+    "marginPct": 38.82
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "totalRevenue": 2154656,
+    "totalCost": 1149167.148,
+    "marginAed": 1005488.85,
+    "marginPct": 46.67
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "totalRevenue": 2019436,
+    "totalCost": 1378620.78,
+    "marginAed": 640815.22,
+    "marginPct": 31.73
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "totalRevenue": 1788998,
+    "totalCost": 1118218.94,
+    "marginAed": 670779.06,
+    "marginPct": 37.49
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "totalRevenue": 1645468,
+    "totalCost": 1084688.929,
+    "marginAed": 560779.07,
+    "marginPct": 34.08
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "totalRevenue": 1267681,
+    "totalCost": 1014451.554,
+    "marginAed": 253229.45,
+    "marginPct": 19.98
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "totalRevenue": 1207599,
+    "totalCost": 1019828.231,
+    "marginAed": 187770.77,
+    "marginPct": 15.55
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "totalRevenue": 1584927,
+    "totalCost": 1424953.242,
+    "marginAed": 159973.76,
+    "marginPct": 10.09
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "totalRevenue": 1378134,
+    "totalCost": 1233766.709,
+    "marginAed": 144367.29,
+    "marginPct": 10.48
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "totalRevenue": 1033322,
+    "totalCost": 893034.0494,
+    "marginAed": 140287.95,
+    "marginPct": 13.58
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "totalRevenue": 1007814,
+    "totalCost": 861868.7395,
+    "marginAed": 145945.26,
+    "marginPct": 14.48
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "totalRevenue": 1518457,
+    "totalCost": 1117282.029,
+    "marginAed": 401174.97,
+    "marginPct": 26.42
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "totalRevenue": 1539186,
+    "totalCost": 1132034.899,
+    "marginAed": 407151.1,
+    "marginPct": 26.45
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "totalRevenue": 2197508,
+    "totalCost": 1160234.185,
+    "marginAed": 1037273.82,
+    "marginPct": 47.2
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "totalRevenue": 1767038,
+    "totalCost": 1360865.316,
+    "marginAed": 406172.68,
+    "marginPct": 22.99
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "totalRevenue": 1535025,
+    "totalCost": 823929.0635,
+    "marginAed": 711095.94,
+    "marginPct": 46.32
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "totalRevenue": 1352945,
+    "totalCost": 980271.1902,
+    "marginAed": 372673.81,
+    "marginPct": 27.55
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "totalRevenue": 1766971,
+    "totalCost": 1027152.346,
+    "marginAed": 739818.65,
+    "marginPct": 41.87
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "totalRevenue": 1450968,
+    "totalCost": 878197.1108,
+    "marginAed": 572770.89,
+    "marginPct": 39.48
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "totalRevenue": 1824094,
+    "totalCost": 1116372.795,
+    "marginAed": 707721.21,
+    "marginPct": 38.8
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "totalRevenue": 1710912,
+    "totalCost": 1321109.34,
+    "marginAed": 389802.66,
+    "marginPct": 22.78
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "totalRevenue": 2720155,
+    "totalCost": 1639285.228,
+    "marginAed": 1080869.77,
+    "marginPct": 39.74
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "totalRevenue": 2598037,
+    "totalCost": 1520262.798,
+    "marginAed": 1077774.2,
+    "marginPct": 41.48
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "totalRevenue": 1744769,
+    "totalCost": 1091780.729,
+    "marginAed": 652988.27,
+    "marginPct": 37.43
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "totalRevenue": 1277928,
+    "totalCost": 1012243.368,
+    "marginAed": 265684.63,
+    "marginPct": 20.79
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "totalRevenue": 1600443,
+    "totalCost": 1323347.094,
+    "marginAed": 277095.91,
+    "marginPct": 17.31
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "totalRevenue": 1209675,
+    "totalCost": 1057114.521,
+    "marginAed": 152560.48,
+    "marginPct": 12.61
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "totalRevenue": 1032592,
+    "totalCost": 837024.2138,
+    "marginAed": 195567.79,
+    "marginPct": 18.94
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "totalRevenue": 1505282,
+    "totalCost": 974978.02,
+    "marginAed": 530303.98,
+    "marginPct": 35.23
+  },
+  {
+    "academicYear": "2021-22",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "totalRevenue": 1956764,
+    "totalCost": 1325494.783,
+    "marginAed": 631269.22,
+    "marginPct": 32.26
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "totalRevenue": 2093454,
+    "totalCost": 1274735.718,
+    "marginAed": 818718.28,
+    "marginPct": 39.11
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "totalRevenue": 2058216,
+    "totalCost": 1084113.544,
+    "marginAed": 974102.46,
+    "marginPct": 47.33
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "totalRevenue": 1738661,
+    "totalCost": 1320180.134,
+    "marginAed": 418480.87,
+    "marginPct": 24.07
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "totalRevenue": 1421527,
+    "totalCost": 1091240.657,
+    "marginAed": 330286.34,
+    "marginPct": 23.23
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "totalRevenue": 1796638,
+    "totalCost": 1048368.385,
+    "marginAed": 748269.62,
+    "marginPct": 41.65
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "totalRevenue": 1670068,
+    "totalCost": 1014488.562,
+    "marginAed": 655579.44,
+    "marginPct": 39.25
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "totalRevenue": 1245395,
+    "totalCost": 983374.3409,
+    "marginAed": 262020.66,
+    "marginPct": 21.04
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "totalRevenue": 1999067,
+    "totalCost": 1387589.612,
+    "marginAed": 611477.39,
+    "marginPct": 30.59
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "totalRevenue": 1398526,
+    "totalCost": 1194771.922,
+    "marginAed": 203754.08,
+    "marginPct": 14.57
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "totalRevenue": 1025209,
+    "totalCost": 882634.9676,
+    "marginAed": 142574.03,
+    "marginPct": 13.91
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "totalRevenue": 979612,
+    "totalCost": 823593.362,
+    "marginAed": 156018.64,
+    "marginPct": 15.93
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "totalRevenue": 1279730,
+    "totalCost": 1041077.795,
+    "marginAed": 238652.2,
+    "marginPct": 18.65
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "totalRevenue": 1584967,
+    "totalCost": 1116940.81,
+    "marginAed": 468026.19,
+    "marginPct": 29.53
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "totalRevenue": 1838933,
+    "totalCost": 1108325.543,
+    "marginAed": 730607.46,
+    "marginPct": 39.73
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "totalRevenue": 2694602,
+    "totalCost": 1271646.86,
+    "marginAed": 1422955.14,
+    "marginPct": 52.81
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "totalRevenue": 1110034,
+    "totalCost": 813971.7213,
+    "marginAed": 296062.28,
+    "marginPct": 26.67
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "totalRevenue": 1632368,
+    "totalCost": 955455.7774,
+    "marginAed": 676912.22,
+    "marginPct": 41.47
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "totalRevenue": 1763109,
+    "totalCost": 984953.2879,
+    "marginAed": 778155.71,
+    "marginPct": 44.14
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "totalRevenue": 1110915,
+    "totalCost": 787344.2678,
+    "marginAed": 323570.73,
+    "marginPct": 29.13
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "totalRevenue": 1390881,
+    "totalCost": 1016903.485,
+    "marginAed": 373977.51,
+    "marginPct": 26.89
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "totalRevenue": 1682652,
+    "totalCost": 1154465.173,
+    "marginAed": 528186.83,
+    "marginPct": 31.39
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "totalRevenue": 2091690,
+    "totalCost": 1487461.647,
+    "marginAed": 604228.35,
+    "marginPct": 28.89
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "totalRevenue": 2075199,
+    "totalCost": 1385785.075,
+    "marginAed": 689413.93,
+    "marginPct": 33.22
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "totalRevenue": 1442815,
+    "totalCost": 985472.3519,
+    "marginAed": 457342.65,
+    "marginPct": 31.7
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "totalRevenue": 1148038,
+    "totalCost": 949045.7347,
+    "marginAed": 198992.27,
+    "marginPct": 17.33
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "totalRevenue": 2034243,
+    "totalCost": 1304855.637,
+    "marginAed": 729387.36,
+    "marginPct": 35.86
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "totalRevenue": 1614693,
+    "totalCost": 1005383.347,
+    "marginAed": 609309.65,
+    "marginPct": 37.74
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "totalRevenue": 998894,
+    "totalCost": 798634.9071,
+    "marginAed": 200259.09,
+    "marginPct": 20.05
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "totalRevenue": 1214533,
+    "totalCost": 971360.3452,
+    "marginAed": 243172.65,
+    "marginPct": 20.02
+  },
+  {
+    "academicYear": "2022-23",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "totalRevenue": 2099960,
+    "totalCost": 1305166.029,
+    "marginAed": 794793.97,
+    "marginPct": 37.85
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P001",
+    "programName": "Management Program 1",
+    "totalRevenue": 1692012,
+    "totalCost": 1181061.757,
+    "marginAed": 510950.24,
+    "marginPct": 30.2
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P002",
+    "programName": "Management Program 2",
+    "totalRevenue": 1564645,
+    "totalCost": 992833.1924,
+    "marginAed": 571811.81,
+    "marginPct": 36.55
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P003",
+    "programName": "Finance Program 1",
+    "totalRevenue": 1892581,
+    "totalCost": 1249750.403,
+    "marginAed": 642830.6,
+    "marginPct": 33.97
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P004",
+    "programName": "Finance Program 2",
+    "totalRevenue": 1862334,
+    "totalCost": 1041020.586,
+    "marginAed": 821313.41,
+    "marginPct": 44.1
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P005",
+    "programName": "Marketing Program 1",
+    "totalRevenue": 1466006,
+    "totalCost": 945833.0022,
+    "marginAed": 520173,
+    "marginPct": 35.48
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Business",
+    "programId": "P006",
+    "programName": "Marketing Program 2",
+    "totalRevenue": 1453643,
+    "totalCost": 934400.0588,
+    "marginAed": 519242.94,
+    "marginPct": 35.72
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P013",
+    "programName": "Computer Science Program 1",
+    "totalRevenue": 1522202,
+    "totalCost": 966119.6886,
+    "marginAed": 556082.31,
+    "marginPct": 36.53
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P014",
+    "programName": "Computer Science Program 2",
+    "totalRevenue": 1832952,
+    "totalCost": 1350211.064,
+    "marginAed": 482740.94,
+    "marginPct": 26.34
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P015",
+    "programName": "Data Science Program 1",
+    "totalRevenue": 1455883,
+    "totalCost": 1181725.646,
+    "marginAed": 274157.35,
+    "marginPct": 18.83
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P016",
+    "programName": "Data Science Program 2",
+    "totalRevenue": 1293330,
+    "totalCost": 817996.1212,
+    "marginAed": 475333.88,
+    "marginPct": 36.75
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P017",
+    "programName": "Cybersecurity Program 1",
+    "totalRevenue": 1078017,
+    "totalCost": 783562.7163,
+    "marginAed": 294454.28,
+    "marginPct": 27.31
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Computing",
+    "programId": "P018",
+    "programName": "Cybersecurity Program 2",
+    "totalRevenue": 1513999,
+    "totalCost": 999381.7641,
+    "marginAed": 514617.24,
+    "marginPct": 33.99
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P007",
+    "programName": "Civil Program 1",
+    "totalRevenue": 1868698,
+    "totalCost": 1022266.995,
+    "marginAed": 846431,
+    "marginPct": 45.3
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P008",
+    "programName": "Civil Program 2",
+    "totalRevenue": 1854420,
+    "totalCost": 1009261.999,
+    "marginAed": 845158,
+    "marginPct": 45.58
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P009",
+    "programName": "Mechanical Program 1",
+    "totalRevenue": 1948164,
+    "totalCost": 1215642.223,
+    "marginAed": 732521.78,
+    "marginPct": 37.6
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P010",
+    "programName": "Mechanical Program 2",
+    "totalRevenue": 1202933,
+    "totalCost": 768924.8793,
+    "marginAed": 434008.12,
+    "marginPct": 36.08
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P011",
+    "programName": "Electrical Program 1",
+    "totalRevenue": 1727025,
+    "totalCost": 919362.5501,
+    "marginAed": 807662.45,
+    "marginPct": 46.77
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Engineering",
+    "programId": "P012",
+    "programName": "Electrical Program 2",
+    "totalRevenue": 1392894,
+    "totalCost": 901508.3538,
+    "marginAed": 491385.65,
+    "marginPct": 35.28
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P019",
+    "programName": "Nursing Program 1",
+    "totalRevenue": 1158062,
+    "totalCost": 733732.4131,
+    "marginAed": 424329.59,
+    "marginPct": 36.64
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P020",
+    "programName": "Nursing Program 2",
+    "totalRevenue": 1547207,
+    "totalCost": 953463.7712,
+    "marginAed": 593743.23,
+    "marginPct": 38.38
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P021",
+    "programName": "Public Health Program 1",
+    "totalRevenue": 1799445,
+    "totalCost": 1087428.559,
+    "marginAed": 712016.44,
+    "marginPct": 39.57
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P022",
+    "programName": "Public Health Program 2",
+    "totalRevenue": 2242603,
+    "totalCost": 1415525.799,
+    "marginAed": 827077.2,
+    "marginPct": 36.88
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P023",
+    "programName": "Pharmacy Program 1",
+    "totalRevenue": 2048176,
+    "totalCost": 1256413.781,
+    "marginAed": 791762.22,
+    "marginPct": 38.66
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Health Sciences",
+    "programId": "P024",
+    "programName": "Pharmacy Program 2",
+    "totalRevenue": 1839545,
+    "totalCost": 913397.6775,
+    "marginAed": 926147.32,
+    "marginPct": 50.35
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P025",
+    "programName": "Psychology Program 1",
+    "totalRevenue": 1296253,
+    "totalCost": 913174.2958,
+    "marginAed": 383078.7,
+    "marginPct": 29.55
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P026",
+    "programName": "Psychology Program 2",
+    "totalRevenue": 1688362,
+    "totalCost": 1208866.629,
+    "marginAed": 479495.37,
+    "marginPct": 28.4
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P027",
+    "programName": "Education Program 1",
+    "totalRevenue": 1389534,
+    "totalCost": 982019.6925,
+    "marginAed": 407514.31,
+    "marginPct": 29.33
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P028",
+    "programName": "Education Program 2",
+    "totalRevenue": 1052093,
+    "totalCost": 754132.1683,
+    "marginAed": 297960.83,
+    "marginPct": 28.32
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P029",
+    "programName": "Media Program 1",
+    "totalRevenue": 1637098,
+    "totalCost": 888103.1317,
+    "marginAed": 748994.87,
+    "marginPct": 45.75
+  },
+  {
+    "academicYear": "2023-24",
+    "college": "Humanities",
+    "programId": "P030",
+    "programName": "Media Program 2",
+    "totalRevenue": 2212933,
+    "totalCost": 1242877.082,
+    "marginAed": 970055.92,
+    "marginPct": 43.84
+  }
+]

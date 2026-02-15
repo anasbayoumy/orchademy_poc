@@ -3,9 +3,9 @@
 import { useTheme } from '@/context/ThemeContext';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
-interface MetricCardProps { title: string; value: string | number; change?: number; changeLabel?: string; icon?: React.ReactNode; }
+interface MetricCardProps { title: string; value: string | number; change?: number; changeLabel?: string; icon?: React.ReactNode; className?: string; }
 
-export default function MetricCard({ title, value, change, changeLabel, icon }: MetricCardProps) {
+export default function MetricCard({ title, value, change, changeLabel, icon, className = '' }: MetricCardProps) {
     const { theme } = useTheme();
     const isDark = theme === 'dark';
     const isPositive = change !== undefined && change > 0;
@@ -24,7 +24,7 @@ export default function MetricCard({ title, value, change, changeLabel, icon }: 
     };
 
     return (
-        <div className="p-4 sm:p-5 rounded-xl transition-all card-hover" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+        <div className={`p-4 sm:p-5 rounded-xl transition-all card-hover h-full ${className}`.trim()} style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
             <div className="flex items-start justify-between">
                 <div className="flex-1">
                     <p className="text-xs font-medium uppercase tracking-wide" style={{ color: colors.textSecondary }}>{title}</p>

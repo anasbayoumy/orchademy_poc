@@ -1,0 +1,452 @@
+[
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Business",
+    "totalActiveStudents": 265,
+    "flaggedStudents": 59,
+    "atRiskRate": 22.3,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Computing",
+    "totalActiveStudents": 258,
+    "flaggedStudents": 69,
+    "atRiskRate": 26.7,
+    "status": "red"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Engineering",
+    "totalActiveStudents": 263,
+    "flaggedStudents": 49,
+    "atRiskRate": 18.6,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "totalActiveStudents": 260,
+    "flaggedStudents": 68,
+    "atRiskRate": 26.2,
+    "status": "red"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Fall",
+    "college": "Humanities",
+    "totalActiveStudents": 270,
+    "flaggedStudents": 70,
+    "atRiskRate": 25.9,
+    "status": "red"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Business",
+    "totalActiveStudents": 249,
+    "flaggedStudents": 61,
+    "atRiskRate": 24.5,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Computing",
+    "totalActiveStudents": 237,
+    "flaggedStudents": 54,
+    "atRiskRate": 22.8,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Engineering",
+    "totalActiveStudents": 271,
+    "flaggedStudents": 52,
+    "atRiskRate": 19.2,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "totalActiveStudents": 225,
+    "flaggedStudents": 65,
+    "atRiskRate": 28.9,
+    "status": "red"
+  },
+  {
+    "academicYear": "2019-20",
+    "term": "Spring",
+    "college": "Humanities",
+    "totalActiveStudents": 246,
+    "flaggedStudents": 76,
+    "atRiskRate": 30.9,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Business",
+    "totalActiveStudents": 313,
+    "flaggedStudents": 56,
+    "atRiskRate": 17.9,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Computing",
+    "totalActiveStudents": 306,
+    "flaggedStudents": 94,
+    "atRiskRate": 30.7,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Engineering",
+    "totalActiveStudents": 311,
+    "flaggedStudents": 92,
+    "atRiskRate": 29.6,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "totalActiveStudents": 308,
+    "flaggedStudents": 110,
+    "atRiskRate": 35.7,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Fall",
+    "college": "Humanities",
+    "totalActiveStudents": 273,
+    "flaggedStudents": 40,
+    "atRiskRate": 14.7,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Business",
+    "totalActiveStudents": 342,
+    "flaggedStudents": 103,
+    "atRiskRate": 30.1,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Computing",
+    "totalActiveStudents": 330,
+    "flaggedStudents": 73,
+    "atRiskRate": 22.1,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Engineering",
+    "totalActiveStudents": 319,
+    "flaggedStudents": 90,
+    "atRiskRate": 28.2,
+    "status": "red"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "totalActiveStudents": 318,
+    "flaggedStudents": 74,
+    "atRiskRate": 23.3,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2020-21",
+    "term": "Spring",
+    "college": "Humanities",
+    "totalActiveStudents": 339,
+    "flaggedStudents": 98,
+    "atRiskRate": 28.9,
+    "status": "red"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Business",
+    "totalActiveStudents": 325,
+    "flaggedStudents": 104,
+    "atRiskRate": 32,
+    "status": "red"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Computing",
+    "totalActiveStudents": 318,
+    "flaggedStudents": 62,
+    "atRiskRate": 19.5,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Engineering",
+    "totalActiveStudents": 278,
+    "flaggedStudents": 51,
+    "atRiskRate": 18.3,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "totalActiveStudents": 275,
+    "flaggedStudents": 67,
+    "atRiskRate": 24.4,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Fall",
+    "college": "Humanities",
+    "totalActiveStudents": 285,
+    "flaggedStudents": 66,
+    "atRiskRate": 23.2,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Business",
+    "totalActiveStudents": 309,
+    "flaggedStudents": 76,
+    "atRiskRate": 24.6,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Computing",
+    "totalActiveStudents": 342,
+    "flaggedStudents": 86,
+    "atRiskRate": 25.1,
+    "status": "red"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Engineering",
+    "totalActiveStudents": 331,
+    "flaggedStudents": 84,
+    "atRiskRate": 25.4,
+    "status": "red"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "totalActiveStudents": 330,
+    "flaggedStudents": 71,
+    "atRiskRate": 21.5,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2021-22",
+    "term": "Spring",
+    "college": "Humanities",
+    "totalActiveStudents": 351,
+    "flaggedStudents": 78,
+    "atRiskRate": 22.2,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Business",
+    "totalActiveStudents": 292,
+    "flaggedStudents": 64,
+    "atRiskRate": 21.9,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Computing",
+    "totalActiveStudents": 285,
+    "flaggedStudents": 54,
+    "atRiskRate": 18.9,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Engineering",
+    "totalActiveStudents": 290,
+    "flaggedStudents": 93,
+    "atRiskRate": 32.1,
+    "status": "red"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "totalActiveStudents": 287,
+    "flaggedStudents": 57,
+    "atRiskRate": 19.9,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Fall",
+    "college": "Humanities",
+    "totalActiveStudents": 297,
+    "flaggedStudents": 84,
+    "atRiskRate": 28.3,
+    "status": "red"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Business",
+    "totalActiveStudents": 276,
+    "flaggedStudents": 71,
+    "atRiskRate": 25.7,
+    "status": "red"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Computing",
+    "totalActiveStudents": 309,
+    "flaggedStudents": 78,
+    "atRiskRate": 25.2,
+    "status": "red"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Engineering",
+    "totalActiveStudents": 253,
+    "flaggedStudents": 73,
+    "atRiskRate": 28.9,
+    "status": "red"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "totalActiveStudents": 342,
+    "flaggedStudents": 71,
+    "atRiskRate": 20.8,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2022-23",
+    "term": "Spring",
+    "college": "Humanities",
+    "totalActiveStudents": 363,
+    "flaggedStudents": 106,
+    "atRiskRate": 29.2,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Business",
+    "totalActiveStudents": 304,
+    "flaggedStudents": 49,
+    "atRiskRate": 16.1,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Computing",
+    "totalActiveStudents": 297,
+    "flaggedStudents": 84,
+    "atRiskRate": 28.3,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Engineering",
+    "totalActiveStudents": 302,
+    "flaggedStudents": 82,
+    "atRiskRate": 27.2,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Health Sciences",
+    "totalActiveStudents": 254,
+    "flaggedStudents": 84,
+    "atRiskRate": 33.1,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Fall",
+    "college": "Humanities",
+    "totalActiveStudents": 264,
+    "flaggedStudents": 41,
+    "atRiskRate": 15.5,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Business",
+    "totalActiveStudents": 288,
+    "flaggedStudents": 85,
+    "atRiskRate": 29.5,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Computing",
+    "totalActiveStudents": 244,
+    "flaggedStudents": 54,
+    "atRiskRate": 22.1,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Engineering",
+    "totalActiveStudents": 265,
+    "flaggedStudents": 67,
+    "atRiskRate": 25.3,
+    "status": "red"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Health Sciences",
+    "totalActiveStudents": 309,
+    "flaggedStudents": 64,
+    "atRiskRate": 20.7,
+    "status": "amber"
+  },
+  {
+    "academicYear": "2023-24",
+    "term": "Spring",
+    "college": "Humanities",
+    "totalActiveStudents": 330,
+    "flaggedStudents": 94,
+    "atRiskRate": 28.5,
+    "status": "red"
+  }
+]

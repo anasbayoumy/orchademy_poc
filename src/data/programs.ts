@@ -1,5 +1,8 @@
 import programsData from './json/programs.json';
 
+// API-06 At-Risk Student Rate - for KPI summary
+const API_06 = require('./KPIs/API-06.js') as { programTermData: Array<{ totalActiveStudents?: number; flaggedStudents?: number; atRiskRate?: number }> };
+
 export interface Program {
     id: string;
     name: string;
@@ -118,7 +121,21 @@ export function getScenarioSnapshots(): ScenarioSnapshot[] {
 }
 
 export function getKPISummary(): KPISummary[] {
+    const pt = API_06?.programTermData || [];
+    const totalActive = pt.reduce((s, d) => s + (d.totalActiveStudents || 0), 0);
+    const totalFlagged = pt.reduce((s, d) => s + (d.flaggedStudents || 0), 0);
+    const atRiskRate = totalActive > 0 ? Math.round((totalFlagged / totalActive) * 1000) / 10 : 0;
+    const atRiskStatus: 'On Track' | 'At Risk' | 'Behind' = atRiskRate < 8 ? 'On Track' : atRiskRate >= 25 ? 'Behind' : 'At Risk';
+
     return [
+        {
+            metric: 'At-Risk Student Rate',
+            value: `${atRiskRate}%`,
+            target: '<25% / <15% / <8%',
+            status: atRiskStatus,
+            trend: atRiskRate >= 25 ? 'down' : 'stable',
+            insight: `${totalFlagged.toLocaleString()} of ${totalActive.toLocaleString()} active students flagged (Critical/High/Moderate). Target: keep below 25%.`,
+        },
         {
             metric: 'Overall Enrollment',
             value: '4,563',

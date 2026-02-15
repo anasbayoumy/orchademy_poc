@@ -1,17 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
 import BarChartComponent from '@/components/charts/BarChart';
+import LineChartComponent from '@/components/charts/LineChart';
 import DonutChart from '@/components/charts/DonutChart';
-import { Users, DollarSign, TrendingUp, TrendingDown, Award, Trophy, XCircle, Merge, RefreshCw, ArrowUpRight, ArrowDownRight, BarChart3, Check, AlertTriangle, Target, Minus, FileText, CheckCircle, Lightbulb } from 'lucide-react';
+import { Users, DollarSign, TrendingUp, TrendingDown, Award, Trophy, XCircle, Merge, RefreshCw, ArrowUpRight, ArrowDownRight, BarChart3, Check, AlertTriangle, Target, Minus, FileText, CheckCircle, Lightbulb, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2, AlertCircle as AlertCircleIcon } from 'lucide-react';
 import { PROGRAMS_DATA, getScenarioSnapshots, getKPISummary, type ScenarioSnapshot } from '@/data/programs';
 import { useColors } from '@/hooks/useColors';
 import { DESIGN_TOKENS } from '@/config/design-tokens';
+import API_06 from '@/data/KPIs/API-06';
+
+const api06 = API_06 as any;
 
 // Tab Component
-type TabType = 'success' | 'scenarios' | 'analytics';
+type TabType = 'success' | 'scenarios' | 'analytics' | 'at-risk';
 
 interface TabProps {
     id: TabType;
@@ -45,6 +50,7 @@ export default function ProgramAnalytics() {
         { id: 'success', label: 'Student Success & Risk' },
         { id: 'scenarios', label: 'Scenarios' },
         { id: 'analytics', label: 'Analytics' },
+        { id: 'at-risk', label: 'At-Risk Student Rate' },
     ];
 
     return (
@@ -72,6 +78,7 @@ export default function ProgramAnalytics() {
                     {activeTab === 'success' && <StudentSuccessTab colors={colors} />}
                     {activeTab === 'scenarios' && <ScenariosTab colors={colors} />}
                     {activeTab === 'analytics' && <AnalyticsTab colors={colors} />}
+                    {activeTab === 'at-risk' && <AtRiskStudentRateTab colors={colors} />}
                 </div>
             </div>
         </div>
@@ -81,6 +88,17 @@ export default function ProgramAnalytics() {
 // Student Success & Risk Tab
 function StudentSuccessTab({ colors }: { colors: any }) {
     const kpis = getKPISummary();
+
+    const api06Metrics = (() => {
+        const pt = api06?.programTermData || [];
+        const totalActive = pt.reduce((s: number, d: any) => s + (d.totalActiveStudents || 0), 0);
+        const totalFlagged = pt.reduce((s: number, d: any) => s + (d.flaggedStudents || 0), 0);
+        const atRiskRate = totalActive > 0 ? (totalFlagged / totalActive * 100).toFixed(1) : '0';
+        const latest = pt.filter((d: any) => d.academicYear === '2023-24' && d.term === 'Spring');
+        const highRisk = latest.filter((d: any) => (d.atRiskRate || 0) >= 25).sort((a: any, b: any) => (b.atRiskRate || 0) - (a.atRiskRate || 0));
+        const topHighRisk = highRisk.slice(0, 3);
+        return { totalActive, totalFlagged, atRiskRate, highRiskCount: highRisk.length, topHighRisk };
+    })();
 
     const getStatusStyles = (status: string) => {
         if (colors.isDark) {
@@ -134,7 +152,7 @@ function StudentSuccessTab({ colors }: { colors: any }) {
                     <h2 className="text-sm font-medium" style={{ color: colors.textPrimary }}>Executive Summary</h2>
                 </div>
                 <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>
-                    The academic portfolio shows strong overall performance with revenue growth of 8% year-over-year. STEM programs continue to lead in enrollment and employment outcomes.
+                    The academic portfolio shows strong overall performance with revenue growth of 8% year-over-year. STEM programs continue to lead in enrollment and employment outcomes. Institutional at-risk student rate is {api06Metrics.atRiskRate}% ({api06Metrics.totalFlagged.toLocaleString()} flagged of {api06Metrics.totalActive.toLocaleString()} active students), with {api06Metrics.highRiskCount} programs exceeding the 25% target in Spring 2023-24.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -156,7 +174,10 @@ function StudentSuccessTab({ colors }: { colors: any }) {
                             <span className="text-sm font-medium" style={{ color: colors.warningText }}>Areas for Attention</span>
                         </div>
                         <ul className="text-xs space-y-1" style={{ color: colors.warningText }}>
-                            <li>• Several Arts & Humanities programs at risk</li>
+                            <li>• At-risk rate at {api06Metrics.atRiskRate}% — {api06Metrics.highRiskCount} programs above 25% threshold</li>
+                            {api06Metrics.topHighRisk.length > 0 && (
+                                <li>• Highest risk: {api06Metrics.topHighRisk.map((p: any) => `${p.programName} (${p.atRiskRate?.toFixed(1)}%)`).join(', ')}</li>
+                            )}
                             <li>• Cost per student rising in Healthcare</li>
                             <li>• Enrollment declining in Certificate programs</li>
                         </ul>
@@ -171,7 +192,7 @@ function StudentSuccessTab({ colors }: { colors: any }) {
                 </div>
                 <div className="space-y-3">
                     {[
-                        { title: 'Review At-Risk Programs', desc: 'Conduct strategic review of programs with viability scores below 40.' },
+                        { title: 'Review At-Risk Student Programs', desc: `${api06Metrics.highRiskCount} programs exceed 25% at-risk rate. Prioritize advising and early intervention for Data Science Program 1 (40% in Spring 23-24) and other high-flag programs.` },
                         { title: 'Expand High-Performers', desc: 'Increase capacity in Computer Science and Data Science programs.' },
                         { title: 'Strengthen Partnerships', desc: 'Develop co-op programs with top employers to improve outcomes.' },
                     ].map((rec, idx) => (
@@ -575,6 +596,493 @@ function ScenariosTab({ colors }: { colors: any }) {
             )}
         </div>
     );
+}
+
+// At-Risk Student Rate Tab (API-06)
+function getStatusColorApi06(colors: any, status: string) {
+  switch (status) {
+    case 'green': return colors.successText;
+    case 'amber': return colors.warningText;
+    case 'red': return colors.dangerText;
+    default: return colors.textSecondary;
+  }
+}
+
+function getStatusBgApi06(colors: any, status: string) {
+  switch (status) {
+    case 'green': return colors.successBg;
+    case 'amber': return colors.warningBg;
+    case 'red': return colors.dangerBg;
+    default: return colors.cardBg;
+  }
+}
+
+function getStatusIconApi06(status: string) {
+  switch (status) {
+    case 'green': return <CheckCircle2 size={20} />;
+    case 'amber': return <AlertCircleIcon size={20} />;
+    case 'red': return <XCircle size={20} />;
+    default: return <AlertCircleIcon size={20} />;
+  }
+}
+
+function AtRiskStudentRateTab({ colors }: { colors: any }) {
+  const [granularity, setGranularity] = useState<'program-term' | 'college-term'>('program-term');
+  const [selectedCollege, setSelectedCollege] = useState<string>('All');
+  const [selectedYear, setSelectedYear] = useState<string>('All');
+  const [selectedTerm, setSelectedTerm] = useState<string>('All');
+  const [selectedStatus, setSelectedStatus] = useState<string>('All');
+  const [sortYearOrder, setSortYearOrder] = useState<'desc' | 'asc'>('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const colleges = useMemo(() => {
+    const set = new Set<string>(api06.programTermData.map((d: any) => d.college));
+    return ['All', ...Array.from(set).sort()];
+  }, []);
+
+  const years = useMemo(() => {
+    const set = new Set<string>([
+      ...api06.programTermData.map((d: any) => d.academicYear),
+      ...api06.collegeTermData.map((d: any) => d.academicYear),
+    ]);
+    return ['All', ...Array.from(set).sort()];
+  }, []);
+
+  const terms = useMemo(() => {
+    const set = new Set<string>([
+      ...api06.programTermData.map((d: any) => d.term),
+      ...api06.collegeTermData.map((d: any) => d.term),
+    ]);
+    return ['All', ...Array.from(set).sort()];
+  }, []);
+
+  const statusOptions = [
+    { value: 'All', label: 'All' },
+    { value: 'green', label: 'Green (<8%)' },
+    { value: 'amber', label: 'Amber (8–25%)' },
+    { value: 'red', label: 'Red (≥25%)' },
+  ];
+
+  const filteredProgramTermData = useMemo(() => {
+    return (api06.programTermData || []).filter((d: any) => {
+      if (selectedCollege !== 'All' && d.college !== selectedCollege) return false;
+      if (selectedYear !== 'All' && d.academicYear !== selectedYear) return false;
+      if (selectedTerm !== 'All' && d.term !== selectedTerm) return false;
+      if (selectedStatus !== 'All' && d.status !== selectedStatus) return false;
+      return true;
+    });
+  }, [selectedCollege, selectedYear, selectedTerm, selectedStatus]);
+
+  const filteredCollegeTermData = useMemo(() => {
+    return (api06.collegeTermData || []).filter((d: any) => {
+      if (selectedCollege !== 'All' && d.college !== selectedCollege) return false;
+      if (selectedYear !== 'All' && d.academicYear !== selectedYear) return false;
+      if (selectedTerm !== 'All' && d.term !== selectedTerm) return false;
+      if (selectedStatus !== 'All' && d.status !== selectedStatus) return false;
+      return true;
+    });
+  }, [selectedCollege, selectedYear, selectedTerm, selectedStatus]);
+
+  const filteredData = granularity === 'program-term' ? filteredProgramTermData : filteredCollegeTermData;
+
+  const filteredMetrics = useMemo(() => {
+    if (filteredData.length === 0) {
+      return { totalActiveStudents: 0, flaggedStudents: 0, atRiskRate: 0, status: 'amber' as const };
+    }
+    const total = filteredData.reduce((s: number, d: any) => s + (d.totalActiveStudents || 0), 0);
+    const flagged = filteredData.reduce((s: number, d: any) => s + (d.flaggedStudents || 0), 0);
+    const rate = total > 0 ? (flagged / total) * 100 : 0;
+    const status = rate < 8 ? 'green' : rate >= 25 ? 'red' : 'amber';
+    return { totalActiveStudents: total, flaggedStudents: flagged, atRiskRate: rate, status };
+  }, [filteredData]);
+
+  const barChartData = useMemo(() => {
+    const map: Record<string, { total: number; flagged: number }> = {};
+    filteredData.forEach((d: any) => {
+      const key = granularity === 'program-term' ? d.programName : d.college;
+      if (!map[key]) map[key] = { total: 0, flagged: 0 };
+      map[key].total += d.totalActiveStudents || 0;
+      map[key].flagged += d.flaggedStudents || 0;
+    });
+    return Object.entries(map)
+      .map(([name, v]) => ({
+        name: name.length > 24 ? name.slice(0, 22) + '…' : name,
+        atRiskRate: v.total > 0 ? Math.round((v.flagged / v.total) * 1000) / 10 : 0,
+      }))
+      .sort((a, b) => b.atRiskRate - a.atRiskRate)
+      .slice(0, 12);
+  }, [filteredData, granularity]);
+
+  const trendData = useMemo(() => {
+    const yearTermMap: Record<string, { total: number; flagged: number }> = {};
+    filteredData.forEach((d: any) => {
+      const k = `${d.academicYear}-${d.term}`;
+      if (!yearTermMap[k]) yearTermMap[k] = { total: 0, flagged: 0 };
+      yearTermMap[k].total += d.totalActiveStudents || 0;
+      yearTermMap[k].flagged += d.flaggedStudents || 0;
+    });
+    return Object.entries(yearTermMap)
+      .map(([k, v]) => ({
+        name: k,
+        atRiskRate: v.total > 0 ? Math.round((v.flagged / v.total) * 1000) / 10 : 0,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [filteredData]);
+
+  const sortedData = useMemo(() => {
+    const s = [...filteredData];
+    s.sort((a: any, b: any) => {
+      const cmp = (a.academicYear + a.term).localeCompare(b.academicYear + b.term);
+      return sortYearOrder === 'desc' ? -cmp : cmp;
+    });
+    return s;
+  }, [filteredData, sortYearOrder]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedData.length / pageSize));
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return sortedData.slice(start, start + pageSize);
+  }, [sortedData, currentPage, pageSize]);
+
+  const resetPage = () => setCurrentPage(1);
+
+  const progressBarData = useMemo(() => {
+    if (selectedCollege !== 'All' || selectedStatus !== 'All') return [];
+    return barChartData;
+  }, [barChartData, selectedCollege, selectedStatus]);
+
+  return (
+    <div className="space-y-6 animate-fade-in">
+      <div className="rounded-xl p-5 border mb-6" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
+        <div className="flex items-center gap-2 mb-4">
+          <Target size={20} style={{ color: colors.accent }} />
+          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>At-Risk Student Rate (Official KPI)</span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div>
+            <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{filteredMetrics.totalActiveStudents.toLocaleString()}</p>
+            <p className="text-xs" style={{ color: colors.textSecondary }}>Total Active Students</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold" style={{ color: colors.dangerText }}>{filteredMetrics.flaggedStudents.toLocaleString()}</p>
+            <p className="text-xs" style={{ color: colors.textSecondary }}>Flagged (At-Risk)</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold" style={{ color: getStatusColorApi06(colors, filteredMetrics.status) }}>{filteredMetrics.atRiskRate.toFixed(1)}%</p>
+            <p className="text-xs" style={{ color: colors.textSecondary }}>At-Risk Rate</p>
+          </div>
+          <div>
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold"
+              style={{ backgroundColor: getStatusBgApi06(colors, filteredMetrics.status), color: getStatusColorApi06(colors, filteredMetrics.status) }}
+            >
+              {getStatusIconApi06(filteredMetrics.status)}{filteredMetrics.status.toUpperCase()}
+            </span>
+            <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>Target &lt;25% / &lt;15% / &lt;8%</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium" style={{ color: colors.textSecondary }}>{filteredData.length} record{filteredData.length !== 1 ? 's' : ''}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-5 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Total Students</span>
+            <Users size={20} style={{ color: DESIGN_TOKENS.colors.primary[1] }} />
+          </div>
+          <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{filteredMetrics.totalActiveStudents.toLocaleString()}</p>
+        </div>
+        <div className="p-5 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Flagged</span>
+            <AlertTriangle size={20} style={{ color: colors.dangerText }} />
+          </div>
+          <p className="text-2xl font-bold" style={{ color: colors.dangerText }}>{filteredMetrics.flaggedStudents.toLocaleString()}</p>
+        </div>
+        <div className="p-5 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>At-Risk Rate</span>
+            <div style={{ color: getStatusColorApi06(colors, filteredMetrics.status) }}>{getStatusIconApi06(filteredMetrics.status)}</div>
+          </div>
+          <p className="text-2xl font-bold" style={{ color: getStatusColorApi06(colors, filteredMetrics.status) }}>{filteredMetrics.atRiskRate.toFixed(1)}%</p>
+        </div>
+        <div className="p-5 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Target</span>
+            <Target size={20} style={{ color: colors.accent }} />
+          </div>
+          <p className="text-lg font-bold" style={{ color: colors.textPrimary }}>&lt;25% / &lt;15% / &lt;8%</p>
+        </div>
+      </div>
+
+      <div className="p-6 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+        <div className="flex items-center gap-4 mb-4">
+          <Target size={20} style={{ color: colors.primary1 }} />
+          <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>Filters</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>Granularity</label>
+            <select
+              value={granularity}
+              onChange={(e) => { setGranularity(e.target.value as any); resetPage(); }}
+              className="w-full px-4 py-2.5 rounded-lg border text-sm font-medium"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              <option value="program-term">Program-Term</option>
+              <option value="college-term">College-Term</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>College</label>
+            <select
+              value={selectedCollege}
+              onChange={(e) => { setSelectedCollege(e.target.value); resetPage(); }}
+              className="w-full px-4 py-2.5 rounded-lg border text-sm font-medium"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              {colleges.map((c) => <option key={c} value={c}>{c === 'All' ? 'All' : c}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>Academic Year</label>
+            <select
+              value={selectedYear}
+              onChange={(e) => { setSelectedYear(e.target.value); resetPage(); }}
+              className="w-full px-4 py-2.5 rounded-lg border text-sm font-medium"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              {years.map((y) => <option key={y} value={y}>{y === 'All' ? 'All' : y}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>Term</label>
+            <select
+              value={selectedTerm}
+              onChange={(e) => { setSelectedTerm(e.target.value); resetPage(); }}
+              className="w-full px-4 py-2.5 rounded-lg border text-sm font-medium"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              {terms.map((t) => <option key={t} value={t}>{t === 'All' ? 'All' : t}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>Status</label>
+            <select
+              value={selectedStatus}
+              onChange={(e) => { setSelectedStatus(e.target.value); resetPage(); }}
+              className="w-full px-4 py-2.5 rounded-lg border text-sm font-medium"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              {statusOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="mt-4 flex items-center gap-2">
+          <Info size={16} style={{ color: colors.infoText }} />
+          <span className="text-xs" style={{ color: colors.textSecondary }}>
+            Showing {filteredData.length} record{filteredData.length !== 1 ? 's' : ''}
+            {selectedCollege !== 'All' && ` • ${selectedCollege}`}
+            {selectedYear !== 'All' && ` • ${selectedYear}`}
+            {selectedTerm !== 'All' && ` • ${selectedTerm}`}
+            {selectedStatus !== 'All' && ` • ${selectedStatus}`}
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="rounded-xl p-6 border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <h3 className="text-lg font-semibold mb-4" style={{ color: colors.textPrimary }}>
+            At-Risk Rate by {granularity === 'program-term' ? 'Program' : 'College'}
+          </h3>
+          {barChartData.length > 0 ? (
+            <BarChartComponent
+              data={barChartData}
+              xKey="name"
+              bars={[{ dataKey: 'atRiskRate', color: colors.secondary1, name: 'At-Risk %' }]}
+              height={280}
+            />
+          ) : (
+            <p className="text-sm py-8" style={{ color: colors.textSecondary }}>No data</p>
+          )}
+        </div>
+        <div className="rounded-xl p-6 border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <h3 className="text-lg font-semibold mb-4" style={{ color: colors.textPrimary }}>At-Risk Rate Trend</h3>
+          {trendData.length > 0 ? (
+            <LineChartComponent
+              data={trendData}
+              xKey="name"
+              lines={[{ dataKey: 'atRiskRate', color: colors.secondary1, name: 'At-Risk %' }]}
+              height={280}
+              yFormatter={(v) => v.toFixed(1) + '%'}
+            />
+          ) : (
+            <p className="text-sm py-8" style={{ color: colors.textSecondary }}>No data</p>
+          )}
+        </div>
+      </div>
+
+      {progressBarData.length > 0 && (
+        <div className="p-6 rounded-xl border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <h3 className="text-lg font-bold mb-6" style={{ color: colors.textPrimary }}>
+            At-Risk Rate by {granularity === 'program-term' ? 'Program' : 'College'}
+          </h3>
+          <div className="space-y-4">
+            {progressBarData.map((row) => {
+              const status = row.atRiskRate < 8 ? 'green' : row.atRiskRate >= 25 ? 'red' : 'amber';
+              const pct = Math.min(100, row.atRiskRate);
+              return (
+                <div key={row.name}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>{row.name}</span>
+                    <span className="text-sm font-bold" style={{ color: getStatusColorApi06(colors, status) }}>{row.atRiskRate.toFixed(1)}%</span>
+                  </div>
+                  <div className="relative h-6 rounded-full overflow-hidden" style={{ backgroundColor: colors.border }}>
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{ width: `${pct}%`, backgroundColor: getStatusColorApi06(colors, status) }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-6 pt-4 border-t" style={{ borderColor: colors.border }}>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors.successText }} />
+              <span className="text-xs" style={{ color: colors.textSecondary }}>Green: &lt;8%</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors.warningText }} />
+              <span className="text-xs" style={{ color: colors.textSecondary }}>Amber: 8–25%</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors.dangerText }} />
+              <span className="text-xs" style={{ color: colors.textSecondary }}>Red: ≥25%</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-xl border overflow-hidden" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+        <div className="p-6 border-b flex flex-wrap items-center justify-between gap-4" style={{ borderColor: colors.border }}>
+          <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
+            {granularity === 'program-term' ? 'Program-Term' : 'College-Term'} Data
+          </h3>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSortYearOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              Year {sortYearOrder === 'desc' ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+            </button>
+            <select
+              value={pageSize}
+              onChange={(e) => { setPageSize(Number(e.target.value)); resetPage(); }}
+              className="px-2 py-1 rounded text-xs font-medium border"
+              style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+            >
+              {[5, 10, 25, 50, 100].map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b" style={{ borderColor: colors.border }}>
+                {granularity === 'program-term' && (
+                  <>
+                    <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>College</th>
+                    <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Program</th>
+                  </>
+                )}
+                {granularity === 'college-term' && (
+                  <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>College</th>
+                )}
+                <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Year</th>
+                <th className="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Term</th>
+                <th className="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Students</th>
+                <th className="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Flagged</th>
+                <th className="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>At-Risk %</th>
+                <th className="text-center py-3 px-4 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedData.map((row: any, idx: number) => (
+                <tr
+                  key={idx}
+                  className="border-b transition-colors"
+                  style={{ borderColor: colors.border }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = colors.tableHover; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+                >
+                  {granularity === 'program-term' && (
+                    <>
+                      <td className="py-3 px-4 text-sm font-medium" style={{ color: colors.textPrimary }}>{row.college}</td>
+                      <td className="py-3 px-4 text-sm" style={{ color: colors.textPrimary }}>{row.programName}</td>
+                    </>
+                  )}
+                  {granularity === 'college-term' && (
+                    <td className="py-3 px-4 text-sm font-medium" style={{ color: colors.textPrimary }}>{row.college}</td>
+                  )}
+                  <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{row.academicYear}</td>
+                  <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{row.term}</td>
+                  <td className="py-3 px-4 text-sm text-right" style={{ color: colors.textPrimary }}>{row.totalActiveStudents?.toLocaleString()}</td>
+                  <td className="py-3 px-4 text-sm text-right" style={{ color: colors.dangerText }}>{row.flaggedStudents?.toLocaleString()}</td>
+                  <td className="py-3 px-4 text-sm text-right font-bold" style={{ color: getStatusColorApi06(colors, row.status) }}>{row.atRiskRate?.toFixed(1)}%</td>
+                  <td className="py-3 px-4 text-center">
+                    <span
+                      className="inline-block px-2 py-1 rounded text-xs font-bold"
+                      style={{ backgroundColor: getStatusBgApi06(colors, row.status), color: getStatusColorApi06(colors, row.status) }}
+                    >
+                      {row.status?.toUpperCase()}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-4 p-4 border-t" style={{ borderColor: colors.border }}>
+          <span className="text-xs" style={{ color: colors.textSecondary }}>
+            Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length}
+          </span>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} disabled={currentPage <= 1} className="px-3 py-1.5 rounded-lg text-xs font-medium border disabled:opacity-40" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}>Previous</button>
+            <span className="text-xs font-medium" style={{ color: colors.textPrimary }}>Page {currentPage} of {totalPages}</span>
+            <button onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} disabled={currentPage >= totalPages} className="px-3 py-1.5 rounded-lg text-xs font-medium border disabled:opacity-40" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}>Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="rounded-xl p-6 border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <h3 className="text-lg font-semibold mb-3" style={{ color: colors.textPrimary }}>Formula</h3>
+          <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>{api06.formula?.description}</p>
+          <div className="space-y-2">
+            {(api06.formula?.components || []).map((c: any, i: number) => (
+              <div key={i} className="p-3 rounded-lg" style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border }}>
+                <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>{c.name}</span>
+                {c.formula && <span className="text-sm ml-2" style={{ color: colors.accent }}>= {c.formula}</span>}
+                {c.description && <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>{c.description}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="rounded-xl p-6 border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+          <h3 className="text-lg font-semibold mb-3" style={{ color: colors.textPrimary }}>Usage</h3>
+          <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>{api06.usage?.primary}</p>
+          <ul className="list-disc list-inside text-sm space-y-1" style={{ color: colors.textSecondary }}>
+            {(api06.usage?.secondary || []).map((s: string, i: number) => <li key={i}>{s}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // Analytics Tab

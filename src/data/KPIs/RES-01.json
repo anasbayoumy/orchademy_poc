@@ -1,0 +1,115 @@
+{
+  "id": "RES-01",
+  "code": "RES-01",
+  "name": "Publications per FTE",
+  "nameAlias": "Industry-Funded Research Share",
+  "category": "Outcome",
+  "domain": "Research",
+  "description": "Research productivity normalized by faculty FTE. Measures scholarly output (publications) per full-time equivalent faculty member annually.",
+  "formula": {
+    "description": "Publications ÷ faculty FTE (annual)",
+    "expression": "total_publications / total_fte",
+    "components": [
+      {
+        "name": "Total Publications",
+        "key": "total_publications",
+        "description": "Number of peer-reviewed publications (journal articles, conference papers, books) produced in the period",
+        "unit": "count"
+      },
+      {
+        "name": "Faculty FTE",
+        "key": "total_fte",
+        "description": "Full-time equivalent faculty count (headcount × workload fraction)",
+        "unit": "FTE"
+      },
+      {
+        "name": "Publications per FTE",
+        "key": "publications_per_fte",
+        "formula": "Total Publications ÷ Faculty FTE",
+        "unit": "per faculty-year",
+        "description": "Annual publications per faculty FTE"
+      }
+    ]
+  },
+  "granularity": ["College-Year", "Department-Year"],
+  "frequency": "Annual",
+  "reportingPeriod": "Academic Year",
+  "unit": "publications per FTE",
+  "unitDisplay": "per faculty-year",
+  "targets": {
+    "benchmark": "0.5–3 per faculty-year",
+    "min": 0.5,
+    "stretch": 1.5,
+    "excellent": 2.0,
+    "description": "Contextual benchmark: 0.5–3 publications per faculty-year depending on discipline"
+  },
+  "thresholds": {
+    "green": {
+      "min": 1.2,
+      "label": "Strong productivity (≥ 1.2 publications per FTE)",
+      "description": "Meets or exceeds institutional stretch target"
+    },
+    "amber": {
+      "min": 0.5,
+      "max": 1.2,
+      "label": "Acceptable productivity (0.5–1.2 per FTE)",
+      "description": "Within benchmark range but below stretch"
+    },
+    "red": {
+      "max": 0.5,
+      "label": "Low productivity (< 0.5 per FTE)",
+      "description": "Below minimum benchmark - requires review"
+    }
+  },
+  "usage": {
+    "primary": "Research productivity monitoring",
+    "secondary": [
+      "Research strategy alignment",
+      "Faculty workload balance",
+      "College/department benchmarking",
+      "Resource allocation for research",
+      "Accreditation and ranking inputs"
+    ],
+    "audience": ["Research leadership", "Deans", "Department chairs", "Strategic planning"]
+  },
+  "dataConnections": {
+    "tables": [
+      "FACT_RESEARCH_OUTPUT",
+      "FACT_RESEARCH_GRANTS",
+      "FACT_IP_REGISTER",
+      "FACT_BIBLIOMETRICS",
+      "DIM_FACULTY"
+    ],
+    "description": "Publications sourced from bibliometric systems; FTE from faculty allocation"
+  },
+  "dataFiles": {
+    "collegeYear": "RES-01-college-year.json",
+    "departmentYear": "RES-01-department-year.json"
+  },
+  "dimensions": {
+    "time": ["Academic_Year"],
+    "organization": ["College", "Department"]
+  },
+  "metrics": {
+    "primary": "publications_per_fte",
+    "supporting": ["total_publications", "total_fte"]
+  },
+  "catalogMetadata": {
+    "type": "Contextual",
+    "strategyArea": "Research strategy",
+    "sourceCatalog": "KPI Catalogue"
+  },
+  "validation": {
+    "minValue": 0,
+    "maxValue": null,
+    "decimals": 2,
+    "allowNull": false
+  },
+  "relatedKpis": ["RES-02", "RES-03"],
+  "display": {
+    "chartType": "bar",
+    "secondaryChartType": "line",
+    "format": "0.00",
+    "suffix": " per FTE"
+  }
+}
