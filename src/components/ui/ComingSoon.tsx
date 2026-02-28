@@ -2,19 +2,21 @@
 
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
-import { Rocket, ArrowLeft } from 'lucide-react';
+import { Rocket, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface ComingSoonProps {
     title?: string;
     description?: string;
     showBackButton?: boolean;
+    expectedKpis?: string[];
 }
 
 export default function ComingSoon({ 
     title, 
     description,
-    showBackButton = true 
+    showBackButton = true,
+    expectedKpis 
 }: ComingSoonProps) {
     const colors = useColors();
     const { t } = useLanguage();
@@ -36,6 +38,29 @@ export default function ComingSoon({
                 <p className="text-base mb-8" style={{ color: colors.textSecondary }}>
                     {description || t('common.underDevelopment')}
                 </p>
+
+                {expectedKpis && expectedKpis.length > 0 && (
+                    <div
+                        className="mb-8 mx-auto max-w-sm rounded-xl p-5 text-left"
+                        style={{
+                            backgroundColor: colors.cardBg,
+                            border: `1px solid ${colors.border}`,
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                        }}
+                    >
+                        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                            Expected KPIs for {title}
+                        </p>
+                        <ul className="space-y-2">
+                            {expectedKpis.map((kpi, i) => (
+                                <li key={i} className="flex items-center gap-2.5">
+                                    <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                                    <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 {showBackButton && (
                     <Link href="/">

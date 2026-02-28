@@ -48,7 +48,7 @@
         "dashboard": "Institutional Performance",
         "strategy": {
             "title": "Strategy & Governance",
-            "dashboard": "Strategic Posture",
+            "dashboard": "Strategic Position",
             "alignment": "Strategy Posture",
             "priorities": "Execution Discipline",
             "kpi": "Governance Structure",
@@ -79,7 +79,14 @@
             "analytics": "Strategic Investments",
             "employability": "Graduate Outcomes",
             "grants": "Work-Integrated Learning",
-            "research": "Cost of Outcomes"
+            "research": "Cost of Outcomes",
+            "filters": "Filters",
+            "college": "College",
+            "academicYear": "Academic Year",
+            "term": "Term",
+            "statusFilter": "Status",
+            "costPerSch": "Cost per SCH",
+            "programMargin": "Program Margin"
         },
         "efficiency": {
             "title": "Efficiency Monitor",
@@ -130,11 +137,17 @@
     },
     "dashboard": {
         "title": "Institutional Performance",
-        "subtitle": "Overview of academic analytics and performance metrics",
+        "subtitle": "Overview of academic analytics and performance metrics from KPI library",
         "totalFaculty": "Total Faculty",
+        "activeStudents": "Active Students",
         "activePrograms": "Active Programs",
         "viablePrograms": "Viable Programs",
+        "studentToFaculty": "Student-to-Faculty",
         "employmentRate": "Employment Rate",
+        "overloadRate": "Overload Rate",
+        "strategyIndex": "Strategy Index",
+        "atRiskStudentRate": "At-Risk Student Rate",
+        "publicationsPerFte": "Publications per FTE",
         "facultyFTEByDept": "Faculty FTE by Department",
         "programViability": "Program Viability",
         "departmentOverview": "Department Overview",

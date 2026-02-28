@@ -15,8 +15,7 @@ import {
     BookOpen,
 } from 'lucide-react';
 
-const CLASSIFICATIONS = ['All', 'Performance', 'Outcome', 'Normative'];
-const DOMAINS = ['All', 'Student Success', 'Section Planning', 'Unit Economics', 'Research', 'Workload'];
+const CLASSIFICATIONS = ['All', 'Performance', 'Outcome', 'Normative', 'Compliance'];
 
 export default function KPILibraryPage() {
     const colors = useColors();
@@ -24,35 +23,36 @@ export default function KPILibraryPage() {
     const [filtersOpen, setFiltersOpen] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [classificationFilter, setClassificationFilter] = useState<string>('All');
-    const [domainFilter, setDomainFilter] = useState<string>('All');
+    const [moduleFilter, setModuleFilter] = useState<string>('All');
+
+    const moduleOptions = useMemo(() => {
+        const modules = new Set<string>(['All']);
+        KPI_CATALOG.forEach((k) => k.module && modules.add(k.module));
+        return Array.from(modules).sort((a, b) => (a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b)));
+    }, []);
 
     const filteredKPIs = useMemo(() => {
         return KPI_CATALOG.filter((kpi) => {
             const q = searchQuery.toLowerCase().trim();
             if (q) {
+                const moduleLabel = t(kpi.module || '');
                 const matchesSearch =
                     kpi.code.toLowerCase().includes(q) ||
                     kpi.name.toLowerCase().includes(q) ||
-                    (kpi.domain?.toLowerCase().includes(q) ?? false) ||
+                    (moduleLabel?.toLowerCase().includes(q) ?? false) ||
                     kpi.description.toLowerCase().includes(q);
                 if (!matchesSearch) return false;
             }
             if (classificationFilter !== 'All' && kpi.category !== classificationFilter) return false;
-            if (domainFilter !== 'All' && kpi.domain !== domainFilter) return false;
+            if (moduleFilter !== 'All' && kpi.module !== moduleFilter) return false;
             return true;
         });
-    }, [searchQuery, classificationFilter, domainFilter]);
-
-    const domainOptions = useMemo(() => {
-        const domains = new Set<string>(['All']);
-        KPI_CATALOG.forEach((k) => k.domain && domains.add(k.domain));
-        return Array.from(domains).sort((a, b) => (a === 'All' ? -1 : b === 'All' ? 1 : a.localeCompare(b)));
-    }, []);
+    }, [searchQuery, classificationFilter, moduleFilter, t]);
 
     const resetFilters = () => {
         setSearchQuery('');
         setClassificationFilter('All');
-        setDomainFilter('All');
+        setModuleFilter('All');
     };
 
     const getCategoryColor = (category: string) => {
@@ -60,6 +60,7 @@ export default function KPILibraryPage() {
             case 'Performance': return { bg: colors.accentBg, text: colors.accent };
             case 'Outcome': return { bg: colors.successBg, text: colors.successText };
             case 'Normative': return { bg: colors.infoBg, text: colors.infoText };
+            case 'Compliance': return { bg: colors.warningBg, text: colors.warningText };
             default: return { bg: colors.surfaceBg, text: colors.textSecondary };
         }
     };
@@ -87,8 +88,8 @@ export default function KPILibraryPage() {
                             <p className="text-xs mt-0.5" style={{ color: colors.textSecondary }}>
                                 {searchQuery && `Search: "${searchQuery}" • `}
                                 {classificationFilter !== 'All' && `${classificationFilter} • `}
-                                {domainFilter !== 'All' && `${domainFilter}`}
-                                {(!searchQuery && classificationFilter === 'All' && domainFilter === 'All') && 'All classifications and domains'}
+                                {moduleFilter !== 'All' && t(moduleFilter)}
+                                {(!searchQuery && classificationFilter === 'All' && moduleFilter === 'All') && 'All classifications and modules'}
                             </p>
                         </div>
                     </div>
@@ -125,15 +126,15 @@ export default function KPILibraryPage() {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-xs font-medium mb-1.5" style={{ color: colors.textSecondary }}>Domain</label>
+                                <label className="block text-xs font-medium mb-1.5" style={{ color: colors.textSecondary }}>Module</label>
                                 <select
-                                    value={domainFilter}
-                                    onChange={(e) => setDomainFilter(e.target.value)}
+                                    value={moduleFilter}
+                                    onChange={(e) => setModuleFilter(e.target.value)}
                                     className="w-full px-3 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2"
                                     style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
                                 >
-                                    {domainOptions.map((d) => (
-                                        <option key={d} value={d}>{d}</option>
+                                    {moduleOptions.map((m) => (
+                                        <option key={m} value={m}>{m === 'All' ? 'All' : t(m)}</option>
                                     ))}
                                 </select>
                             </div>
@@ -180,22 +181,22 @@ export default function KPILibraryPage() {
                                 </span>
                             </div>
                             <h3 className="text-base font-semibold mb-1.5" style={{ color: colors.textPrimary }}>{kpi.name}</h3>
-                            {kpi.domain && (
-                                <p className="text-xs mb-2" style={{ color: colors.textSecondary }}>{kpi.domain}</p>
+                            {kpi.module && (
+                                <p className="text-xs mb-2" style={{ color: colors.textSecondary }}>{t(kpi.module)}</p>
                             )}
-                            <p className="text-sm leading-relaxed mb-4 line-clamp-3" style={{ color: colors.textSecondary }}>
+                            <p className="text-sm leading-relaxed mb-3 line-clamp-3" style={{ color: colors.textSecondary }}>
                                 {kpi.description}
                             </p>
+                            {kpi.frequency && (
+                                <p className="text-xs mb-3" style={{ color: colors.textSecondary }}>
+                                    <span className="font-medium">Frequency:</span> {kpi.frequency}
+                                </p>
+                            )}
                             <div className="flex items-center justify-between">
                                 <div className="flex gap-2 flex-wrap">
                                     {kpi.unit && (
                                         <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: colors.surfaceBg, color: colors.textSecondary }}>
                                             {kpi.unit}
-                                        </span>
-                                    )}
-                                    {kpi.frequency && (
-                                        <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: colors.surfaceBg, color: colors.textSecondary }}>
-                                            {kpi.frequency}
                                         </span>
                                     )}
                                 </div>

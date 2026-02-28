@@ -339,7 +339,7 @@ function PublicationsPerFteTab() {
       <div className="rounded-xl p-5 border mb-6" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
         <div className="flex items-center gap-2 mb-4">
           <Target size={20} style={{ color: colors.accent }} />
-          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>RES-01 Publications per FTE (Official KPI)</span>
+          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>Publications per FTE</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div>
@@ -494,7 +494,7 @@ function PublicationsPerFteTab() {
             <BarChartComponent
               data={barChartData}
               xKey="name"
-              bars={[{ dataKey: 'publicationsPerFte', color: colors.secondary1, name: 'Pubs per FTE' }]}
+              bars={[{ dataKey: 'publicationsPerFte', color: colors.primary1, name: 'Pubs per FTE' }]}
               height={280}
             />
           ) : (
@@ -507,7 +507,7 @@ function PublicationsPerFteTab() {
             <LineChartComponent
               data={trendData}
               xKey="name"
-              lines={[{ dataKey: 'publicationsPerFte', color: colors.secondary1, name: 'Pubs per FTE' }]}
+              lines={[{ dataKey: 'publicationsPerFte', color: colors.primary1, name: 'Pubs per FTE' }]}
               height={280}
               yFormatter={(v) => v.toFixed(2)}
             />
@@ -693,7 +693,11 @@ function PublicationsPerFteTab() {
 // ============================================
 export default function KPIReport() {
   const colors = useColors();
-  const [activeTab, setActiveTab] = useState<TabType>('summary');
+  const tabs: { id: TabType; label: string }[] = [
+        { id: 'publications-per-fte', label: 'Publications per Faculty FTE' },
+        { id: 'summary', label: 'Summary' },
+    ];
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0].id);
 
   return (
     <div className="animate-fade-in">
@@ -703,8 +707,9 @@ export default function KPIReport() {
       />
 
       <div className="flex flex-wrap gap-0 border-b mb-6" style={{ borderColor: colors.border }}>
-        <Tab id="summary" label="Summary" isActive={activeTab === 'summary'} onClick={() => setActiveTab('summary')} colors={colors} />
-        <Tab id="publications-per-fte" label="Publications per Faculty FTE" isActive={activeTab === 'publications-per-fte'} onClick={() => setActiveTab('publications-per-fte')} colors={colors} />
+        {tabs.map(tab => (
+          <Tab key={tab.id} id={tab.id} label={tab.label} isActive={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} colors={colors} />
+        ))}
       </div>
 
       {activeTab === 'summary' && <SummaryTab />}

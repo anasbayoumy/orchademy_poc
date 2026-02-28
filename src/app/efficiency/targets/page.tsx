@@ -1,7 +1,7 @@
 'use client';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
-import { Target, CheckCircle, Users, Activity } from 'lucide-react';
+import { Target, CheckCircle, Users, Activity, CheckCircle2 } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -13,7 +13,7 @@ export default function NormativeTargetsPage() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.efficiency.normativeTargets')} 
-                subtitle="Target student-faculty ratio, advisor caseload, and staff per manager benchmarks (PLN-12, PLN-13, PLN-14)"
+                subtitle="Target student-faculty ratio, advisor caseload, and staff per manager benchmarks"
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
@@ -34,6 +34,21 @@ export default function NormativeTargetsPage() {
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
                     Establish and monitor normative targets for student-faculty ratios, advisor caseloads, and managerial spans of control to maintain operational standards.
                 </p>
+            </div>
+
+            {/* Expected KPIs */}
+            <div className="mt-6 rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                    Expected KPIs for Normative Targets & Controls
+                </p>
+                <ul className="space-y-2">
+                    {['Target Student–Faculty Ratio', 'Target Advisor Caseload', 'Staff per Manager (Normative)'].map((kpi, i) => (
+                        <li key={i} className="flex items-center gap-2.5">
+                            <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                            <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

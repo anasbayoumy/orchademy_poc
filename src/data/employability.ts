@@ -106,17 +106,30 @@ export function getEmployerFeedback(): EmployerFeedback[] {
     ];
 }
 
-export function getImpactMetrics(): ImpactMetric[] {
-    const avgEmploymentRate = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.employmentRate, 0) / EMPLOYABILITY_DATA.length;
+export function getImpactMetrics(obf01?: {
+    institutionalMetrics: { employmentRate1YPct: number; totalGraduates: number };
+    institutionYearData?: Array<{ employmentRate1YPct: number }>;
+}): ImpactMetric[] {
     const avgSalary = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.avgStartingSalary, 0) / EMPLOYABILITY_DATA.length;
-    const totalGraduates = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.graduateCount, 0);
+    const avgTimeToEmployment = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.avgTimeToEmployment, 0) / EMPLOYABILITY_DATA.length;
+    const avgSkillsMatch = EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.skillsMatch, 0) / EMPLOYABILITY_DATA.length;
+
+    const employmentRate = obf01?.institutionalMetrics?.employmentRate1YPct
+        ?? EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.employmentRate, 0) / EMPLOYABILITY_DATA.length;
+    const totalGraduates = obf01?.institutionalMetrics?.totalGraduates
+        ?? EMPLOYABILITY_DATA.reduce((sum, e) => sum + e.graduateCount, 0);
+
+    const prevYear = obf01?.institutionYearData?.[obf01.institutionYearData.length - 2];
+    const employmentChange = prevYear
+        ? Math.round(((employmentRate - prevYear.employmentRate1YPct) / prevYear.employmentRate1YPct) * 1000) / 10
+        : 4;
 
     return [
-        { label: 'Employment Rate', value: `${avgEmploymentRate.toFixed(0)}%`, change: 4, changeLabel: 'YoY' },
+        { label: 'Employment Rate (OBEF)', value: `${employmentRate.toFixed(1)}%`, change: employmentChange, changeLabel: 'YoY' },
         { label: 'Avg Salary', value: `$${(avgSalary / 1000).toFixed(0)}K`, change: 8, changeLabel: 'YoY' },
         { label: 'Graduates', value: totalGraduates.toString(), change: 12, changeLabel: 'YoY' },
         { label: 'Top Employers', value: '45', change: 5, changeLabel: 'new' },
-        { label: 'Avg Time to Employ', value: '2.8 mo', change: -15, changeLabel: 'faster' },
-        { label: 'Skills Match', value: '82%', change: 6, changeLabel: 'improved' },
+        { label: 'Avg Time to Employ', value: `${avgTimeToEmployment.toFixed(1)} mo`, change: -15, changeLabel: 'faster' },
+        { label: 'Skills Match', value: `${Math.round(avgSkillsMatch)}%`, change: 6, changeLabel: 'improved' },
     ];
 }

@@ -221,13 +221,14 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     )}
                     <Link href="/" className="flex items-center justify-center">
                         <Image
-                            src={isDark ? "/logo_dark.png" : "/logo_light.png"}
+                            src="/logo_dark.png"
                             alt="Orchademy Logo"
                             width={150}
                             height={42}
                             priority
                             style={{
                                 objectFit: "contain",
+                                ...(!isDark && { filter: "brightness(0) saturate(100%) invert(17%) sepia(43%) saturate(1800%) hue-rotate(208deg) brightness(92%) contrast(88%)" }),
                             }}
                         />
                     </Link>

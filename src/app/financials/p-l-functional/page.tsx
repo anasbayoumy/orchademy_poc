@@ -6,7 +6,8 @@ import { BarChart3, TrendingUp, TrendingDown, ChevronDown, ChevronUp, ArrowUpRig
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
-const YEARS = ['19-20', '20-21', '21-22', '22-23', '23-24']; // Shortened for chart labels
+const YEARS = ['19-20', '20-21', '21-22', '22-23', '23-24'];
+const YEAR_LABELS = ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'];
 
 // Helper Functions
 const formatCurrency = (num: number): string => {
@@ -33,24 +34,19 @@ const calculateCAGR = (values: number[]): number => {
     return ((Math.pow(end / start, 1 / years) - 1) * 100);
 };
 
-// Financial Data
+// Financial Data - P&L Functional (12 categories, 5 years: 19-20 → 23-24)
 const FINANCIAL_DATA = {
     tuitionRevenue: [53210997, 42062036, 49823674, 49006215, 47449161],
-    feesRevenue: [3837373, 2605082, 4903966, 3115160, 4497736],
-    grantsRevenue: [3960077, 3362637, 3970317, 3763630, 4978918],
-    otherRevenue: [2133343, 1959062, 2080707, 1270559, 1332414],
-    totalOtherRevenue: [9930793, 7926781, 10954990, 8149349, 10809068],
-    totalRevenue: [63141790, 49988817, 60778664, 57155564, 58258229],
     instructionCost: [20959493, 16934372, 20941728, 20828313, 17538533],
     scholarships: [5459023, 3585401, 3376458, 4913112, 4107891],
+    grossProfitCore: [26792481, 21542263, 25505488, 23264790, 25802737],
+    totalOtherRevenue: [9930793, 7926781, 10954990, 8149349, 10809068],
     research: [1968009, 1275117, 2625633, 1717236, 2941950],
     operationsMaintenance: [8692048, 5892050, 8467069, 6873943, 7221634],
     studentServices: [5896576, 4185001, 6050164, 5325047, 5689170],
     academicSupport: [8266921, 6215334, 8393543, 7878063, 7764747],
     institutionalSupport: [8704172, 6349979, 9121935, 7960093, 8509646],
     auxiliary: [1488201, 1148641, 1558985, 1401226, 1532916],
-    totalExpenses: [61434443, 45585895, 60535515, 56897033, 55306487],
-    grossProfitCore: [26792481, 21542263, 25505488, 23264790, 25802737],
     netSurplus: [1707347, 4402922, 243149, 258531, 2951742],
 };
 
@@ -341,7 +337,7 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
     );
 }
 
-function DetailView({ category, colors }: { category: any; colors: any }) {
+function DetailView({ category, colors, yearLabel }: { category: any; colors: any; yearLabel: string }) {
     const categoryColors: Record<'revenue' | 'expense' | 'net', { solid: string; light: string }> = {
         revenue: { solid: colors.secondary1, light: colors.successBg },
         expense: { solid: colors.primary1, light: colors.accentBg },
@@ -358,28 +354,55 @@ function DetailView({ category, colors }: { category: any; colors: any }) {
                     <h2 className="text-sm font-semibold text-white opacity-90">{category.title}</h2>
                     <p className="text-4xl font-bold text-white mb-2">{formatCurrency(category.value)}</p>
                     <div className="flex items-center gap-2">
-                        <span className="text-white text-sm opacity-90">2023-24</span>
+                        <span className="text-white text-sm opacity-90">{yearLabel}</span>
                         <span className="px-3 py-1 bg-white rounded text-xs font-bold" style={{ color: catColor.solid }}>
                             {parseFloat(category.growth) >= 0 ? '+' : ''}{category.growth}% YoY
                         </span>
                     </div>
                 </div>
             </div>
-            <div className="p-6 rounded-lg border shadow-sm" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
-                <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>5-Year Trend</h3>
-                <div className="relative h-64 flex items-end justify-between gap-3">
-                    {category.trendData.map((item: any, idx: number) => {
-                        const height = Math.max(((item.value - minValue) / (maxValue - minValue)) * 100, 5);
-                        return (
-                            <div key={idx} className="flex-1 flex flex-col items-center gap-2">
-                                <div 
-                                    className="w-full rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"
-                                    style={{ height: `${height * 2}px`, backgroundColor: catColor.solid }}
-                                />
-                                <p className="text-xs" style={{ color: colors.textSecondary }}>{item.year.split('-')[0]}</p>
+
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                {/* 5-Year Trend Bar Chart */}
+                <div className="xl:col-span-2 p-6 rounded-lg border shadow-sm" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                    <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>5-Year Trend</h3>
+                    <div className="relative h-64 flex items-end justify-between gap-3">
+                        {category.trendData.map((item: any, idx: number) => {
+                            const height = Math.max(((item.value - minValue) / (maxValue - minValue || 1)) * 100, 5);
+                            return (
+                                <div key={idx} className="flex-1 flex flex-col items-center gap-2">
+                                    <div 
+                                        className="w-full rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"
+                                        style={{ height: `${height * 2}px`, backgroundColor: catColor.solid }}
+                                    />
+                                    <p className="text-xs" style={{ color: colors.textSecondary }}>{item.year}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                {/* Key Insights */}
+                <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                    <h3 className="text-base font-bold mb-4" style={{ color: colors.textPrimary }}>
+                        Key Insights
+                    </h3>
+                    <div className="space-y-2">
+                        {(category.insights || []).map((insight: string, idx: number) => (
+                            <div
+                                key={idx}
+                                className="p-2.5 rounded-lg border-l-2"
+                                style={{
+                                    backgroundColor: colors.isDark ? '#1e293b' : '#f8fafc',
+                                    borderLeftColor: catColor.solid
+                                }}
+                            >
+                                <p className="text-xs leading-relaxed" style={{ color: colors.textPrimary }}>
+                                    {insight}
+                                </p>
                             </div>
-                        )
-                    })}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
@@ -390,11 +413,20 @@ export default function PLFunctionalPage() {
     const colors = useColors();
     const { isRTL } = useLanguage();
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
-    const [card1Category, setCard1Category] = useState(0); 
-    const [card2Category, setCard2Category] = useState(3); 
-    const [card3Category, setCard3Category] = useState(11); 
-    const currentIndex = 4;
-    const previousIndex = 3;
+    const [selectedYearIndex, setSelectedYearIndex] = useState(4); // 2023-24
+    const [card1Category, setCard1Category] = useState(0);
+    const [card2Category, setCard2Category] = useState(3);
+    const [card3Category, setCard3Category] = useState(11);
+
+    const currentIndex = selectedYearIndex;
+    const previousIndex = Math.max(0, selectedYearIndex - 1);
+
+    // Compute totals for % context
+    const totalRevenue = FINANCIAL_DATA.tuitionRevenue[currentIndex] + FINANCIAL_DATA.totalOtherRevenue[currentIndex];
+    const totalExpenses = FINANCIAL_DATA.instructionCost[currentIndex] + FINANCIAL_DATA.scholarships[currentIndex] +
+        FINANCIAL_DATA.research[currentIndex] + FINANCIAL_DATA.operationsMaintenance[currentIndex] +
+        FINANCIAL_DATA.studentServices[currentIndex] + FINANCIAL_DATA.academicSupport[currentIndex] +
+        FINANCIAL_DATA.institutionalSupport[currentIndex] + FINANCIAL_DATA.auxiliary[currentIndex];
 
     const categories = [
         {
@@ -403,39 +435,64 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.tuitionRevenue[currentIndex], FINANCIAL_DATA.tuitionRevenue[previousIndex]),
             categoryType: 'revenue',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.tuitionRevenue[idx] })),
-            insights: ['Primary revenue source showing -3.2% decline from prior year'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.tuitionRevenue).toFixed(1)}%`,
+                `Primary revenue source at ${(FINANCIAL_DATA.tuitionRevenue[currentIndex] / totalRevenue * 100).toFixed(1)}% of total revenue`,
+                `Peak year was 2019-20 at ${formatCurrency(Math.max(...FINANCIAL_DATA.tuitionRevenue))}`,
+                `${parseFloat(calculateGrowth(FINANCIAL_DATA.tuitionRevenue[currentIndex], FINANCIAL_DATA.tuitionRevenue[previousIndex])) >= 0 ? 'Grew' : 'Declined'} ${Math.abs(parseFloat(calculateGrowth(FINANCIAL_DATA.tuitionRevenue[currentIndex], FINANCIAL_DATA.tuitionRevenue[previousIndex])))}% YoY`,
+            ],
         },
         {
-            title: 'Category 2: Total Other Revenue',
-            value: FINANCIAL_DATA.totalOtherRevenue[currentIndex],
-            growth: calculateGrowth(FINANCIAL_DATA.totalOtherRevenue[currentIndex], FINANCIAL_DATA.totalOtherRevenue[previousIndex]),
-            categoryType: 'revenue',
-            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.totalOtherRevenue[idx] })),
-            insights: ['Includes fees, grants, and other revenue streams totaling $10.8M'],
-        },
-        {
-            title: 'Category 3: Total Revenue',
-            value: FINANCIAL_DATA.totalRevenue[currentIndex],
-            growth: calculateGrowth(FINANCIAL_DATA.totalRevenue[currentIndex], FINANCIAL_DATA.totalRevenue[previousIndex]),
-            categoryType: 'revenue',
-            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.totalRevenue[idx] })),
-            insights: ['Combined revenue of $58.3M showing 1.9% growth'],
-        },
-        {
-            title: 'Category 4: Instruction Cost',
+            title: 'Category 2: Instruction Cost',
             value: FINANCIAL_DATA.instructionCost[currentIndex],
             growth: calculateGrowth(FINANCIAL_DATA.instructionCost[currentIndex], FINANCIAL_DATA.instructionCost[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.instructionCost[idx] })),
-            insights: ['Direct teaching costs decreased 15.8% year-over-year'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.instructionCost).toFixed(1)}%`,
+                `Largest expense category at ${(FINANCIAL_DATA.instructionCost[currentIndex] / totalExpenses * 100).toFixed(1)}% of total expenses`,
+                `Direct teaching and instructional delivery costs`,
+                `Direct cost-to-revenue alignment for core academic mission`,
+            ],
         },
         {
-            title: 'Category 5: Scholarships & Financial Aid',
+            title: 'Category 3: Scholarships & Aid',
             value: FINANCIAL_DATA.scholarships[currentIndex],
             growth: calculateGrowth(FINANCIAL_DATA.scholarships[currentIndex], FINANCIAL_DATA.scholarships[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.scholarships[idx] })),
-            insights: ['Financial aid decreased 16.4%, impacting affordability'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.scholarships).toFixed(1)}%`,
+                `Financial aid at ${(FINANCIAL_DATA.scholarships[currentIndex] / totalExpenses * 100).toFixed(1)}% of total expenses`,
+                `Represents ${(FINANCIAL_DATA.scholarships[currentIndex] / totalRevenue * 100).toFixed(1)}% of total revenue - supports accessibility`,
+                `Peak aid in 2022-23 at ${formatCurrency(Math.max(...FINANCIAL_DATA.scholarships))}`,
+            ],
+        },
+        {
+            title: 'Category 4: Gross Profit - Core',
+            value: FINANCIAL_DATA.grossProfitCore[currentIndex],
+            growth: calculateGrowth(FINANCIAL_DATA.grossProfitCore[currentIndex], FINANCIAL_DATA.grossProfitCore[previousIndex]),
+            categoryType: 'revenue',
+            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.grossProfitCore[idx] })),
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.grossProfitCore).toFixed(1)}%`,
+                `Core gross margin: tuition minus instruction and scholarships`,
+                `At ${(FINANCIAL_DATA.grossProfitCore[currentIndex] / totalRevenue * 100).toFixed(1)}% of total revenue`,
+                `Measures direct academic profitability before overhead`,
+            ],
+        },
+        {
+            title: 'Category 5: Total Other Revenue',
+            value: FINANCIAL_DATA.totalOtherRevenue[currentIndex],
+            growth: calculateGrowth(FINANCIAL_DATA.totalOtherRevenue[currentIndex], FINANCIAL_DATA.totalOtherRevenue[previousIndex]),
+            categoryType: 'revenue',
+            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.totalOtherRevenue[idx] })),
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.totalOtherRevenue).toFixed(1)}%`,
+                `Fees, grants, and other streams at ${(FINANCIAL_DATA.totalOtherRevenue[currentIndex] / totalRevenue * 100).toFixed(1)}% of revenue`,
+                `Diversification reduces tuition dependency`,
+                `YoY growth of ${calculateGrowth(FINANCIAL_DATA.totalOtherRevenue[currentIndex], FINANCIAL_DATA.totalOtherRevenue[previousIndex])}%`,
+            ],
         },
         {
             title: 'Category 6: Research',
@@ -443,7 +500,12 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.research[currentIndex], FINANCIAL_DATA.research[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.research[idx] })),
-            insights: ['Research spending surged 71.3% demonstrating increased focus'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.research).toFixed(1)}%`,
+                `Research spending at ${(FINANCIAL_DATA.research[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Strategic investment in research capacity`,
+                `Strong growth year-over-year reflects research expansion`,
+            ],
         },
         {
             title: 'Category 7: Operations & Maintenance',
@@ -451,7 +513,12 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.operationsMaintenance[currentIndex], FINANCIAL_DATA.operationsMaintenance[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.operationsMaintenance[idx] })),
-            insights: ['Facilities costs increased 5.1% with campus expansion'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.operationsMaintenance).toFixed(1)}%`,
+                `Facilities and O&M at ${(FINANCIAL_DATA.operationsMaintenance[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Covers utilities, maintenance, and physical plant`,
+                `Stable spend indicates efficient facilities management`,
+            ],
         },
         {
             title: 'Category 8: Student Services',
@@ -459,7 +526,12 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.studentServices[currentIndex], FINANCIAL_DATA.studentServices[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.studentServices[idx] })),
-            insights: ['Student support services rose 6.8% enhancing experience'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.studentServices).toFixed(1)}%`,
+                `Student support at ${(FINANCIAL_DATA.studentServices[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Admissions, advising, career services, and student life`,
+                `Critical for retention and student success`,
+            ],
         },
         {
             title: 'Category 9: Academic Support',
@@ -467,7 +539,12 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.academicSupport[currentIndex], FINANCIAL_DATA.academicSupport[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.academicSupport[idx] })),
-            insights: ['Academic support declined 1.4% through efficiency gains'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.academicSupport).toFixed(1)}%`,
+                `Academic support at ${(FINANCIAL_DATA.academicSupport[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Libraries, IT for academics, curriculum development`,
+                `Essential for teaching and learning infrastructure`,
+            ],
         },
         {
             title: 'Category 10: Institutional Support',
@@ -475,31 +552,38 @@ export default function PLFunctionalPage() {
             growth: calculateGrowth(FINANCIAL_DATA.institutionalSupport[currentIndex], FINANCIAL_DATA.institutionalSupport[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.institutionalSupport[idx] })),
-            insights: ['Administrative costs grew 6.9% with regulatory compliance'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.institutionalSupport).toFixed(1)}%`,
+                `Administrative costs at ${(FINANCIAL_DATA.institutionalSupport[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Finance, HR, legal, and general administration`,
+                `Second-largest expense category in functional view`,
+            ],
         },
         {
-            title: 'Category 11: Auxiliary & Other Services',
+            title: 'Category 11: Auxiliary / Other',
             value: FINANCIAL_DATA.auxiliary[currentIndex],
             growth: calculateGrowth(FINANCIAL_DATA.auxiliary[currentIndex], FINANCIAL_DATA.auxiliary[previousIndex]),
             categoryType: 'expense',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.auxiliary[idx] })),
-            insights: ['Auxiliary operations increased 9.4% with service expansion'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.auxiliary).toFixed(1)}%`,
+                `Auxiliary operations at ${(FINANCIAL_DATA.auxiliary[currentIndex] / totalExpenses * 100).toFixed(1)}% of expenses`,
+                `Housing, dining, bookstores, and other auxiliary enterprises`,
+                `Smallest expense category in functional classification`,
+            ],
         },
         {
-            title: 'Category 12: Total Expenses',
-            value: FINANCIAL_DATA.totalExpenses[currentIndex],
-            growth: calculateGrowth(FINANCIAL_DATA.totalExpenses[currentIndex], FINANCIAL_DATA.totalExpenses[previousIndex]),
-            categoryType: 'expense',
-            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.totalExpenses[idx] })),
-            insights: ['Total operating expenses of $55.3M decreased 2.8%'],
-        },
-        {
-            title: 'Category 13: Net Surplus / Deficit',
+            title: 'Category 12: Net Surplus/deficit',
             value: FINANCIAL_DATA.netSurplus[currentIndex],
             growth: calculateGrowth(FINANCIAL_DATA.netSurplus[currentIndex], FINANCIAL_DATA.netSurplus[previousIndex]),
             categoryType: 'net',
             trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.netSurplus[idx] })),
-            insights: ['Net result dramatically improved 1041% to positive surplus'],
+            insights: [
+                `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.netSurplus).toFixed(1)}%`,
+                `Operating margin: ${(FINANCIAL_DATA.netSurplus[currentIndex] / totalRevenue * 100).toFixed(1)}% of revenue`,
+                `${FINANCIAL_DATA.netSurplus[currentIndex] >= 0 ? 'Surplus' : 'Deficit'} of ${formatCurrency(FINANCIAL_DATA.netSurplus[currentIndex])} in ${YEAR_LABELS[currentIndex]}`,
+                `Best year: 2020-21 with ${formatCurrency(Math.max(...FINANCIAL_DATA.netSurplus))} surplus`,
+            ],
         },
     ];
 
@@ -510,13 +594,28 @@ export default function PLFunctionalPage() {
                 subtitle="5-Year Financial Performance by Functional Category (2019-20 to 2023-24)" 
             />
 
-            <div className="mb-6">
-                <CategorySelector 
+            <div className="mb-6 flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center gap-3">
+                    <label className="text-sm font-medium" style={{ color: colors.textSecondary }}>Financial Year</label>
+                    <select
+                        value={selectedYearIndex}
+                        onChange={(e) => setSelectedYearIndex(Number(e.target.value))}
+                        className="px-4 py-2.5 rounded-lg border text-sm font-medium focus:outline-none focus:ring-2"
+                        style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.textPrimary }}
+                    >
+                        {YEAR_LABELS.map((label, idx) => (
+                            <option key={idx} value={idx}>{label}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex-1">
+                    <CategorySelector 
                     categories={categories}
                     selectedIndex={expandedCard}
                     onSelect={setExpandedCard}
                     colors={colors}
                 />
+                </div>
             </div>
 
             {expandedCard === null && (
@@ -564,7 +663,7 @@ export default function PLFunctionalPage() {
             {expandedCard === null && (
                 <div className="p-6 rounded-lg mb-6 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                     <h3 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
-                        All Categories Summary
+                        All Categories Summary (12 Categories)
                     </h3>
                     <div className="overflow-x-auto">
                         <table className="w-full">
@@ -573,7 +672,18 @@ export default function PLFunctionalPage() {
                                     <th className="text-left py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>#</th>
                                     <th className="text-left py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>Category</th>
                                     <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>Type</th>
-                                    <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>2023-24 Value</th>
+                                    {YEAR_LABELS.map((label, colIdx) => (
+                                        <th 
+                                            key={colIdx} 
+                                            className="text-right py-3 px-4 text-xs font-semibold uppercase" 
+                                            style={{ 
+                                                color: colors.textSecondary,
+                                                backgroundColor: colIdx === selectedYearIndex ? colors.accentBg : 'transparent'
+                                            }}
+                                        >
+                                            {label}
+                                        </th>
+                                    ))}
                                     <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>YoY Change</th>
                                 </tr>
                             </thead>
@@ -581,13 +691,28 @@ export default function PLFunctionalPage() {
                                 {categories.map((cat, idx) => {
                                     const catColor = cat.categoryType === 'revenue' ? colors.secondary1 : 
                                                      cat.categoryType === 'expense' ? colors.primary1 : colors.secondary3;
+                                    const values = [
+                                        FINANCIAL_DATA.tuitionRevenue,
+                                        FINANCIAL_DATA.instructionCost,
+                                        FINANCIAL_DATA.scholarships,
+                                        FINANCIAL_DATA.grossProfitCore,
+                                        FINANCIAL_DATA.totalOtherRevenue,
+                                        FINANCIAL_DATA.research,
+                                        FINANCIAL_DATA.operationsMaintenance,
+                                        FINANCIAL_DATA.studentServices,
+                                        FINANCIAL_DATA.academicSupport,
+                                        FINANCIAL_DATA.institutionalSupport,
+                                        FINANCIAL_DATA.auxiliary,
+                                        FINANCIAL_DATA.netSurplus,
+                                    ][idx];
+                                    const isGrossProfit = idx === 3; // Gross Profit - Core row
                                     
                                     return (
                                         <tr 
                                             key={idx}
                                             className="transition-all hover:opacity-80 cursor-pointer"
                                             onClick={() => setExpandedCard(idx)}
-                                            style={{ borderBottom: `1px solid ${colors.border}` }}
+                                            style={{ borderBottom: `1px solid ${colors.border}`, backgroundColor: isGrossProfit ? (colors.isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(148, 163, 184, 0.12)') : undefined }}
                                         >
                                             <td className="py-3 px-4">
                                                 <div 
@@ -605,20 +730,25 @@ export default function PLFunctionalPage() {
                                             <td className="text-right py-3 px-4">
                                                 <span 
                                                     className="text-xs font-medium px-2 py-1 rounded"
-                                                    style={{ 
-                                                        backgroundColor: catColor + '20',
-                                                        color: catColor
-                                                    }}
+                                                    style={{ backgroundColor: catColor + '20', color: catColor }}
                                                 >
                                                     {cat.categoryType === 'revenue' ? 'Rev' : 
                                                      cat.categoryType === 'expense' ? 'Exp' : 'Net'}
                                                 </span>
                                             </td>
-                                            <td className="text-right py-3 px-4">
-                                                <p className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                                    {formatCurrency(cat.value)}
-                                                </p>
-                                            </td>
+                                            {values.map((val, colIdx) => (
+                                                <td 
+                                                    key={colIdx} 
+                                                    className="text-right py-3 px-4"
+                                                    style={{ 
+                                                        backgroundColor: colIdx === selectedYearIndex ? colors.accentBg : 'transparent',
+                                                        color: colors.textPrimary,
+                                                        fontWeight: colIdx === selectedYearIndex ? 600 : 400
+                                                    }}
+                                                >
+                                                    {formatCurrency(val)}
+                                                </td>
+                                            ))}
                                             <td className="text-right py-3 px-4">
                                                 <div className="flex items-center justify-end gap-1">
                                                     {parseFloat(cat.growth) >= 0 ? <TrendingUp size={14} style={{ color: colors.successText }} /> : <TrendingDown size={14} style={{ color: colors.dangerText }} />}
@@ -640,7 +770,7 @@ export default function PLFunctionalPage() {
             )}
 
             {expandedCard !== null && (
-                <DetailView category={categories[expandedCard]} colors={colors} />
+                <DetailView category={categories[expandedCard]} colors={colors} yearLabel={YEAR_LABELS[selectedYearIndex]} />
             )}
         </div>
     );

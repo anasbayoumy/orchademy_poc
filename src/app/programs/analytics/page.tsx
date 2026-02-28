@@ -44,14 +44,13 @@ function Tab({ id, label, isActive, onClick, colors }: TabProps) {
 
 export default function ProgramAnalytics() {
     const colors = useColors();
-    const [activeTab, setActiveTab] = useState<TabType>('success');
-
     const tabs: { id: TabType; label: string }[] = [
+        { id: 'at-risk', label: 'At-Risk Student Rate' },
         { id: 'success', label: 'Student Success & Risk' },
         { id: 'scenarios', label: 'Scenarios' },
         { id: 'analytics', label: 'Analytics' },
-        { id: 'at-risk', label: 'At-Risk Student Rate' },
     ];
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0].id);
 
     return (
         <div className="animate-fade-in">
@@ -635,6 +634,8 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
   const [sortYearOrder, setSortYearOrder] = useState<'desc' | 'asc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [showStudentDrilldown, setShowStudentDrilldown] = useState(false);
+  const [drilldownContext, setDrilldownContext] = useState<{ college?: string; programName?: string; academicYear?: string; term?: string } | null>(null);
 
   const colleges = useMemo(() => {
     const set = new Set<string>(api06.programTermData.map((d: any) => d.college));
@@ -697,6 +698,23 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
     return { totalActiveStudents: total, flaggedStudents: flagged, atRiskRate: rate, status };
   }, [filteredData]);
 
+  const filteredFlaggedStudents = useMemo(() => {
+    const list = (api06.flaggedStudents || []) as any[];
+    return list.filter((s: any) => {
+      if (drilldownContext) {
+        if (drilldownContext.college && s.college !== drilldownContext.college) return false;
+        if (drilldownContext.programName && s.programName !== drilldownContext.programName) return false;
+        if (drilldownContext.academicYear && s.academicYear !== drilldownContext.academicYear) return false;
+        if (drilldownContext.term && s.term !== drilldownContext.term) return false;
+      } else {
+        if (selectedCollege !== 'All' && s.college !== selectedCollege) return false;
+        if (selectedYear !== 'All' && s.academicYear !== selectedYear) return false;
+        if (selectedTerm !== 'All' && s.term !== selectedTerm) return false;
+      }
+      return true;
+    });
+  }, [api06.flaggedStudents, drilldownContext, selectedCollege, selectedYear, selectedTerm]);
+
   const barChartData = useMemo(() => {
     const map: Record<string, { total: number; flagged: number }> = {};
     filteredData.forEach((d: any) => {
@@ -755,18 +773,31 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="rounded-xl p-5 border mb-6" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
-        <div className="flex items-center gap-2 mb-4">
-          <Target size={20} style={{ color: colors.accent }} />
-          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>At-Risk Student Rate (Official KPI)</span>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div className="flex items-center gap-2">
+            <Target size={20} style={{ color: colors.accent }} />
+            <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>At-Risk Student Rate</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 text-xs font-medium" style={{ color: colors.textSecondary }}>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.successText }} /> Green: &lt;8%</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.warningText }} /> Amber: 8–25%</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.dangerText }} /> Red: ≥25%</span>
+          </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div>
             <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{filteredMetrics.totalActiveStudents.toLocaleString()}</p>
             <p className="text-xs" style={{ color: colors.textSecondary }}>Total Active Students</p>
           </div>
-          <div>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => { setDrilldownContext(null); setShowStudentDrilldown(true); }}
+            onKeyDown={(e) => e.key === 'Enter' && (setDrilldownContext(null), setShowStudentDrilldown(true))}
+            className="cursor-pointer hover:opacity-90 transition-opacity rounded-lg p-2 -m-2"
+          >
             <p className="text-2xl font-bold" style={{ color: colors.dangerText }}>{filteredMetrics.flaggedStudents.toLocaleString()}</p>
-            <p className="text-xs" style={{ color: colors.textSecondary }}>Flagged (At-Risk)</p>
+            <p className="text-xs" style={{ color: colors.textSecondary }}>Flagged (At-Risk) · Click to drill down</p>
           </div>
           <div>
             <p className="text-2xl font-bold" style={{ color: getStatusColorApi06(colors, filteredMetrics.status) }}>{filteredMetrics.atRiskRate.toFixed(1)}%</p>
@@ -779,7 +810,7 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
             >
               {getStatusIconApi06(filteredMetrics.status)}{filteredMetrics.status.toUpperCase()}
             </span>
-            <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>Target &lt;25% / &lt;15% / &lt;8%</p>
+            <p className="text-xs mt-1" style={{ color: colors.textSecondary }}>Target &lt;8%</p>
           </div>
           <div>
             <p className="text-sm font-medium" style={{ color: colors.textSecondary }}>{filteredData.length} record{filteredData.length !== 1 ? 's' : ''}</p>
@@ -814,7 +845,7 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
             <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>Target</span>
             <Target size={20} style={{ color: colors.accent }} />
           </div>
-          <p className="text-lg font-bold" style={{ color: colors.textPrimary }}>&lt;25% / &lt;15% / &lt;8%</p>
+          <p className="text-lg font-bold" style={{ color: colors.textPrimary }}>&lt;8%</p>
         </div>
       </div>
 
@@ -902,7 +933,7 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
             <BarChartComponent
               data={barChartData}
               xKey="name"
-              bars={[{ dataKey: 'atRiskRate', color: colors.secondary1, name: 'At-Risk %' }]}
+              bars={[{ dataKey: 'atRiskRate', color: colors.primary1, name: 'At-Risk %' }]}
               height={280}
             />
           ) : (
@@ -915,7 +946,7 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
             <LineChartComponent
               data={trendData}
               xKey="name"
-              lines={[{ dataKey: 'atRiskRate', color: colors.secondary1, name: 'At-Risk %' }]}
+              lines={[{ dataKey: 'atRiskRate', color: colors.primary1, name: 'At-Risk %' }]}
               height={280}
               yFormatter={(v) => v.toFixed(1) + '%'}
             />
@@ -1032,7 +1063,19 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
                   <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{row.academicYear}</td>
                   <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{row.term}</td>
                   <td className="py-3 px-4 text-sm text-right" style={{ color: colors.textPrimary }}>{row.totalActiveStudents?.toLocaleString()}</td>
-                  <td className="py-3 px-4 text-sm text-right" style={{ color: colors.dangerText }}>{row.flaggedStudents?.toLocaleString()}</td>
+                  <td
+                    className="py-3 px-4 text-sm text-right cursor-pointer hover:underline font-medium"
+                    style={{ color: colors.dangerText }}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      setDrilldownContext({ college: row.college, programName: row.programName, academicYear: row.academicYear, term: row.term });
+                      setShowStudentDrilldown(true);
+                    }}
+                    onKeyDown={(e) => e.key === 'Enter' && (setDrilldownContext({ college: row.college, programName: row.programName, academicYear: row.academicYear, term: row.term }), setShowStudentDrilldown(true))}
+                  >
+                    {row.flaggedStudents?.toLocaleString()}
+                  </td>
                   <td className="py-3 px-4 text-sm text-right font-bold" style={{ color: getStatusColorApi06(colors, row.status) }}>{row.atRiskRate?.toFixed(1)}%</td>
                   <td className="py-3 px-4 text-center">
                     <span
@@ -1081,6 +1124,71 @@ function AtRiskStudentRateTab({ colors }: { colors: any }) {
           </ul>
         </div>
       </div>
+
+      {showStudentDrilldown && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} onClick={() => setShowStudentDrilldown(false)}>
+          <div
+            className="rounded-xl border shadow-xl max-w-4xl w-full max-h-[85vh] overflow-hidden flex flex-col"
+            style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: colors.border }}>
+              <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
+                Flagged Students Drill-Down
+                {drilldownContext && (drilldownContext.programName || drilldownContext.college) && (
+                  <span className="text-sm font-normal ml-2" style={{ color: colors.textSecondary }}>
+                    ({[drilldownContext.programName || drilldownContext.college, drilldownContext.academicYear, drilldownContext.term].filter(Boolean).join(' · ')})
+                  </span>
+                )}
+              </h3>
+              <button onClick={() => setShowStudentDrilldown(false)} className="p-1.5 rounded-lg hover:opacity-80" style={{ backgroundColor: colors.surfaceBg, color: colors.textPrimary }}>
+                <XCircle size={20} />
+              </button>
+            </div>
+            <div className="overflow-auto flex-1">
+              <table className="w-full text-sm">
+                <thead style={{ backgroundColor: colors.surfaceBg, position: 'sticky', top: 0, zIndex: 1 }}>
+                  <tr className="border-b" style={{ borderColor: colors.border }}>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>ID</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Name</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>College</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Program</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Year</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Term</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Risk Level</th>
+                    <th className="text-right py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>GPA</th>
+                    <th className="text-left py-3 px-4 font-semibold" style={{ color: colors.textSecondary }}>Triggers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredFlaggedStudents.length > 0 ? (
+                    filteredFlaggedStudents.map((s: any, i: number) => (
+                      <tr key={s.studentId || i} className="border-b" style={{ borderColor: colors.border }}>
+                        <td className="py-2.5 px-4 font-mono text-xs" style={{ color: colors.textPrimary }}>{s.studentId}</td>
+                        <td className="py-2.5 px-4 font-medium" style={{ color: colors.textPrimary }}>{s.name}</td>
+                        <td className="py-2.5 px-4" style={{ color: colors.textSecondary }}>{s.college}</td>
+                        <td className="py-2.5 px-4" style={{ color: colors.textSecondary }}>{s.programName}</td>
+                        <td className="py-2.5 px-4" style={{ color: colors.textSecondary }}>{s.academicYear}</td>
+                        <td className="py-2.5 px-4" style={{ color: colors.textSecondary }}>{s.term}</td>
+                        <td className="py-2.5 px-4">
+                          <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: s.riskLevel === 'Critical' ? colors.dangerBg : s.riskLevel === 'High' ? colors.warningBg : colors.infoBg, color: s.riskLevel === 'Critical' ? colors.dangerText : s.riskLevel === 'High' ? colors.warningText : colors.infoText }}>{s.riskLevel}</span>
+                        </td>
+                        <td className="py-2.5 px-4 text-right font-medium" style={{ color: colors.textPrimary }}>{s.gpa}</td>
+                        <td className="py-2.5 px-4 text-xs" style={{ color: colors.textSecondary }}>{(Array.isArray(s.triggers) ? s.triggers : [s.triggers]).filter(Boolean).join(', ')}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr><td colSpan={9} className="py-8 text-center" style={{ color: colors.textSecondary }}>No flagged students match current filters</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="p-3 border-t text-xs" style={{ borderColor: colors.border, color: colors.textSecondary }}>
+              Showing {filteredFlaggedStudents.length} flagged student{filteredFlaggedStudents.length !== 1 ? 's' : ''}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

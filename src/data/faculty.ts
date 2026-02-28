@@ -48,6 +48,13 @@ export interface AllocationSuggestion {
 export const FACULTY_DATA: Faculty[] = facultyData as Faculty[];
 export const WORKLOAD_RULES: WorkloadRule[] = workloadRulesData as WorkloadRule[];
 
+/** Institutional total faculty count for latest academic year (2023-24). Use when no year filter is applied. */
+export const TOTAL_FACULTY_2023_24 = 205;
+
+export function getDefaultTotalFaculty(): number {
+    return TOTAL_FACULTY_2023_24;
+}
+
 export function getDepartmentSummary(): DepartmentSummary[] {
     const deptMap = new Map<string, Faculty[]>();
 

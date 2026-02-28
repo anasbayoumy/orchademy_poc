@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useDateFilter } from '@/context/DateFilterContext';
@@ -8,7 +8,7 @@ import MetricCard from '@/components/ui/MetricCard';
 import DataTable from '@/components/ui/DataTable';
 import BarChartComponent from '@/components/charts/BarChart';
 import LineChartComponent from '@/components/charts/LineChart';
-import { FACULTY_DATA, WORKLOAD_RULES, getSmartSuggestions } from '@/data/faculty';
+import { FACULTY_DATA, WORKLOAD_RULES, getSmartSuggestions, getDefaultTotalFaculty } from '@/data/faculty';
 import WLM_02 from '@/data/KPIs/WLM-02';
 import { Users, Briefcase, AlertTriangle, CheckCircle2, TrendingUp, TrendingDown, Sparkles, Clock, DollarSign, Target, AlertCircle, Info, Zap, Save, Check, GitCompare, RotateCcw, ChevronRight, XCircle } from 'lucide-react';
 
@@ -63,7 +63,7 @@ function LoadSummaryTab() {
         return Object.values(deptMap).map((d: any) => ({ ...d, avgLoad: Math.round(d.avgLoad / d.count) }));
     };
 
-    const totalFaculty = FACULTY_DATA.length;
+    const totalFaculty = getDefaultTotalFaculty();
     const totalFTE = FACULTY_DATA.reduce((sum, f) => sum + (f.ftePercentage / 100), 0);
     const overloaded = FACULTY_DATA.filter(f => f.status === 'Overloaded').length;
     const underloaded = FACULTY_DATA.filter(f => f.status === 'Underloaded').length;
@@ -273,29 +273,77 @@ function WorkloadGapTab() {
 // ============================================
 // OVERLOAD RATE TAB (WLM-02 KPI)
 // ============================================
+// Map faculty department to WLM-02 college for foundation alignment
+const DEPARTMENT_TO_COLLEGE: Record<string, string> = {
+    'Computer Science': 'Computing',
+    'Business': 'Business',
+    'Engineering': 'Engineering',
+    'Healthcare': 'Health Sciences',
+    'Arts': 'Humanities',
+};
+
+function deriveTermDataFromFaculty() {
+    const byCollege: Record<string, { total: number; overloaded: number }> = {};
+    FACULTY_DATA.forEach((f) => {
+        const college = DEPARTMENT_TO_COLLEGE[f.department] ?? f.department;
+        if (!byCollege[college]) byCollege[college] = { total: 0, overloaded: 0 };
+        byCollege[college].total += 1;
+        if (f.status === 'Overloaded') byCollege[college].overloaded += 1;
+    });
+    return Object.entries(byCollege).map(([college, { total, overloaded }]) => {
+        const overloadRate = total > 0 ? (overloaded / total) * 100 : 0;
+        const status = overloadRate >= 20 ? 'red' : overloadRate >= 10 ? 'amber' : 'green';
+        return { college, academicYear: '2023-24', term: 'Fall', totalFaculty: total, totalOverloaded: overloaded, overloadRate, status };
+    });
+}
+
+const FOUNDATION_TERM_DATA = deriveTermDataFromFaculty();
+
 function OverloadRateTab() {
     const colors = useColors();
     const kpi = WLM_02 as any; // WLM-02 extends with collegeAggregates, riskFactors, actions, insights at runtime
     const [selectedCollege, setSelectedCollege] = useState<string>('All');
     const [selectedTerm, setSelectedTerm] = useState<string>('All');
     const [selectedYear, setSelectedYear] = useState<string>('All');
+    const [page, setPage] = useState(1);
+    const PAGE_SIZE = 20;
 
-    // Extract unique values for filters
-    const colleges = ['All', ...(Array.from(new Set(kpi.termData.map((d: any) => d.college))) as string[]).sort()];
+    // Merge WLM-02 termData with foundation-derived 2023-24 Fall (foundation takes precedence for that period)
+    const mergedTermData = useMemo(() => {
+        const base = (kpi.termData as any[]).filter(
+            (d: any) => !(d.academicYear === '2023-24' && d.term === 'Fall')
+        );
+        return [...base, ...FOUNDATION_TERM_DATA].sort(
+            (a: any, b: any) => `${a.college}-${a.academicYear}-${a.term}`.localeCompare(`${b.college}-${b.academicYear}-${b.term}`)
+        );
+    }, [kpi.termData]);
+
+    // Extract unique values for filters (from merged data including foundation)
+    const colleges = ['All', ...(Array.from(new Set(mergedTermData.map((d: any) => d.college))) as string[]).sort()];
     const terms = ['All', 'Fall', 'Spring'];
-    const years = ['All', ...(Array.from(new Set(kpi.termData.map((d: any) => d.academicYear))) as string[]).sort()];
+    const years = ['All', ...(Array.from(new Set(mergedTermData.map((d: any) => d.academicYear))) as string[]).sort()];
 
     // Filter term data based on selections
-    const filteredTermData = kpi.termData.filter((d: any) => {
+    const filteredTermData = mergedTermData.filter((d: any) => {
         const collegeMatch = selectedCollege === 'All' || d.college === selectedCollege;
         const termMatch = selectedTerm === 'All' || d.term === selectedTerm;
         const yearMatch = selectedYear === 'All' || d.academicYear === selectedYear;
         return collegeMatch && termMatch && yearMatch;
     });
 
-    // Calculate metrics based on filtered data
+    // Pagination
+    const totalPages = Math.max(1, Math.ceil(filteredTermData.length / PAGE_SIZE));
+    const startIdx = (page - 1) * PAGE_SIZE;
+    const paginatedData = filteredTermData.slice(startIdx, startIdx + PAGE_SIZE);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setPage(1);
+    }, [selectedCollege, selectedTerm, selectedYear]);
+
+    // Calculate metrics (when year=All use 205 for total faculty; when year selected use filtered data)
     const calculateFilteredMetrics = () => {
-        if (filteredTermData.length === 0) {
+        if (filteredTermData.length === 0 && selectedYear !== 'All') {
             return {
                 avgRate: 0,
                 totalFaculty: 0,
@@ -306,9 +354,26 @@ function OverloadRateTab() {
             };
         }
 
-        const totalFaculty = filteredTermData.reduce((sum: number, d: any) => sum + d.totalFaculty, 0);
-        const totalOverloaded = filteredTermData.reduce((sum: number, d: any) => sum + d.totalOverloaded, 0);
-        const avgRate = (totalOverloaded / totalFaculty) * 100;
+        if (selectedYear === 'All') {
+            const inst = (kpi.institutionalMetrics as any) || {};
+            const totalFaculty = getDefaultTotalFaculty();
+            const currentRate = inst.currentRate ?? 0;
+            const totalOverloaded = Math.round(totalFaculty * (currentRate / 100));
+            const rates = (mergedTermData as any[]).map((d: any) => d.overloadRate).filter(Boolean);
+            const status = currentRate >= 20 ? 'red' : currentRate >= 10 ? 'amber' : 'green';
+            return {
+                avgRate: currentRate,
+                totalFaculty,
+                totalOverloaded,
+                status,
+                highestRate: rates.length ? Math.max(...rates) : 0,
+                lowestRate: rates.length ? Math.min(...rates) : 0
+            };
+        }
+
+        const totalFaculty = filteredTermData.reduce((sum: number, d: any) => sum + (d.totalFaculty ?? 0), 0);
+        const totalOverloaded = filteredTermData.reduce((sum: number, d: any) => sum + (d.totalOverloaded ?? 0), 0);
+        const avgRate = totalFaculty > 0 ? (totalOverloaded / totalFaculty) * 100 : 0;
         const rates = filteredTermData.map((d: any) => d.overloadRate);
         const highestRate = Math.max(...rates);
         const lowestRate = Math.min(...rates);
@@ -533,8 +598,8 @@ function OverloadRateTab() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredTermData.slice(0, 20).map((term: any, idx: number) => (
-                                    <tr key={idx} className="border-b" style={{ borderColor: colors.border }}>
+                                {paginatedData.map((term: any, idx: number) => (
+                                    <tr key={`${term.college}-${term.academicYear}-${term.term}-${idx}`} className="border-b" style={{ borderColor: colors.border }}>
                                         <td className="py-3 px-4 text-sm font-medium" style={{ color: colors.textPrimary }}>{term.college}</td>
                                         <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{term.academicYear}</td>
                                         <td className="py-3 px-4 text-sm" style={{ color: colors.textSecondary }}>{term.term}</td>
@@ -556,13 +621,34 @@ function OverloadRateTab() {
                                 ))}
                             </tbody>
                         </table>
-                        {filteredTermData.length > 20 && (
-                            <div className="mt-4 text-center">
-                                <span className="text-xs" style={{ color: colors.textSecondary }}>
-                                    Showing 20 of {filteredTermData.length} records
-                                </span>
-                            </div>
-                        )}
+                        <div className="mt-4 flex flex-wrap items-center justify-between gap-4" style={{ color: colors.textSecondary }}>
+                            <span className="text-xs">
+                                Showing {filteredTermData.length === 0 ? 0 : startIdx + 1}–{Math.min(startIdx + PAGE_SIZE, filteredTermData.length)} of {filteredTermData.length} records
+                            </span>
+                            {totalPages > 1 && (
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                                        disabled={page <= 1}
+                                        className="px-3 py-1.5 rounded-lg border text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                        style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+                                    >
+                                        Previous
+                                    </button>
+                                    <span className="text-xs">
+                                        Page {page} of {totalPages}
+                                    </span>
+                                    <button
+                                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                                        disabled={page >= totalPages}
+                                        className="px-3 py-1.5 rounded-lg border text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                        style={{ backgroundColor: colors.surfaceBg, borderColor: colors.border, color: colors.textPrimary }}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
@@ -1152,21 +1238,20 @@ function SimulationTab() {
 export default function FacultyRequirementsPage() {
     const { t } = useLanguage();
     const colors = useColors();
-    const [activeTab, setActiveTab] = useState<TabType>('load-summary');
-
     const tabs: { id: TabType; label: string }[] = [
+        { id: 'overload-rate', label: 'Overload Rate' },
         { id: 'load-summary', label: t('faculty.loadSummary') },
         { id: 'workload-gap', label: t('faculty.workloadGap') },
-        { id: 'overload-rate', label: 'Overload Rate' },
         { id: 'smart-allocation', label: t('faculty.smartAllocation') },
         { id: 'simulation', label: t('faculty.simulation') },
     ];
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0].id);
 
     return (
         <div className="min-h-screen p-6" style={{ backgroundColor: colors.bgPrimary }}>
             <div className="max-w-7xl mx-auto space-y-6">
                 <div>
-                    <h1 className="text-3xl font-bold mb-2" style={{ color: colors.textPrimary }}>
+                    <h1 className="text-lg sm:text-xl font-semibold mb-2" style={{ color: colors.textPrimary }}>
                         {t('faculty.requirementsUtilization')}
                     </h1>
                     <p className="text-sm" style={{ color: colors.textSecondary }}>

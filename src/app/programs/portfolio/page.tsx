@@ -639,14 +639,13 @@ function KPIReportTab() {
 export default function ProgramPortfolioPage() {
     const { t } = useLanguage();
     const colors = useColors();
-    const [activeTab, setActiveTab] = useState<TabType>('viability');
-
     const tabs: { id: TabType; label: string }[] = [
         { id: 'viability', label: t('programs.viabilityMatrix') },
         { id: 'scenarios', label: t('programs.scenarios') },
         { id: 'analytics', label: t('programs.analytics') },
         { id: 'kpi', label: t('programs.kpiReport') },
     ];
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0].id);
 
     return (
         <div className="min-h-screen p-6" style={{ backgroundColor: colors.bgPrimary }}>

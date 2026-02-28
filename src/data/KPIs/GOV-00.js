@@ -9,7 +9,7 @@ export const GOV_00 = {
   description: "Composite index summarizing overall institutional strategy execution health (single board-level score).",
   
   formula: {
-    description: "Weighted composite of (i) KPI Health Rate, (ii) Initiative Delivery Rate, (iii) Strategic Spend Alignment, (iv) inverse Risk Exposure Index. Weights configurable; normalize each component 0–100 then aggregate.",
+    description: "Weighted composite of (i) KPI Health Rate, (ii) Initiative Delivery Rate, (iii) Strategic Spend Alignment, (iv) inverse Risk Exposure Index.",
     components: [
       { name: "KPI Health Rate", weight: 0.25 },
       { name: "Initiative Delivery Rate", weight: 0.25 },

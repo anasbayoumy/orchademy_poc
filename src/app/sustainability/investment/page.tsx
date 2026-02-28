@@ -1,7 +1,7 @@
 'use client';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
-import { DollarSign, TrendingUp, Award, Target } from 'lucide-react';
+import { DollarSign, TrendingUp, Award, Target, CheckCircle2 } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -34,6 +34,21 @@ export default function SustainabilityInvestmentPage() {
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
                     Monitor green capital expenditure ratios, sustainability spend ROI, and payback periods to ensure effective allocation of sustainability investments.
                 </p>
+            </div>
+
+            {/* Expected KPIs */}
+            <div className="mt-6 rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                    Expected KPIs for Sustainability Investment Discipline
+                </p>
+                <ul className="space-y-2">
+                    {['Green Capex Ratio', 'Sustainability Spend ROI', 'Payback Period (Green Capex)'].map((kpi, i) => (
+                        <li key={i} className="flex items-center gap-2.5">
+                            <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                            <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

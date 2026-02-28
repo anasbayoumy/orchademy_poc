@@ -15,7 +15,7 @@ export default function DonutChart({ data, height = 250, innerRadius = 60, outer
     return (
         <ResponsiveContainer width="100%" height={height}>
             <PieChart>
-                <Pie data={data} cx="50%" cy="50%" innerRadius={innerRadius} outerRadius={outerRadius} paddingAngle={3} dataKey="value" animationDuration={800} animationEasing="ease-out">
+                <Pie data={data} cx="50%" cy="50%" innerRadius={innerRadius} outerRadius={outerRadius} paddingAngle={3} dataKey="value" animationDuration={800} animationEasing="ease-out" label={false}>
                     {data.map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.color} stroke={bgColor} strokeWidth={2} />))}
                 </Pie>
                 <Tooltip

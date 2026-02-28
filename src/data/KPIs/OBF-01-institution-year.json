@@ -1,0 +1,62 @@
+[
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University (Synthetic)",
+    "academicYear": "2019-20",
+    "totalGraduates": 612,
+    "employedWithin1Year": 418,
+    "furtherStudyWithin1Year": 18,
+    "successfulOutcomesTotal": 436,
+    "employmentRate1YPct": 71.24,
+    "targetPct": 70,
+    "status": "green"
+  },
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University (Synthetic)",
+    "academicYear": "2020-21",
+    "totalGraduates": 635,
+    "employedWithin1Year": 442,
+    "furtherStudyWithin1Year": 22,
+    "successfulOutcomesTotal": 464,
+    "employmentRate1YPct": 73.07,
+    "targetPct": 70,
+    "status": "green"
+  },
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University (Synthetic)",
+    "academicYear": "2021-22",
+    "totalGraduates": 658,
+    "employedWithin1Year": 461,
+    "furtherStudyWithin1Year": 15,
+    "successfulOutcomesTotal": 476,
+    "employmentRate1YPct": 72.34,
+    "targetPct": 70,
+    "status": "green"
+  },
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University (Synthetic)",
+    "academicYear": "2022-23",
+    "totalGraduates": 682,
+    "employedWithin1Year": 478,
+    "furtherStudyWithin1Year": 12,
+    "successfulOutcomesTotal": 490,
+    "employmentRate1YPct": 71.85,
+    "targetPct": 70,
+    "status": "green"
+  },
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University (Synthetic)",
+    "academicYear": "2023-24",
+    "totalGraduates": 703,
+    "employedWithin1Year": 501,
+    "furtherStudyWithin1Year": 0,
+    "successfulOutcomesTotal": 501,
+    "employmentRate1YPct": 71.27,
+    "targetPct": 70,
+    "status": "green"
+  }
+]

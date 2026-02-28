@@ -1,0 +1,22 @@
+[
+  {"studentId":"STU001","name":"Alex Morgan","college":"Business","programName":"Management Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"Critical","gpa":1.8,"triggers":["Low GPA","DFW rate","Velocity"]},
+  {"studentId":"STU002","name":"Jordan Lee","college":"Business","programName":"Management Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"High","gpa":2.1,"triggers":["Low GPA","Repeats"]},
+  {"studentId":"STU003","name":"Sam Rivera","college":"Business","programName":"Management Program 2","academicYear":"2019-20","term":"Fall","riskLevel":"Critical","gpa":1.5,"triggers":["Low GPA","Withdrawals"]},
+  {"studentId":"STU004","name":"Casey Kim","college":"Computing","programName":"Computer Science Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"Moderate","gpa":2.4,"triggers":["DFW rate"]},
+  {"studentId":"STU005","name":"Taylor Chen","college":"Engineering","programName":"Electrical Engineering Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"High","gpa":2.0,"triggers":["Low GPA","Velocity"]},
+  {"studentId":"STU006","name":"Riley Johnson","college":"Health Sciences","programName":"Nursing Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"Critical","gpa":1.6,"triggers":["Low GPA","DFW rate","Repeats"]},
+  {"studentId":"STU007","name":"Morgan Davis","college":"Humanities","programName":"English Program 1","academicYear":"2019-20","term":"Fall","riskLevel":"Moderate","gpa":2.3,"triggers":["Velocity"]},
+  {"studentId":"STU008","name":"Jamie Wilson","college":"Business","programName":"Finance Program 1","academicYear":"2020-21","term":"Fall","riskLevel":"High","gpa":2.0,"triggers":["Low GPA","Repeats"]},
+  {"studentId":"STU009","name":"Avery Brown","college":"Computing","programName":"Computer Science Program 2","academicYear":"2020-21","term":"Spring","riskLevel":"Critical","gpa":1.7,"triggers":["Low GPA","DFW rate","Withdrawals"]},
+  {"studentId":"STU010","name":"Quinn Martinez","college":"Engineering","programName":"Mechanical Engineering Program 1","academicYear":"2020-21","term":"Spring","riskLevel":"Moderate","gpa":2.4,"triggers":["DFW rate"]},
+  {"studentId":"STU011","name":"Skyler Thompson","college":"Health Sciences","programName":"Nursing Program 2","academicYear":"2021-22","term":"Fall","riskLevel":"High","gpa":2.1,"triggers":["Low GPA","Velocity"]},
+  {"studentId":"STU012","name":"Drew Anderson","college":"Business","programName":"Marketing Program 1","academicYear":"2021-22","term":"Fall","riskLevel":"Moderate","gpa":2.5,"triggers":["Repeats"]},
+  {"studentId":"STU013","name":"Parker White","college":"Computing","programName":"Data Science Program 1","academicYear":"2021-22","term":"Spring","riskLevel":"Critical","gpa":1.5,"triggers":["Low GPA","DFW rate"]},
+  {"studentId":"STU014","name":"Reese Harris","college":"Engineering","programName":"Civil Engineering Program 1","academicYear":"2022-23","term":"Fall","riskLevel":"High","gpa":2.0,"triggers":["Velocity","Repeats"]},
+  {"studentId":"STU015","name":"Blake Clark","college":"Humanities","programName":"History Program 1","academicYear":"2022-23","term":"Fall","riskLevel":"Moderate","gpa":2.3,"triggers":["DFW rate"]},
+  {"studentId":"STU016","name":"Cameron Wright","college":"Business","programName":"Finance Program 2","academicYear":"2019-20","term":"Spring","riskLevel":"Critical","gpa":1.7,"triggers":["Low GPA","Withdrawals"]},
+  {"studentId":"STU017","name":"Morgan Ellis","college":"Computing","programName":"Computer Science Program 1","academicYear":"2019-20","term":"Spring","riskLevel":"High","gpa":2.0,"triggers":["DFW rate","Repeats"]},
+  {"studentId":"STU018","name":"Riley Foster","college":"Engineering","programName":"Electrical Engineering Program 1","academicYear":"2019-20","term":"Spring","riskLevel":"Moderate","gpa":2.5,"triggers":["Velocity"]},
+  {"studentId":"STU019","name":"Jordan Brooks","college":"Health Sciences","programName":"Nursing Program 1","academicYear":"2019-20","term":"Spring","riskLevel":"Critical","gpa":1.6,"triggers":["Low GPA","DFW rate"]},
+  {"studentId":"STU020","name":"Alex Hayes","college":"Humanities","programName":"English Program 1","academicYear":"2019-20","term":"Spring","riskLevel":"High","gpa":2.1,"triggers":["Repeats","Withdrawals"]}
+]

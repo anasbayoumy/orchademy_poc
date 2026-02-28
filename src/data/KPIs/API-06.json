@@ -42,11 +42,11 @@
     "Low": "On track, minimal intervention"
   },
   "targets": {
-    "benchmark": "<25% / <15% / <8% (example)",
+    "benchmark": "<8%",
     "excellent": 8,
-    "stretch": 15,
+    "stretch": 8,
     "max": 25,
-    "description": "Configurable by institution type. Lower is better."
+    "description": "Target: at-risk rate below 8%. Lower is better."
   },
   "thresholds": {
     "green": {

@@ -1,7 +1,7 @@
 'use client';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
-import { Activity, TrendingUp, Users, Building } from 'lucide-react';
+import { Activity, TrendingUp, Users, Building, CheckCircle2 } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -13,7 +13,7 @@ export default function CapacityUtilizationPage() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.efficiency.capacityUtilization')} 
-                subtitle="Classroom fill rate and facility utilization analysis (EFF-11)"
+                subtitle="Classroom fill rate and facility utilization analysis"
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
@@ -34,6 +34,21 @@ export default function CapacityUtilizationPage() {
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
                     Track classroom fill rates and facility utilization to optimize space allocation and improve operational efficiency.
                 </p>
+            </div>
+
+            {/* Expected KPIs */}
+            <div className="mt-6 rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                    Expected KPIs for Capacity Utilization
+                </p>
+                <ul className="space-y-2">
+                    {['Classroom Fill Rate'].map((kpi, i) => (
+                        <li key={i} className="flex items-center gap-2.5">
+                            <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                            <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

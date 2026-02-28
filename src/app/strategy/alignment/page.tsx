@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
-import { Target, TrendingUp, TrendingDown, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { Target, TrendingUp, TrendingDown, AlertCircle, CheckCircle, XCircle, BarChart3 } from 'lucide-react';
 import GOV_00 from '@/data/KPIs/GOV-00';
 
 export default function InstitutionalAlignment() {
@@ -53,7 +53,7 @@ export default function InstitutionalAlignment() {
     return (
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
-                title="Institutional Alignment" 
+                title="Strategy Posture" 
                 subtitle="Strategic performance and alignment tracking" 
             />
 
@@ -92,12 +92,15 @@ export default function InstitutionalAlignment() {
                                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>
                                     Current Score
                                 </span>
-                                <div style={{ color: getStatusColor(latestYear?.status || 'amber') }}>
+                                <div 
+                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                                    style={{ backgroundColor: getStatusColor(latestYear?.status || 'amber') + '20' }}
+                                >
                                     {getStatusIcon(latestYear?.status || 'amber')}
                                 </div>
                             </div>
                             <div className="flex items-baseline gap-2 mb-2">
-                                <h3 className="text-3xl font-bold" style={{ color: colors.textPrimary }}>
+                                <h3 className="text-xl sm:text-2xl font-bold tabular-nums" style={{ color: colors.textPrimary }}>
                                     {latestYear?.value.toFixed(2)}
                                 </h3>
                                 <span className="text-sm font-medium" style={{ color: colors.textSecondary }}>/ 100</span>
@@ -123,10 +126,15 @@ export default function InstitutionalAlignment() {
                                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>
                                     Board Target
                                 </span>
-                                <Target size={20} style={{ color: colors.primary1 }} />
+                                <div 
+                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                                    style={{ backgroundColor: colors.primary1 + '20' }}
+                                >
+                                    <Target size={20} style={{ color: colors.primary1 }} />
+                                </div>
                             </div>
                             <div className="flex items-baseline gap-2 mb-2">
-                                <h3 className="text-3xl font-bold" style={{ color: colors.textPrimary }}>
+                                <h3 className="text-xl sm:text-2xl font-bold tabular-nums" style={{ color: colors.textPrimary }}>
                                     {activeKPI.targets.boardApproved}
                                 </h3>
                                 <span className="text-sm font-medium" style={{ color: colors.textSecondary }}>/ 100</span>
@@ -145,6 +153,12 @@ export default function InstitutionalAlignment() {
                                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>
                                     Status
                                 </span>
+                                <div 
+                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                                    style={{ backgroundColor: getStatusColor(latestYear?.status || 'amber') + '20' }}
+                                >
+                                    {getStatusIcon(latestYear?.status || 'amber')}
+                                </div>
                             </div>
                             <div 
                                 className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold mb-2"
@@ -170,9 +184,15 @@ export default function InstitutionalAlignment() {
                                 <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: colors.textSecondary }}>
                                     Industry Average
                                 </span>
+                                <div 
+                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                                    style={{ backgroundColor: colors.secondary1 + '20' }}
+                                >
+                                    <BarChart3 size={20} style={{ color: colors.secondary1 }} />
+                                </div>
                             </div>
                             <div className="flex items-baseline gap-2 mb-2">
-                                <h3 className="text-3xl font-bold" style={{ color: colors.textPrimary }}>
+                                <h3 className="text-xl sm:text-2xl font-bold tabular-nums" style={{ color: colors.textPrimary }}>
                                     {activeKPI.benchmark.industry.average}
                                 </h3>
                                 <span className="text-sm font-medium" style={{ color: colors.textSecondary }}>/ 100</span>
@@ -218,25 +238,13 @@ export default function InstitutionalAlignment() {
                                                     {year.value.toFixed(2)}
                                                 </span>
                                                 <div 
-                                                    className="w-full rounded-t opacity-80 hover:opacity-100 transition-opacity relative"
+                                                    className="w-full rounded-t opacity-80 hover:opacity-100 transition-opacity"
                                                     style={{ 
                                                         height: `${height * 2}px`,
                                                         backgroundColor: getStatusColor(year.status),
                                                         minHeight: '20px'
                                                     }}
-                                                >
-                                                    {/* Target line indicator */}
-                                                    {activeKPI.targets.boardApproved >= year.value && (
-                                                        <div 
-                                                            className="absolute left-0 right-0 border-t-2 border-dashed"
-                                                            style={{ 
-                                                                top: `${100 - ((activeKPI.targets.boardApproved / 100) * 100)}%`,
-                                                                borderColor: colors.primary1 + '80',
-                                                                opacity: 0.5
-                                                            }}
-                                                        />
-                                                    )}
-                                                </div>
+                                                />
                                             </div>
                                             
                                             {/* Year label */}
@@ -397,7 +405,7 @@ export default function InstitutionalAlignment() {
                                 </div>
                                 <div>
                                     <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: colors.secondary1 }}>
-                                        Secondary Uses
+                                        Secondary Use
                                     </h4>
                                     <ul className="space-y-2">
                                         {activeKPI.usage.secondary.map((use, idx) => (

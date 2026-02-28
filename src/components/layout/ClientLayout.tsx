@@ -59,13 +59,14 @@ function MainContent({ children, sidebarOpen, onToggleSidebar }: {
                         <Menu size={20} />
                     </button>
                     <Image
-                        src={isDark ? "/logo_dark.png" : "/logo_light.png"}
+                        src="/logo_dark.png"
                         alt="Orchademy Logo"
                         width={120}
                         height={34}
                         priority
                         style={{
                             objectFit: "contain",
+                            ...(!isDark && { filter: "brightness(0) saturate(100%) invert(17%) sepia(43%) saturate(1800%) hue-rotate(208deg) brightness(92%) contrast(88%)" }),
                         }}
                     />
                 </div>

@@ -5,7 +5,7 @@ import MetricCard from '@/components/ui/MetricCard';
 import DataTable from '@/components/ui/DataTable';
 import BarChartComponent from '@/components/charts/BarChart';
 import { Users, UserCheck, AlertTriangle, TrendingDown } from 'lucide-react';
-import { FACULTY_DATA, getDepartmentSummary, type Faculty } from '@/data/faculty';
+import { FACULTY_DATA, getDepartmentSummary, getDefaultTotalFaculty, type Faculty } from '@/data/faculty';
 import { useColors } from '@/hooks/useColors';
 import { useDateFilter, getDateAdjustments } from '@/context/DateFilterContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -18,7 +18,7 @@ export default function FacultyLoadSummary() {
 
     const deptSummary = getDepartmentSummary();
 
-    const totalFaculty = Math.round(FACULTY_DATA.length * adjustments.value);
+    const totalFaculty = Math.round(getDefaultTotalFaculty() * adjustments.value);
     const overloaded = Math.round(FACULTY_DATA.filter(f => f.status === 'Overloaded').length * adjustments.value);
     const underloaded = Math.round(FACULTY_DATA.filter(f => f.status === 'Underloaded').length * adjustments.variation);
     const totalFTE = Math.round(FACULTY_DATA.reduce((sum, f) => sum + (f.ftePercentage / 100), 0) * adjustments.value * 10) / 10;

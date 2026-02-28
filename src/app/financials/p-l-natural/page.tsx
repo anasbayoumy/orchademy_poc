@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Header from '@/components/layout/Header';
 import LineChart from '@/components/charts/LineChart';
-import { TrendingUp, TrendingDown, BarChart3, ChevronDown, ChevronUp } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3, ChevronDown, ChevronUp, ArrowUpRight, ArrowDownRight, Activity, PieChart, Wallet } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -64,12 +64,203 @@ const calculateGrowth = (values: number[]) => {
     return ((current - previous) / previous * 100).toFixed(1);
 };
 
+const calculateGrowthForYear = (values: number[], yearIndex: number) => {
+    if (yearIndex <= 0) return '0.0';
+    const current = values[yearIndex];
+    const previous = values[yearIndex - 1];
+    return (((current - previous) / previous) * 100).toFixed(1);
+};
+
 const calculateCAGR = (values: number[]) => {
     const start = values[0];
     const end = values[values.length - 1];
     const years = values.length - 1;
     return (Math.pow(end / start, 1 / years) - 1) * 100;
 };
+
+// Compact formatter for chart labels (no $)
+const formatCompact = (num: number): string => {
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(0)}K`;
+    return `${num.toFixed(0)}`;
+};
+
+// Customizable Card Component
+interface CustomizableCardProps {
+    category: any;
+    colors: any;
+    cardNumber: number;
+    onSelectCategory: (idx: number) => void;
+    categories: any[];
+    selectedCategoryIndex: number;
+}
+
+function CustomizableCard({ category, colors, cardNumber, onSelectCategory, categories, selectedCategoryIndex }: CustomizableCardProps) {
+    const categoryColors: Record<'revenue' | 'expense' | 'net', { text: string; bg: string; icon: any }> = {
+        revenue: { 
+            text: colors.secondary1, 
+            bg: colors.secondary1 + '15', 
+            icon: Wallet
+        },
+        expense: { 
+            text: colors.primary1, 
+            bg: colors.primary1 + '15',
+            icon: PieChart
+        },
+        net: { 
+            text: colors.secondary3, 
+            bg: colors.secondary3 + '15',
+            icon: Activity
+        },
+    };
+    
+    const style = categoryColors[category.categoryType as 'revenue' | 'expense' | 'net'];
+    const Icon = style.icon;
+    const growthNum = parseFloat(category.growth);
+    const isPositive = growthNum >= 0;
+
+    const maxValue = Math.max(...category.trendData.map((d: any) => d.value));
+    const minValue = Math.min(...category.trendData.map((d: any) => d.value));
+    
+    const chartHeight = 100; 
+    const chartWidth = 300;
+    const paddingX = 20;
+    const paddingY = 20;
+    
+    const points = category.trendData.map((item: any, idx: number) => {
+        const x = paddingX + (idx / (category.trendData.length - 1)) * (chartWidth - (paddingX * 2));
+        const range = maxValue - minValue || 1;
+        const normalizedValue = ((item.value - minValue) / range);
+        const y = (chartHeight - paddingY) - (normalizedValue * (chartHeight - (paddingY * 2)));
+        return { x, y, value: item.value, year: YEARS[idx] };
+    });
+    
+    const linePath = points.map((p: any, i: number) => 
+        `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
+    ).join(' ');
+
+    return (
+        <div 
+            className="flex flex-col h-full rounded-lg border bg-white shadow-sm transition-all"
+            style={{ 
+                backgroundColor: colors.cardBg,
+                borderColor: isPositive ? colors.successText + '40' : colors.primary1 + '40',
+                borderWidth: '2px'
+            }}
+        >
+            {/* Header: Dropdown & Icon */}
+            <div className="p-4 flex items-start justify-between gap-3 border-b" style={{ 
+                borderColor: isPositive ? colors.successText + '20' : colors.primary1 + '20',
+                backgroundColor: isPositive ? colors.successBg + '30' : colors.primary1 + '05'
+            }}>
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                         <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded text-white" style={{ backgroundColor: style.text }}>
+                             {cardNumber}
+                         </span>
+                         <span className="text-[10px] font-bold uppercase tracking-wider opacity-50" style={{ color: colors.textSecondary }}>
+                            Metric
+                        </span>
+                    </div>
+                    
+                    <div className="relative group/select">
+                        <select 
+                            value={selectedCategoryIndex}
+                            onChange={(e) => onSelectCategory(parseInt(e.target.value))}
+                            className="w-full bg-transparent text-sm font-bold appearance-none cursor-pointer pr-6 outline-none hover:opacity-70 transition-opacity truncate"
+                            style={{ color: colors.textPrimary }}
+                        >
+                            {categories.map((cat, idx) => (
+                                <option key={idx} value={idx}>{cat.title.replace(/Category \d+: /, '')}</option>
+                            ))}
+                        </select>
+                        <ChevronDown 
+                            size={14} 
+                            className="absolute right-0 top-1 pointer-events-none opacity-50"
+                            style={{ color: colors.textPrimary }}
+                        />
+                    </div>
+                </div>
+                <div 
+                    className="w-8 h-8 rounded-md flex items-center justify-center shrink-0 border"
+                    style={{ 
+                        backgroundColor: isPositive ? colors.successBg : colors.primary1 + '15',
+                        borderColor: isPositive ? colors.successText + '40' : colors.primary1 + '40',
+                        color: isPositive ? colors.successText : colors.primary1
+                    }}
+                >
+                    <Icon size={16} strokeWidth={2.5} />
+                </div>
+            </div>
+
+            {/* Main Metric */}
+            <div className="p-4 pb-0">
+                <div className="flex items-baseline gap-2">
+                    <h2 className="text-2xl font-bold tracking-tight" style={{ color: colors.textPrimary }}>
+                        {formatCurrency(category.value)}
+                    </h2>
+                    <div 
+                        className="flex items-center gap-1 text-xs font-bold"
+                        style={{ 
+                            color: isPositive ? colors.successText : colors.dangerText
+                        }}
+                    >
+                        {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                        <span>{Math.abs(growthNum)}%</span>
+                    </div>
+                </div>
+                <p className="text-xs mt-1 opacity-60" style={{ color: colors.textSecondary }}>Current Year Performance</p>
+            </div>
+
+            {/* Visuals Chart */}
+            <div className="mt-4 px-2 pb-2 flex-1">
+                <div className="relative w-full" style={{ height: '120px' }}>
+                     <svg 
+                        viewBox={`0 0 ${chartWidth} ${chartHeight}`} 
+                        preserveAspectRatio="none"
+                        className="w-full h-full overflow-visible"
+                    >
+                        <line x1={paddingX} y1={chartHeight - paddingY} x2={chartWidth - paddingX} y2={chartHeight - paddingY} stroke={colors.border} strokeWidth="1" strokeDasharray="4 4" opacity="0.5" />
+                        <line x1={paddingX} y1={paddingY} x2={chartWidth - paddingX} y2={paddingY} stroke={colors.border} strokeWidth="1" strokeDasharray="4 4" opacity="0.5" />
+                        <path 
+                            d={linePath} 
+                            fill="none" 
+                            stroke={style.text} 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                        />
+                        {points.map((p: any, i: number) => (
+                            <g key={i}>
+                                <line x1={p.x} y1={p.y} x2={p.x} y2={chartHeight - paddingY} stroke={style.text} strokeWidth="1" opacity="0.1" />
+                                <circle cx={p.x} cy={p.y} r="3.5" fill={colors.cardBg} stroke={style.text} strokeWidth="2" />
+                                <text x={p.x} y={p.y - 12} textAnchor="middle" fontSize="10" fontWeight="bold" fill={style.text}>
+                                    {formatCompact(p.value)}
+                                </text>
+                                <text x={p.x} y={chartHeight - 2} textAnchor="middle" fontSize="9" fill={colors.textSecondary} className="opacity-60">
+                                    {p.year}
+                                </text>
+                            </g>
+                        ))}
+                    </svg>
+                </div>
+            </div>
+            
+            {/* Footer */}
+            <div 
+                className="px-4 py-2 text-[10px] font-medium border-t flex items-center justify-between"
+                style={{ 
+                    borderColor: isPositive ? colors.successText + '20' : colors.primary1 + '20',
+                    backgroundColor: isPositive ? colors.successBg + '20' : colors.primary1 + '05',
+                    color: colors.textSecondary 
+                }}
+            >
+                <span>5-Year Trend</span>
+                <span className="opacity-50">Visuals incl. data points</span>
+            </div>
+        </div>
+    );
+}
 
 // Category Selector Dropdown Component
 interface CategorySelectorProps {
@@ -178,9 +369,11 @@ function CategorySelector({ categories, selectedIndex, onSelect, colors }: Categ
 interface DetailViewProps {
     category: any;
     colors: any;
+    yearLabel: string;
+    selectedYearIndex?: number;
 }
 
-function DetailView({ category, colors }: DetailViewProps) {
+function DetailView({ category, colors, yearLabel, selectedYearIndex = 4 }: DetailViewProps) {
     const categoryColors: Record<'revenue' | 'expense' | 'net', { solid: string; light: string }> = {
         revenue: {
             solid: colors.secondary1,
@@ -218,7 +411,7 @@ function DetailView({ category, colors }: DetailViewProps) {
                         {formatCurrency(category.value)}
                     </p>
                     <div className="flex items-center gap-2">
-                        <span className="text-white text-sm opacity-90">2023-24</span>
+                        <span className="text-white text-sm opacity-90">{yearLabel}</span>
                         <span className="px-3 py-1 bg-white rounded text-xs font-bold" style={{ color: catColor.solid }}>
                             {parseFloat(category.growth) >= 0 ? '+' : ''}{category.growth}% YoY
                         </span>
@@ -345,8 +538,8 @@ function DetailView({ category, colors }: DetailViewProps) {
                     </h3>
                     <div className="space-y-6">
                         {category.details.map((detail: any, idx: number) => {
-                            const currentVal = detail.values[detail.values.length - 1];
-                            const previousVal = detail.values[detail.values.length - 2];
+                            const currentVal = detail.values[selectedYearIndex] ?? detail.values[detail.values.length - 1];
+                            const previousVal = selectedYearIndex > 0 ? detail.values[selectedYearIndex - 1] : detail.values[0];
                             const detailGrowth = ((currentVal - previousVal) / previousVal * 100).toFixed(1);
                             const percentOfTotal = (currentVal / category.value * 100).toFixed(1);
                             const isPositive = parseFloat(detailGrowth) >= 0;
@@ -412,29 +605,33 @@ export default function PLNaturalPage() {
     const colors = useColors();
     const { t, isRTL } = useLanguage();
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
+    const [selectedYearIndex, setSelectedYearIndex] = useState(4); // 2023-24 default
 
     const totals = computeTotals();
 
-    // Prepare category data
-    const categories = [
+    // Prepare category data (filtered by selected financial year)
+    const categories = useMemo(() => {
+        const i = selectedYearIndex;
+        const prevTotRevenue = totals.totalRevenue[i] || 1;
+        return [
         {
             title: 'Category 1: Tuition Revenue',
-            value: FINANCIAL_DATA.revenue.tuition[4],
-            growth: calculateGrowth(FINANCIAL_DATA.revenue.tuition),
-            trendData: YEARS.map((year, i) => ({ year, value: FINANCIAL_DATA.revenue.tuition[i] })),
+            value: FINANCIAL_DATA.revenue.tuition[i],
+            growth: calculateGrowthForYear(FINANCIAL_DATA.revenue.tuition, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.revenue.tuition[idx] })),
             categoryType: 'revenue' as const,
             insights: [
                 `5-year CAGR: ${calculateCAGR(FINANCIAL_DATA.revenue.tuition).toFixed(1)}%`,
                 `Peak year was 2019-20 at ${formatCurrency(Math.max(...FINANCIAL_DATA.revenue.tuition))}`,
-                `Represents ${(FINANCIAL_DATA.revenue.tuition[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of total revenue in 2023-24`,
-                `Declined ${Math.abs(parseFloat(calculateGrowth(FINANCIAL_DATA.revenue.tuition)))}% from prior year due to enrollment shifts`,
+                `Represents ${(FINANCIAL_DATA.revenue.tuition[i] / prevTotRevenue * 100).toFixed(1)}% of total revenue in ${YEARS[i]}`,
+                `YoY change: ${calculateGrowthForYear(FINANCIAL_DATA.revenue.tuition, i)}% from prior year`,
             ],
         },
         {
             title: 'Category 2: Total Other Revenue',
-            value: totals.totalOtherRevenue[4],
-            growth: calculateGrowth(totals.totalOtherRevenue),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.totalOtherRevenue[i] })),
+            value: totals.totalOtherRevenue[i],
+            growth: calculateGrowthForYear(totals.totalOtherRevenue, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.totalOtherRevenue[idx] })),
             details: [
                 { label: 'Fees Revenue', values: FINANCIAL_DATA.revenue.fees },
                 { label: 'Grants Revenue', values: FINANCIAL_DATA.revenue.grants },
@@ -442,34 +639,34 @@ export default function PLNaturalPage() {
             ],
             categoryType: 'revenue' as const,
             insights: [
-                `Grants revenue grew ${calculateGrowth(FINANCIAL_DATA.revenue.grants)}% YoY, strongest component`,
-                `Fees revenue recovered to ${formatCurrency(FINANCIAL_DATA.revenue.fees[4])} in 2023-24`,
-                `Other revenue streams remain stable at ~${(FINANCIAL_DATA.revenue.other[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of total`,
-                `Diversification provides ${(totals.totalOtherRevenue[4] / totals.totalRevenue[4] * 100).toFixed(1)}% revenue stability`,
+                `Grants revenue ${calculateGrowthForYear(FINANCIAL_DATA.revenue.grants, i)}% YoY`,
+                `Fees revenue: ${formatCurrency(FINANCIAL_DATA.revenue.fees[i])} in ${YEARS[i]}`,
+                `Other revenue streams at ~${(FINANCIAL_DATA.revenue.other[i] / prevTotRevenue * 100).toFixed(1)}% of total`,
+                `Diversification provides ${(totals.totalOtherRevenue[i] / totals.totalRevenue[i] * 100).toFixed(1)}% revenue stability`,
             ],
         },
         {
             title: 'Category 3: Total Revenue',
-            value: totals.totalRevenue[4],
-            growth: calculateGrowth(totals.totalRevenue),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.totalRevenue[i] })),
+            value: totals.totalRevenue[i],
+            growth: calculateGrowthForYear(totals.totalRevenue, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.totalRevenue[idx] })),
             details: [
                 { label: 'Tuition Revenue', values: FINANCIAL_DATA.revenue.tuition },
                 { label: 'Other Revenue', values: totals.totalOtherRevenue },
             ],
             categoryType: 'revenue' as const,
             insights: [
-                `Revenue trending upward with ${calculateGrowth(totals.totalRevenue)}% YoY growth`,
+                `Revenue ${calculateGrowthForYear(totals.totalRevenue, i)}% YoY in ${YEARS[i]}`,
                 `Approaching 2019-20 levels after COVID-19 recovery`,
                 `Average annual revenue over 5 years: ${formatCurrency(totals.totalRevenue.reduce((a, b) => a + b) / 5)}`,
-                `Revenue stability improved with ${(Math.min(...totals.totalRevenue) / Math.max(...totals.totalRevenue) * 100).toFixed(1)}% consistency`,
+                `Revenue stability: ${(Math.min(...totals.totalRevenue) / Math.max(...totals.totalRevenue) * 100).toFixed(1)}% consistency`,
             ],
         },
         {
             title: 'Category 4: Total Salaries & Benefits',
-            value: totals.totalSalaries[4],
-            growth: calculateGrowth(totals.totalSalaries),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.totalSalaries[i] })),
+            value: totals.totalSalaries[i],
+            growth: calculateGrowthForYear(totals.totalSalaries, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.totalSalaries[idx] })),
             details: [
                 { label: 'Faculty Salaries', values: FINANCIAL_DATA.expenses.facultySalaries },
                 { label: 'Staff Salaries', values: FINANCIAL_DATA.expenses.staffSalaries },
@@ -477,30 +674,30 @@ export default function PLNaturalPage() {
             ],
             categoryType: 'expense' as const,
             insights: [
-                `Personnel costs represent ${(totals.totalSalaries[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of revenue`,
-                `Faculty salaries decreased ${Math.abs(parseFloat(calculateGrowth(FINANCIAL_DATA.expenses.facultySalaries)))}% YoY`,
-                `Benefits as % of salaries: ${(FINANCIAL_DATA.expenses.benefits[4] / (FINANCIAL_DATA.expenses.facultySalaries[4] + FINANCIAL_DATA.expenses.staffSalaries[4]) * 100).toFixed(1)}%`,
+                `Personnel costs represent ${(totals.totalSalaries[i] / prevTotRevenue * 100).toFixed(1)}% of revenue`,
+                `Faculty salaries ${calculateGrowthForYear(FINANCIAL_DATA.expenses.facultySalaries, i)}% YoY`,
+                `Benefits as % of salaries: ${(FINANCIAL_DATA.expenses.benefits[i] / (FINANCIAL_DATA.expenses.facultySalaries[i] + FINANCIAL_DATA.expenses.staffSalaries[i]) * 100).toFixed(1)}%`,
                 `Staff efficiency improved with lower salary burden`,
             ],
         },
         {
             title: 'Category 5: Scholarships & Financial Aid',
-            value: FINANCIAL_DATA.expenses.scholarships[4],
-            growth: calculateGrowth(FINANCIAL_DATA.expenses.scholarships),
-            trendData: YEARS.map((year, i) => ({ year, value: FINANCIAL_DATA.expenses.scholarships[i] })),
+            value: FINANCIAL_DATA.expenses.scholarships[i],
+            growth: calculateGrowthForYear(FINANCIAL_DATA.expenses.scholarships, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.expenses.scholarships[idx] })),
             categoryType: 'expense' as const,
             insights: [
-                `Aid represents ${(FINANCIAL_DATA.expenses.scholarships[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of total revenue`,
-                `Decreased ${Math.abs(parseFloat(calculateGrowth(FINANCIAL_DATA.expenses.scholarships)))}% YoY after 2022-23 spike`,
+                `Aid represents ${(FINANCIAL_DATA.expenses.scholarships[i] / prevTotRevenue * 100).toFixed(1)}% of total revenue`,
+                `${calculateGrowthForYear(FINANCIAL_DATA.expenses.scholarships, i)}% YoY change`,
                 `Average aid per student maintains accessibility goals`,
                 `5-year trend shows strategic investment in student support`,
             ],
         },
         {
             title: 'Category 6: Total Operating Expenses',
-            value: totals.totalOperating[4],
-            growth: calculateGrowth(totals.totalOperating),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.totalOperating[i] })),
+            value: totals.totalOperating[i],
+            growth: calculateGrowthForYear(totals.totalOperating, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.totalOperating[idx] })),
             details: [
                 { label: 'Academic Supplies', values: FINANCIAL_DATA.expenses.academicSupplies },
                 { label: 'Facilities & Utilities', values: FINANCIAL_DATA.expenses.facilities },
@@ -510,30 +707,30 @@ export default function PLNaturalPage() {
             ],
             categoryType: 'expense' as const,
             insights: [
-                `Operating expenses at ${(totals.totalOperating[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of revenue - well managed`,
+                `Operating expenses at ${(totals.totalOperating[i] / prevTotRevenue * 100).toFixed(1)}% of revenue - well managed`,
                 `IT systems costs stable, reflecting digital transformation completion`,
-                `Facilities costs ${calculateGrowth(FINANCIAL_DATA.expenses.facilities)}% YoY growth`,
-                `Professional services increased ${calculateGrowth(FINANCIAL_DATA.expenses.professionalServices)}% for strategic initiatives`,
+                `Facilities costs ${calculateGrowthForYear(FINANCIAL_DATA.expenses.facilities, i)}% YoY`,
+                `Professional services ${calculateGrowthForYear(FINANCIAL_DATA.expenses.professionalServices, i)}% for strategic initiatives`,
             ],
         },
         {
             title: 'Category 7: Depreciation',
-            value: FINANCIAL_DATA.expenses.depreciation[4],
-            growth: calculateGrowth(FINANCIAL_DATA.expenses.depreciation),
-            trendData: YEARS.map((year, i) => ({ year, value: FINANCIAL_DATA.expenses.depreciation[i] })),
+            value: FINANCIAL_DATA.expenses.depreciation[i],
+            growth: calculateGrowthForYear(FINANCIAL_DATA.expenses.depreciation, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: FINANCIAL_DATA.expenses.depreciation[idx] })),
             categoryType: 'expense' as const,
             insights: [
-                `Depreciation growing ${calculateGrowth(FINANCIAL_DATA.expenses.depreciation)}% YoY`,
+                `Depreciation ${calculateGrowthForYear(FINANCIAL_DATA.expenses.depreciation, i)}% YoY`,
                 `Reflects ongoing capital investment in infrastructure`,
-                `${(FINANCIAL_DATA.expenses.depreciation[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of revenue - standard for sector`,
+                `${(FINANCIAL_DATA.expenses.depreciation[i] / prevTotRevenue * 100).toFixed(1)}% of revenue - standard for sector`,
                 `Steady increase indicates asset base expansion`,
             ],
         },
         {
             title: 'Category 8: Total Expenses',
-            value: totals.totalExpenses[4],
-            growth: calculateGrowth(totals.totalExpenses),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.totalExpenses[i] })),
+            value: totals.totalExpenses[i],
+            growth: calculateGrowthForYear(totals.totalExpenses, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.totalExpenses[idx] })),
             details: [
                 { label: 'Total Salaries', values: totals.totalSalaries },
                 { label: 'Scholarships', values: FINANCIAL_DATA.expenses.scholarships },
@@ -542,26 +739,31 @@ export default function PLNaturalPage() {
             ],
             categoryType: 'expense' as const,
             insights: [
-                `Expense ratio: ${(totals.totalExpenses[4] / totals.totalRevenue[4] * 100).toFixed(1)}% of revenue`,
-                `Efficient cost management with ${calculateGrowth(totals.totalExpenses)}% YoY decrease`,
+                `Expense ratio: ${(totals.totalExpenses[i] / prevTotRevenue * 100).toFixed(1)}% of revenue`,
+                `Cost management: ${calculateGrowthForYear(totals.totalExpenses, i)}% YoY`,
                 `Operating margin improved significantly year-over-year`,
                 `Cost structure optimization yielding positive results`,
             ],
         },
         {
             title: 'Category 9: Net Surplus / (Deficit)',
-            value: totals.netSurplus[4],
-            growth: calculateGrowth(totals.netSurplus),
-            trendData: YEARS.map((year, i) => ({ year, value: totals.netSurplus[i] })),
+            value: totals.netSurplus[i],
+            growth: calculateGrowthForYear(totals.netSurplus, i),
+            trendData: YEARS.map((year, idx) => ({ year, value: totals.netSurplus[idx] })),
             categoryType: 'net' as const,
             insights: [
-                `Strong surplus of ${formatCurrency(totals.netSurplus[4])} in 2023-24`,
-                `Operating margin: ${(totals.netSurplus[4] / totals.totalRevenue[4] * 100).toFixed(1)}% - healthy performance`,
+                `Surplus of ${formatCurrency(totals.netSurplus[i])} in ${YEARS[i]}`,
+                `Operating margin: ${(totals.netSurplus[i] / prevTotRevenue * 100).toFixed(1)}% - healthy performance`,
                 `Best performance since 2020-21's ${formatCurrency(Math.max(...totals.netSurplus))} peak`,
                 `Financial sustainability improved with positive 5-year trend`,
             ],
         },
     ];
+    }, [selectedYearIndex, totals]);
+
+    const [card1Category, setCard1Category] = useState(0);  // Tuition Revenue
+    const [card2Category, setCard2Category] = useState(2);  // Total Revenue
+    const [card3Category, setCard3Category] = useState(8);  // Net Surplus
 
     return (
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
@@ -570,15 +772,73 @@ export default function PLNaturalPage() {
                 subtitle="5-Year Financial Performance by Natural Classification (2019-20 to 2023-24)"
             />
 
+            <div className="mb-6 flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center gap-3">
+                    <label className="text-sm font-medium" style={{ color: colors.textSecondary }}>Financial Year</label>
+                    <select
+                        value={selectedYearIndex}
+                        onChange={(e) => setSelectedYearIndex(Number(e.target.value))}
+                        className="px-4 py-2.5 rounded-lg border text-sm font-medium focus:outline-none focus:ring-2"
+                        style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.textPrimary }}
+                    >
+                        {YEARS.map((label, idx) => (
+                            <option key={idx} value={idx}>{label}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex-1">
             {/* Category Selector */}
-            <div className="mb-6">
                 <CategorySelector
                     categories={categories}
                     selectedIndex={expandedCard}
                     onSelect={setExpandedCard}
                     colors={colors}
                 />
+                </div>
             </div>
+
+            {/* Customizable Key Financial Metrics Cards */}
+            {expandedCard === null && (
+                <div className="mb-8">
+                    <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div>
+                            <h2 className="text-2xl font-bold mb-1" style={{ color: colors.textPrimary }}>
+                                Key Financial Metrics
+                            </h2>
+                            <p className="text-sm" style={{ color: colors.textSecondary }}>
+                                Track your most important financial indicators
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <CustomizableCard
+                            category={categories[card1Category]}
+                            colors={colors}
+                            cardNumber={1}
+                            onSelectCategory={setCard1Category}
+                            categories={categories}
+                            selectedCategoryIndex={card1Category}
+                        />
+                        <CustomizableCard
+                            category={categories[card2Category]}
+                            colors={colors}
+                            cardNumber={2}
+                            onSelectCategory={setCard2Category}
+                            categories={categories}
+                            selectedCategoryIndex={card2Category}
+                        />
+                        <CustomizableCard
+                            category={categories[card3Category]}
+                            colors={colors}
+                            cardNumber={3}
+                            onSelectCategory={setCard3Category}
+                            categories={categories}
+                            selectedCategoryIndex={card3Category}
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* Summary Table - Show when no category selected */}
             {expandedCard === null && (
@@ -593,7 +853,7 @@ export default function PLNaturalPage() {
                                     <th className="text-left py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>#</th>
                                     <th className="text-left py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>Category</th>
                                     <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>Type</th>
-                                    <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>2023-24 Value</th>
+                                    <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>{YEARS[selectedYearIndex]} Value</th>
                                     <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>YoY Change</th>
                                     <th className="text-right py-3 px-4 text-xs font-semibold uppercase" style={{ color: colors.textSecondary }}>5-Yr CAGR</th>
                                 </tr>
@@ -669,6 +929,8 @@ export default function PLNaturalPage() {
                 <DetailView
                     category={categories[expandedCard]}
                     colors={colors}
+                    yearLabel={YEARS[selectedYearIndex]}
+                    selectedYearIndex={selectedYearIndex}
                 />
             )}
         </div>

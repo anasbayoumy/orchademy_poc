@@ -83,19 +83,39 @@ const totalNaturalExpenses = PL_NATURAL_DATA.expenses.facultySalaries[CURRENT_YE
 const naturalNetSurplus = totalNaturalRevenue - totalNaturalExpenses;
 
 // Format currency
-const formatCurrency = (value: number) => {
-    return `$${(value / 1000000).toFixed(1)}M`;
+const formatCurrency = (value: number, decimals = 1) => {
+    if (Math.abs(value) >= 1000000) return `$${(value / 1000000).toFixed(decimals)}M`;
+    if (Math.abs(value) >= 1000) return `$${(value / 1000).toFixed(0)}K`;
+    return `$${value.toFixed(0)}`;
 };
 
-// AI Scenarios for Natural Classification
+// Format expected impact from actual surplus delta (ensures consistency)
+const formatExpectedImpact = (delta: number) => {
+    const absVal = Math.abs(delta);
+    if (absVal >= 1000000) return `+$${(absVal / 1000000).toFixed(1)}M`;
+    if (absVal >= 1000) return `+$${(absVal / 1000).toFixed(0)}K`;
+    return `+$${absVal.toFixed(0)}`;
+};
+
+// Helper: expense metrics where decrease = good (green), increase = bad (red)
+const isExpenseMetric = (key: string) => {
+    const k = key.toLowerCase();
+    return k.includes('expense') || k.includes('cost') || k.includes('scholarships') || k.includes('admin') ||
+        k.includes('operation') || k.includes('services') || k.includes('instruction') || k.includes('auxiliary') ||
+        k.includes('support') || k.includes('maintenance');
+};
+
+// Compute surplus delta for consistency (expectedImpact = surplusDelta)
+const tuitionSurplusDelta = PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 0.056;
 const NATURAL_SCENARIOS = [
     {
         id: 1,
         name: 'Tuition Optimization',
         description: 'Increase undergraduate tuition by 3.5% with 2% enrollment growth',
         icon: BookOpen,
-        expectedImpact: '+$2.8M',
-        impactType: 'positive',
+        surplusDelta: tuitionSurplusDelta,
+        expectedImpact: formatExpectedImpact(tuitionSurplusDelta),
+        impactType: 'positive' as const,
         confidence: 92,
         category: 'Revenue',
         affectedMetrics: {
@@ -104,27 +124,21 @@ const NATURAL_SCENARIOS = [
                 after: PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 1.056, 
                 change: 5.6 
             },
-            enrollment: { before: 8500, after: 8670, change: 2.0 },
             netSurplus: { 
                 before: naturalNetSurplus, 
-                after: naturalNetSurplus + (PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 0.056), 
-                change: ((PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 0.056) / naturalNetSurplus) * 100 
+                after: naturalNetSurplus + tuitionSurplusDelta, 
+                change: (tuitionSurplusDelta / naturalNetSurplus) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_NATURAL_DATA.revenue.tuition[0], projected: PL_NATURAL_DATA.revenue.tuition[0] },
-            { year: '2020-21', baseline: PL_NATURAL_DATA.revenue.tuition[1], projected: PL_NATURAL_DATA.revenue.tuition[1] },
-            { year: '2021-22', baseline: PL_NATURAL_DATA.revenue.tuition[2], projected: PL_NATURAL_DATA.revenue.tuition[2] },
-            { year: '2022-23', baseline: PL_NATURAL_DATA.revenue.tuition[3], projected: PL_NATURAL_DATA.revenue.tuition[3] },
-            { year: '2023-24', baseline: PL_NATURAL_DATA.revenue.tuition[4], projected: PL_NATURAL_DATA.revenue.tuition[4] },
-            { year: '2024-25', baseline: PL_NATURAL_DATA.revenue.tuition[4] * 1.02, projected: PL_NATURAL_DATA.revenue.tuition[4] * 1.056 },
-            { year: '2025-26', baseline: PL_NATURAL_DATA.revenue.tuition[4] * 1.04, projected: PL_NATURAL_DATA.revenue.tuition[4] * 1.115 },
-            { year: '2026-27', baseline: PL_NATURAL_DATA.revenue.tuition[4] * 1.06, projected: PL_NATURAL_DATA.revenue.tuition[4] * 1.177 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_NATURAL_DATA.revenue.tuition[Math.min(i, 4)];
+            const proj = i <= 4 ? base : PL_NATURAL_DATA.revenue.tuition[4] * (i === 5 ? 1.056 : i === 6 ? 1.115 : 1.177);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Tuition Growth', value: 1500000, color: '#57bda2' },
-            { label: 'Enrollment Impact', value: 850000, color: '#2493a2' },
-            { label: 'Retention Benefit', value: 450000, color: '#d4af37' }
+            { label: 'Tuition Growth', value: Math.round(tuitionSurplusDelta * 0.54) },
+            { label: 'Enrollment Impact', value: Math.round(tuitionSurplusDelta * 0.30) },
+            { label: 'Retention Benefit', value: Math.round(tuitionSurplusDelta * 0.16) }
         ]
     },
     {
@@ -132,8 +146,9 @@ const NATURAL_SCENARIOS = [
         name: 'Operational Efficiency',
         description: 'Reduce administrative overhead by 8% through process automation',
         icon: Zap,
-        expectedImpact: '-$1.9M',
-        impactType: 'positive',
+        surplusDelta: (PL_NATURAL_DATA.expenses.staffSalaries[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.professionalServices[CURRENT_YEAR_INDEX]) * 0.08,
+        expectedImpact: formatExpectedImpact((PL_NATURAL_DATA.expenses.staffSalaries[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.professionalServices[CURRENT_YEAR_INDEX]) * 0.08),
+        impactType: 'positive' as const,
         confidence: 88,
         category: 'Expense',
         affectedMetrics: {
@@ -142,170 +157,108 @@ const NATURAL_SCENARIOS = [
                 after: (PL_NATURAL_DATA.expenses.staffSalaries[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.professionalServices[CURRENT_YEAR_INDEX]) * 0.92, 
                 change: -8.0 
             },
-            operationalCosts: { 
-                before: PL_NATURAL_DATA.expenses.itSystems[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX], 
-                after: (PL_NATURAL_DATA.expenses.itSystems[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX]) * 0.88, 
-                change: -12.0 
-            },
             netSurplus: { 
                 before: naturalNetSurplus, 
                 after: naturalNetSurplus + ((PL_NATURAL_DATA.expenses.staffSalaries[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.professionalServices[CURRENT_YEAR_INDEX]) * 0.08), 
                 change: (((PL_NATURAL_DATA.expenses.staffSalaries[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.professionalServices[CURRENT_YEAR_INDEX]) * 0.08) / naturalNetSurplus) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_NATURAL_DATA.expenses.staffSalaries[0], projected: PL_NATURAL_DATA.expenses.staffSalaries[0] },
-            { year: '2020-21', baseline: PL_NATURAL_DATA.expenses.staffSalaries[1], projected: PL_NATURAL_DATA.expenses.staffSalaries[1] },
-            { year: '2021-22', baseline: PL_NATURAL_DATA.expenses.staffSalaries[2], projected: PL_NATURAL_DATA.expenses.staffSalaries[2] },
-            { year: '2022-23', baseline: PL_NATURAL_DATA.expenses.staffSalaries[3], projected: PL_NATURAL_DATA.expenses.staffSalaries[3] },
-            { year: '2023-24', baseline: PL_NATURAL_DATA.expenses.staffSalaries[4], projected: PL_NATURAL_DATA.expenses.staffSalaries[4] },
-            { year: '2024-25', baseline: PL_NATURAL_DATA.expenses.staffSalaries[4] * 1.02, projected: PL_NATURAL_DATA.expenses.staffSalaries[4] * 0.92 },
-            { year: '2025-26', baseline: PL_NATURAL_DATA.expenses.staffSalaries[4] * 1.04, projected: PL_NATURAL_DATA.expenses.staffSalaries[4] * 0.90 },
-            { year: '2026-27', baseline: PL_NATURAL_DATA.expenses.staffSalaries[4] * 1.06, projected: PL_NATURAL_DATA.expenses.staffSalaries[4] * 0.88 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_NATURAL_DATA.expenses.staffSalaries[Math.min(i, 4)] + PL_NATURAL_DATA.expenses.professionalServices[Math.min(i, 4)];
+            const proj = i <= 4 ? base : (PL_NATURAL_DATA.expenses.staffSalaries[4] + PL_NATURAL_DATA.expenses.professionalServices[4]) * (i === 5 ? 0.92 : i === 6 ? 0.90 : 0.88);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Process Automation', value: 950000, color: '#304a78' },
-            { label: 'Staff Optimization', value: 650000, color: '#57bda2' },
-            { label: 'Technology Savings', value: 300000, color: '#2493a2' }
+            { label: 'Process Automation', value: 950000 },
+            { label: 'Staff Optimization', value: 650000 },
+            { label: 'Technology Savings', value: 300000 }
         ]
     },
     {
         id: 3,
-        name: 'Research Grant Initiative',
-        description: 'Expand research programs targeting federal and private grants',
+        name: 'Revenue Diversification',
+        description: 'Expand non-tuition revenue streams (fees, grants, other)',
         icon: Target,
-        expectedImpact: '+$3.5M',
-        impactType: 'positive',
+        surplusDelta: (PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX]) * 0.12,
+        expectedImpact: formatExpectedImpact((PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX]) * 0.12),
+        impactType: 'positive' as const,
         confidence: 85,
         category: 'Revenue',
         affectedMetrics: {
-            grantsRevenue: { 
-                before: PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX], 
-                after: PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] * 1.412, 
-                change: 41.2 
-            },
-            researchExpenses: { 
-                before: PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX], 
-                after: PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] * 1.19, 
-                change: 19.0 
+            otherRevenue: { 
+                before: PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX], 
+                after: (PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX]) * 1.12, 
+                change: 12.0 
             },
             netSurplus: { 
                 before: naturalNetSurplus, 
-                after: naturalNetSurplus + (PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] * 0.412) - (PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] * 0.19), 
-                change: ((PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] * 0.412 - PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] * 0.19) / naturalNetSurplus) * 100 
+                after: naturalNetSurplus + (PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX]) * 0.12, 
+                change: (((PL_NATURAL_DATA.revenue.fees[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.grants[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.revenue.other[CURRENT_YEAR_INDEX]) * 0.12) / naturalNetSurplus) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_NATURAL_DATA.revenue.grants[0], projected: PL_NATURAL_DATA.revenue.grants[0] },
-            { year: '2020-21', baseline: PL_NATURAL_DATA.revenue.grants[1], projected: PL_NATURAL_DATA.revenue.grants[1] },
-            { year: '2021-22', baseline: PL_NATURAL_DATA.revenue.grants[2], projected: PL_NATURAL_DATA.revenue.grants[2] },
-            { year: '2022-23', baseline: PL_NATURAL_DATA.revenue.grants[3], projected: PL_NATURAL_DATA.revenue.grants[3] },
-            { year: '2023-24', baseline: PL_NATURAL_DATA.revenue.grants[4], projected: PL_NATURAL_DATA.revenue.grants[4] },
-            { year: '2024-25', baseline: PL_NATURAL_DATA.revenue.grants[4] * 1.04, projected: PL_NATURAL_DATA.revenue.grants[4] * 1.412 },
-            { year: '2025-26', baseline: PL_NATURAL_DATA.revenue.grants[4] * 1.08, projected: PL_NATURAL_DATA.revenue.grants[4] * 1.55 },
-            { year: '2026-27', baseline: PL_NATURAL_DATA.revenue.grants[4] * 1.12, projected: PL_NATURAL_DATA.revenue.grants[4] * 1.70 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const fees = PL_NATURAL_DATA.revenue.fees[Math.min(i, 4)], grants = PL_NATURAL_DATA.revenue.grants[Math.min(i, 4)], other = PL_NATURAL_DATA.revenue.other[Math.min(i, 4)];
+            const base = fees + grants + other;
+            const proj = i <= 4 ? base : base * (i === 5 ? 1.12 : i === 6 ? 1.16 : 1.20);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Federal Grants', value: 2100000, color: '#57bda2' },
-            { label: 'Private Funding', value: 900000, color: '#2493a2' },
-            { label: 'State Programs', value: 500000, color: '#d4af37' }
+            { label: 'Fees & Auxiliary', value: 500000 },
+            { label: 'Grants Growth', value: 450000 },
+            { label: 'Other Revenue', value: 250000 }
         ]
     },
     {
         id: 4,
-        name: 'Scholarship Reallocation',
-        description: 'Optimize financial aid distribution to improve retention and yield',
-        icon: Users,
-        expectedImpact: '+$1.2M',
-        impactType: 'positive',
-        confidence: 90,
-        category: 'Mixed',
+        name: 'Cost Rationalization',
+        description: 'Strategic procurement and vendor consolidation',
+        icon: PieChart,
+        surplusDelta: (PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX]) * 0.09,
+        expectedImpact: formatExpectedImpact((PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX]) * 0.09),
+        impactType: 'positive' as const,
+        confidence: 86,
+        category: 'Expense',
         affectedMetrics: {
-            scholarships: { 
-                before: PL_NATURAL_DATA.expenses.scholarships[CURRENT_YEAR_INDEX], 
-                after: PL_NATURAL_DATA.expenses.scholarships[CURRENT_YEAR_INDEX] * 1.069, 
-                change: 6.9 
-            },
-            tuitionRevenue: { 
-                before: PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX], 
-                after: PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 1.028, 
-                change: 2.8 
+            operatingCosts: { 
+                before: PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX], 
+                after: (PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX]) * 0.91, 
+                change: -9.0 
             },
             netSurplus: { 
                 before: naturalNetSurplus, 
-                after: naturalNetSurplus + (PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 0.028) - (PL_NATURAL_DATA.expenses.scholarships[CURRENT_YEAR_INDEX] * 0.069), 
-                change: ((PL_NATURAL_DATA.revenue.tuition[CURRENT_YEAR_INDEX] * 0.028 - PL_NATURAL_DATA.expenses.scholarships[CURRENT_YEAR_INDEX] * 0.069) / naturalNetSurplus) * 100 
+                after: naturalNetSurplus + (PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX]) * 0.09, 
+                change: (((PL_NATURAL_DATA.expenses.academicSupplies[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.facilities[CURRENT_YEAR_INDEX] + PL_NATURAL_DATA.expenses.marketing[CURRENT_YEAR_INDEX]) * 0.09) / naturalNetSurplus) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_NATURAL_DATA.expenses.scholarships[0], projected: PL_NATURAL_DATA.expenses.scholarships[0] },
-            { year: '2020-21', baseline: PL_NATURAL_DATA.expenses.scholarships[1], projected: PL_NATURAL_DATA.expenses.scholarships[1] },
-            { year: '2021-22', baseline: PL_NATURAL_DATA.expenses.scholarships[2], projected: PL_NATURAL_DATA.expenses.scholarships[2] },
-            { year: '2022-23', baseline: PL_NATURAL_DATA.expenses.scholarships[3], projected: PL_NATURAL_DATA.expenses.scholarships[3] },
-            { year: '2023-24', baseline: PL_NATURAL_DATA.expenses.scholarships[4], projected: PL_NATURAL_DATA.expenses.scholarships[4] },
-            { year: '2024-25', baseline: PL_NATURAL_DATA.expenses.scholarships[4] * 1.03, projected: PL_NATURAL_DATA.expenses.scholarships[4] * 1.069 },
-            { year: '2025-26', baseline: PL_NATURAL_DATA.expenses.scholarships[4] * 1.06, projected: PL_NATURAL_DATA.expenses.scholarships[4] * 1.10 },
-            { year: '2026-27', baseline: PL_NATURAL_DATA.expenses.scholarships[4] * 1.09, projected: PL_NATURAL_DATA.expenses.scholarships[4] * 1.13 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_NATURAL_DATA.expenses.academicSupplies[Math.min(i, 4)] + PL_NATURAL_DATA.expenses.facilities[Math.min(i, 4)] + PL_NATURAL_DATA.expenses.marketing[Math.min(i, 4)];
+            const proj = i <= 4 ? base : base * (i === 5 ? 0.91 : i === 6 ? 0.89 : 0.87);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Merit-Based Impact', value: 700000, color: '#57bda2' },
-            { label: 'Need-Based Impact', value: 300000, color: '#2493a2' },
-            { label: 'Retention Benefit', value: 200000, color: '#d4af37' }
+            { label: 'Procurement Savings', value: 1100000 },
+            { label: 'Vendor Consolidation', value: 700000 },
+            { label: 'Volume Discounts', value: 300000 }
         ]
     }
 ];
 
-// AI Scenarios for Functional Classification
+// Functional surplus deltas (computed for consistency)
+const campusSustainabilityDelta = (PL_FUNCTIONAL_DATA.operationsMaintenance[CURRENT_YEAR_INDEX] * 0.172) + (PL_FUNCTIONAL_DATA.auxiliary[CURRENT_YEAR_INDEX] * 0.094);
+const programRationalizationDelta = (PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 0.052) + (PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.053);
+const instructionalEfficiencyDelta = PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.08;
+const supportStreamliningDelta = (PL_FUNCTIONAL_DATA.institutionalSupport[CURRENT_YEAR_INDEX] * 0.06) + (PL_FUNCTIONAL_DATA.academicSupport[CURRENT_YEAR_INDEX] * 0.04);
+
+// AI Scenarios for Functional Classification (aligned with financials page)
 const FUNCTIONAL_SCENARIOS = [
     {
         id: 5,
-        name: 'Instructional Excellence',
-        description: 'Invest in faculty development and teaching technology',
-        icon: BookOpen,
-        expectedImpact: '+$2.1M',
-        impactType: 'positive',
-        confidence: 87,
-        category: 'Mixed',
-        affectedMetrics: {
-            instructionCost: { 
-                before: PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 1.053, 
-                change: 5.3 
-            },
-            tuitionRevenue: { 
-                before: PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 1.049, 
-                change: 4.9 
-            },
-            netSurplus: { 
-                before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + (PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 0.049) - (PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.053), 
-                change: ((PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 0.049 - PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.053) / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
-            }
-        },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_FUNCTIONAL_DATA.instructionCost[0], projected: PL_FUNCTIONAL_DATA.instructionCost[0] },
-            { year: '2020-21', baseline: PL_FUNCTIONAL_DATA.instructionCost[1], projected: PL_FUNCTIONAL_DATA.instructionCost[1] },
-            { year: '2021-22', baseline: PL_FUNCTIONAL_DATA.instructionCost[2], projected: PL_FUNCTIONAL_DATA.instructionCost[2] },
-            { year: '2022-23', baseline: PL_FUNCTIONAL_DATA.instructionCost[3], projected: PL_FUNCTIONAL_DATA.instructionCost[3] },
-            { year: '2023-24', baseline: PL_FUNCTIONAL_DATA.instructionCost[4], projected: PL_FUNCTIONAL_DATA.instructionCost[4] },
-            { year: '2024-25', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.01, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.053 },
-            { year: '2025-26', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.02, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.07 },
-            { year: '2026-27', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.03, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.09 }
-        ],
-        breakdown: [
-            { label: 'Faculty Investment', value: 1000000, color: '#304a78' },
-            { label: 'Technology Upgrade', value: 500000, color: '#57bda2' },
-            { label: 'Revenue Growth', value: 2100000, color: '#d4af37' }
-        ]
-    },
-    {
-        id: 6,
         name: 'Campus Sustainability',
         description: 'Implement energy-efficient systems and reduce carbon footprint',
         icon: Zap,
-        expectedImpact: '-$1.5M',
-        impactType: 'positive',
+        surplusDelta: campusSustainabilityDelta,
+        expectedImpact: formatExpectedImpact(campusSustainabilityDelta),
+        impactType: 'positive' as const,
         confidence: 91,
         category: 'Expense',
         affectedMetrics: {
@@ -321,75 +274,29 @@ const FUNCTIONAL_SCENARIOS = [
             },
             netSurplus: { 
                 before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + (PL_FUNCTIONAL_DATA.operationsMaintenance[CURRENT_YEAR_INDEX] * 0.172) + (PL_FUNCTIONAL_DATA.auxiliary[CURRENT_YEAR_INDEX] * 0.094), 
-                change: (((PL_FUNCTIONAL_DATA.operationsMaintenance[CURRENT_YEAR_INDEX] * 0.172) + (PL_FUNCTIONAL_DATA.auxiliary[CURRENT_YEAR_INDEX] * 0.094)) / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
+                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + campusSustainabilityDelta, 
+                change: (campusSustainabilityDelta / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[0], projected: PL_FUNCTIONAL_DATA.operationsMaintenance[0] },
-            { year: '2020-21', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[1], projected: PL_FUNCTIONAL_DATA.operationsMaintenance[1] },
-            { year: '2021-22', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[2], projected: PL_FUNCTIONAL_DATA.operationsMaintenance[2] },
-            { year: '2022-23', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[3], projected: PL_FUNCTIONAL_DATA.operationsMaintenance[3] },
-            { year: '2023-24', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[4], projected: PL_FUNCTIONAL_DATA.operationsMaintenance[4] },
-            { year: '2024-25', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 1.02, projected: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 0.828 },
-            { year: '2025-26', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 1.04, projected: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 0.80 },
-            { year: '2026-27', baseline: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 1.06, projected: PL_FUNCTIONAL_DATA.operationsMaintenance[4] * 0.78 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_FUNCTIONAL_DATA.operationsMaintenance[Math.min(i, 4)] + PL_FUNCTIONAL_DATA.auxiliary[Math.min(i, 4)];
+            const proj = i <= 4 ? base : (PL_FUNCTIONAL_DATA.operationsMaintenance[4] + PL_FUNCTIONAL_DATA.auxiliary[4]) * (i === 5 ? 0.85 : i === 6 ? 0.82 : 0.79);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Energy Efficiency', value: 900000, color: '#57bda2' },
-            { label: 'Water Conservation', value: 300000, color: '#2493a2' },
-            { label: 'Waste Reduction', value: 300000, color: '#d4af37' }
+            { label: 'Energy Efficiency', value: 900000 },
+            { label: 'Water Conservation', value: 300000 },
+            { label: 'Waste Reduction', value: 300000 }
         ]
     },
     {
-        id: 7,
-        name: 'Student Services Enhancement',
-        description: 'Expand career services and student support programs',
-        icon: Users,
-        expectedImpact: '+$1.8M',
-        impactType: 'positive',
-        confidence: 89,
-        category: 'Mixed',
-        affectedMetrics: {
-            studentServices: { 
-                before: PL_FUNCTIONAL_DATA.studentServices[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.studentServices[CURRENT_YEAR_INDEX] * 1.156, 
-                change: 15.6 
-            },
-            feesRevenue: { 
-                before: PL_FUNCTIONAL_DATA.feesRevenue[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.feesRevenue[CURRENT_YEAR_INDEX] * 1.184, 
-                change: 18.4 
-            },
-            netSurplus: { 
-                before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + (PL_FUNCTIONAL_DATA.feesRevenue[CURRENT_YEAR_INDEX] * 0.184) - (PL_FUNCTIONAL_DATA.studentServices[CURRENT_YEAR_INDEX] * 0.156), 
-                change: ((PL_FUNCTIONAL_DATA.feesRevenue[CURRENT_YEAR_INDEX] * 0.184 - PL_FUNCTIONAL_DATA.studentServices[CURRENT_YEAR_INDEX] * 0.156) / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
-            }
-        },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_FUNCTIONAL_DATA.studentServices[0], projected: PL_FUNCTIONAL_DATA.studentServices[0] },
-            { year: '2020-21', baseline: PL_FUNCTIONAL_DATA.studentServices[1], projected: PL_FUNCTIONAL_DATA.studentServices[1] },
-            { year: '2021-22', baseline: PL_FUNCTIONAL_DATA.studentServices[2], projected: PL_FUNCTIONAL_DATA.studentServices[2] },
-            { year: '2022-23', baseline: PL_FUNCTIONAL_DATA.studentServices[3], projected: PL_FUNCTIONAL_DATA.studentServices[3] },
-            { year: '2023-24', baseline: PL_FUNCTIONAL_DATA.studentServices[4], projected: PL_FUNCTIONAL_DATA.studentServices[4] },
-            { year: '2024-25', baseline: PL_FUNCTIONAL_DATA.studentServices[4] * 1.02, projected: PL_FUNCTIONAL_DATA.studentServices[4] * 1.156 },
-            { year: '2025-26', baseline: PL_FUNCTIONAL_DATA.studentServices[4] * 1.04, projected: PL_FUNCTIONAL_DATA.studentServices[4] * 1.20 },
-            { year: '2026-27', baseline: PL_FUNCTIONAL_DATA.studentServices[4] * 1.06, projected: PL_FUNCTIONAL_DATA.studentServices[4] * 1.25 }
-        ],
-        breakdown: [
-            { label: 'Career Services', value: 400000, color: '#304a78' },
-            { label: 'Mental Health', value: 300000, color: '#57bda2' },
-            { label: 'Revenue Impact', value: 1800000, color: '#d4af37' }
-        ]
-    },
-    {
-        id: 8,
-        name: 'Academic Program Rationalization',
+        id: 6,
+        name: 'Program Rationalization',
         description: 'Consolidate underperforming programs and invest in high-demand areas',
         icon: Target,
-        expectedImpact: '+$3.2M',
-        impactType: 'positive',
+        surplusDelta: programRationalizationDelta,
+        expectedImpact: formatExpectedImpact(programRationalizationDelta),
+        impactType: 'positive' as const,
         confidence: 84,
         category: 'Mixed',
         affectedMetrics: {
@@ -405,24 +312,90 @@ const FUNCTIONAL_SCENARIOS = [
             },
             netSurplus: { 
                 before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
-                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + (PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 0.052) + (PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.053), 
-                change: ((PL_FUNCTIONAL_DATA.tuitionRevenue[CURRENT_YEAR_INDEX] * 0.052 + PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.053) / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
+                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + programRationalizationDelta, 
+                change: (programRationalizationDelta / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
             }
         },
-        yearlyProjection: [
-            { year: '2019-20', baseline: PL_FUNCTIONAL_DATA.instructionCost[0], projected: PL_FUNCTIONAL_DATA.instructionCost[0] },
-            { year: '2020-21', baseline: PL_FUNCTIONAL_DATA.instructionCost[1], projected: PL_FUNCTIONAL_DATA.instructionCost[1] },
-            { year: '2021-22', baseline: PL_FUNCTIONAL_DATA.instructionCost[2], projected: PL_FUNCTIONAL_DATA.instructionCost[2] },
-            { year: '2022-23', baseline: PL_FUNCTIONAL_DATA.instructionCost[3], projected: PL_FUNCTIONAL_DATA.instructionCost[3] },
-            { year: '2023-24', baseline: PL_FUNCTIONAL_DATA.instructionCost[4], projected: PL_FUNCTIONAL_DATA.instructionCost[4] },
-            { year: '2024-25', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.01, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 0.947 },
-            { year: '2025-26', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.02, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 0.93 },
-            { year: '2026-27', baseline: PL_FUNCTIONAL_DATA.instructionCost[4] * 1.03, projected: PL_FUNCTIONAL_DATA.instructionCost[4] * 0.92 }
-        ],
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_FUNCTIONAL_DATA.instructionCost[Math.min(i, 4)];
+            const proj = i <= 4 ? base : PL_FUNCTIONAL_DATA.instructionCost[4] * (i === 5 ? 0.947 : i === 6 ? 0.93 : 0.92);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
         breakdown: [
-            { label: 'Cost Reduction', value: 1500000, color: '#304a78' },
-            { label: 'Revenue Growth', value: 2200000, color: '#57bda2' },
-            { label: 'Quality Impact', value: 500000, color: '#d4af37' }
+            { label: 'Cost Reduction', value: 1500000 },
+            { label: 'Revenue Growth', value: 1700000 },
+            { label: 'Quality Impact', value: 0 }
+        ]
+    },
+    {
+        id: 7,
+        name: 'Instructional Efficiency',
+        description: 'Optimize student-faculty ratios and section sizing',
+        icon: BookOpen,
+        surplusDelta: instructionalEfficiencyDelta,
+        expectedImpact: formatExpectedImpact(instructionalEfficiencyDelta),
+        impactType: 'positive' as const,
+        confidence: 82,
+        category: 'Expense',
+        affectedMetrics: {
+            instructionCost: { 
+                before: PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX], 
+                after: PL_FUNCTIONAL_DATA.instructionCost[CURRENT_YEAR_INDEX] * 0.92, 
+                change: -8.0 
+            },
+            netSurplus: { 
+                before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
+                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + instructionalEfficiencyDelta, 
+                change: (instructionalEfficiencyDelta / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
+            }
+        },
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_FUNCTIONAL_DATA.instructionCost[Math.min(i, 4)];
+            const proj = i <= 4 ? base : PL_FUNCTIONAL_DATA.instructionCost[4] * (i === 5 ? 0.92 : i === 6 ? 0.89 : 0.86);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
+        breakdown: [
+            { label: 'Section Sizing', value: 900000 },
+            { label: 'Ratio Optimization', value: 700000 },
+            { label: 'Delivery Mix', value: 200000 }
+        ]
+    },
+    {
+        id: 8,
+        name: 'Support Streamlining',
+        description: 'Consolidate administrative support functions',
+        icon: Users,
+        surplusDelta: supportStreamliningDelta,
+        expectedImpact: formatExpectedImpact(supportStreamliningDelta),
+        impactType: 'positive' as const,
+        confidence: 79,
+        category: 'Expense',
+        affectedMetrics: {
+            institutionalSupport: { 
+                before: PL_FUNCTIONAL_DATA.institutionalSupport[CURRENT_YEAR_INDEX], 
+                after: PL_FUNCTIONAL_DATA.institutionalSupport[CURRENT_YEAR_INDEX] * 0.94, 
+                change: -6.0 
+            },
+            academicSupport: { 
+                before: PL_FUNCTIONAL_DATA.academicSupport[CURRENT_YEAR_INDEX], 
+                after: PL_FUNCTIONAL_DATA.academicSupport[CURRENT_YEAR_INDEX] * 0.96, 
+                change: -4.0 
+            },
+            netSurplus: { 
+                before: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX], 
+                after: PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX] + supportStreamliningDelta, 
+                change: (supportStreamliningDelta / PL_FUNCTIONAL_DATA.netSurplus[CURRENT_YEAR_INDEX]) * 100 
+            }
+        },
+        yearlyProjection: ['2019-20','2020-21','2021-22','2022-23','2023-24','2024-25','2025-26','2026-27'].map((year, i) => {
+            const base = PL_FUNCTIONAL_DATA.institutionalSupport[Math.min(i, 4)] + PL_FUNCTIONAL_DATA.academicSupport[Math.min(i, 4)];
+            const proj = i <= 4 ? base : (PL_FUNCTIONAL_DATA.institutionalSupport[4] + PL_FUNCTIONAL_DATA.academicSupport[4]) * (i === 5 ? 0.95 : i === 6 ? 0.93 : 0.91);
+            return { year, baseline: base, projected: i <= 4 ? base : proj };
+        }),
+        breakdown: [
+            { label: 'Admin Consolidation', value: 500000 },
+            { label: 'Shared Services', value: 250000 },
+            { label: 'Process Standardization', value: 150000 }
         ]
     }
 ];
@@ -444,9 +417,9 @@ export default function SimulationsPage() {
     };
 
     return (
-        <div className="p-6 max-w-[1600px] mx-auto">
+        <div className="p-4 sm:p-6 max-w-[1600px] mx-auto min-w-0 overflow-x-hidden" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
                 <div className="flex items-center gap-3 mb-2">
                     <Sparkles size={28} style={{ color: colors.secondary3 }} />
                     <h1 className="text-2xl font-bold" style={{ color: colors.textPrimary }}>
@@ -459,13 +432,13 @@ export default function SimulationsPage() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 mb-6">
-                <button
+            <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
+                    <button
                     onClick={() => {
                         setActiveTab('natural');
                         setAppliedScenario(null);
                     }}
-                    className="px-6 py-3 rounded-lg font-semibold transition-all"
+                    className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base"
                     style={{
                         backgroundColor: activeTab === 'natural' ? colors.primary1 : colors.cardBg,
                         color: activeTab === 'natural' ? '#ffffff' : colors.textPrimary,
@@ -474,12 +447,12 @@ export default function SimulationsPage() {
                 >
                     Natural Classification
                 </button>
-                <button
+                    <button
                     onClick={() => {
                         setActiveTab('functional');
                         setAppliedScenario(null);
                     }}
-                    className="px-6 py-3 rounded-lg font-semibold transition-all"
+                    className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base"
                     style={{
                         backgroundColor: activeTab === 'functional' ? colors.secondary1 : colors.cardBg,
                         color: activeTab === 'functional' ? '#ffffff' : colors.textPrimary,
@@ -492,7 +465,7 @@ export default function SimulationsPage() {
 
             {/* Scenarios Table */}
             {!appliedScenario && (
-                <div className="p-6 rounded-xl mb-6" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                <div className="p-4 sm:p-6 rounded-xl mb-4 sm:mb-6 min-w-0 overflow-hidden" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                     <h2 className="text-lg font-bold mb-4" style={{ color: colors.textPrimary }}>
                         AI-Recommended Scenarios
                     </h2>
@@ -510,8 +483,8 @@ export default function SimulationsPage() {
                                         borderLeftColor: activeTab === 'natural' ? colors.primary1 : colors.secondary1
                                     }}
                                 >
-                                    <div className="flex items-start justify-between gap-4">
-                                        <div className="flex items-start gap-4 flex-1">
+                                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                                        <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
                                             <div 
                                                 className="w-12 h-12 rounded-lg flex items-center justify-center"
                                                 style={{ 
@@ -581,7 +554,7 @@ export default function SimulationsPage() {
                                         
                                         <button
                                             onClick={() => handleApplyScenario(scenario)}
-                                            className="px-5 py-2.5 rounded-lg font-semibold flex items-center gap-2 transition-all hover:opacity-90"
+                                            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-semibold flex items-center gap-2 transition-all hover:opacity-90 shrink-0"
                                             style={{ 
                                                 backgroundColor: activeTab === 'natural' ? colors.primary1 : colors.secondary1,
                                                 color: '#ffffff'
@@ -601,8 +574,67 @@ export default function SimulationsPage() {
             {/* Applied Scenario Details */}
             {appliedScenario && (
                 <div className="space-y-6">
+                    {/* 3 Before/After Summary Cards - always shown for all scenarios */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {(() => {
+                            const metrics = appliedScenario.affectedMetrics;
+                            const netSurplus = metrics.netSurplus;
+                            const otherMetrics = Object.entries(metrics).filter(([k]) => k !== 'netSurplus');
+                            const primaryMetric = otherMetrics[0];
+                            const secondaryMetric = otherMetrics[1];
+                            const surplusDelta = appliedScenario.surplusDelta ?? (netSurplus.after - netSurplus.before);
+                            const cardFromMetric = ([key, data]: [string, any]) => ({
+                                title: key.replace(/([A-Z])/g, ' $1').trim(),
+                                before: data.before,
+                                after: data.after,
+                                change: data.after - data.before,
+                                isGood: isExpenseMetric(key) ? data.after < data.before : data.after > data.before,
+                                color: key.includes('Revenue') || key.includes('tuition') ? colors.secondary1 : key.includes('Surplus') ? colors.secondary3 : colors.primary1,
+                                isImprovementCard: false
+                            });
+                            const cards: any[] = [
+                                cardFromMetric(['netSurplus', netSurplus]),
+                                ...(primaryMetric ? [cardFromMetric(primaryMetric)] : []),
+                                ...(secondaryMetric ? [cardFromMetric(secondaryMetric)] : [{
+                                    title: 'Expected Impact',
+                                    before: 0,
+                                    after: surplusDelta,
+                                    change: surplusDelta,
+                                    isGood: surplusDelta >= 0,
+                                    color: colors.successText,
+                                    isImprovementCard: true
+                                }])
+                            ];
+                            return cards.map((card, idx) => (
+                                <div key={idx} className="p-5 rounded-xl border-2 min-w-0" style={{ backgroundColor: colors.cardBg, borderColor: card.color }}>
+                                    <p className="text-xs font-semibold uppercase mb-4" style={{ color: colors.textSecondary }}>{card.title}</p>
+                                    <div className="flex items-center justify-between gap-3">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs mb-1" style={{ color: colors.textSecondary }}>Before</p>
+                                            <p className="text-base sm:text-lg font-bold truncate" style={{ color: colors.textPrimary }}>
+                                                {card.isImprovementCard ? '$0' : formatCurrency(card.before)}
+                                            </p>
+                                        </div>
+                                        <ArrowRight size={18} className="flex-shrink-0" style={{ color: colors.border }} />
+                                        <div className="flex-1 min-w-0 text-right">
+                                            <p className="text-xs mb-1" style={{ color: colors.textSecondary }}>After</p>
+                                            <p className="text-base sm:text-lg font-bold truncate" style={{ color: card.isGood ? colors.successText : colors.dangerText }}>
+                                                {card.isImprovementCard ? formatExpectedImpact(card.after) : formatCurrency(card.after)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 px-2 py-1.5 rounded-lg text-center" style={{ backgroundColor: (card.isGood ? colors.successText : colors.dangerText) + '15' }}>
+                                        <span className="text-xs font-bold" style={{ color: card.isGood ? colors.successText : colors.dangerText }}>
+                                            {card.change >= 0 ? '+' : ''}{formatCurrency(card.change)} {card.isImprovementCard ? 'improvement' : 'change'}
+                                        </span>
+                                    </div>
+                                </div>
+                            ));
+                        })()}
+                    </div>
+
                     {/* Header with Reset Button */}
-                    <div className="flex items-center justify-between p-5 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 sm:p-5 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                         <div className="flex items-center gap-3">
                             <CheckCircle2 size={24} style={{ color: colors.successText }} />
                             <div>
@@ -626,90 +658,18 @@ export default function SimulationsPage() {
                         </button>
                     </div>
 
-                    {/* Impact Summary Cards */}
-                    <div className="grid grid-cols-3 gap-4">
-                        {Object.entries(appliedScenario.affectedMetrics).map(([key, data]: [string, any]) => {
-                            // Determine if this is an expense metric (where decrease is good) or revenue metric (where increase is good)
-                            const isExpenseMetric = key.toLowerCase().includes('expense') || 
-                                                   key.toLowerCase().includes('cost') || 
-                                                   key.toLowerCase().includes('scholarships') || 
-                                                   key.toLowerCase().includes('admin') ||
-                                                   key.toLowerCase().includes('operation') ||
-                                                   key.toLowerCase().includes('services') ||
-                                                   key.toLowerCase().includes('instruction');
-                            
-                            // For expenses: negative change is good (savings), positive is bad (increase)
-                            // For revenue/surplus: positive change is good (growth), negative is bad (loss)
-                            const isGoodChange = isExpenseMetric ? data.change < 0 : data.change > 0;
-                            
-                            const metricColor = key.includes('Revenue') || key.includes('tuition') || key.includes('grants') || key.includes('fees') 
-                                ? colors.secondary1 
-                                : key.includes('Surplus') 
-                                ? colors.secondary3 
-                                : colors.primary1;
-                            
-                            return (
-                                <div 
-                                    key={key}
-                                    className="p-5 rounded-xl"
-                                    style={{ backgroundColor: colors.cardBg, border: `2px solid ${metricColor}` }}
-                                >
-                                    <p className="text-xs font-semibold mb-3 uppercase" style={{ color: colors.textSecondary }}>
-                                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                                    </p>
-                                    <div className="flex items-end justify-between mb-3">
-                                        <div>
-                                            <p className="text-xs mb-1" style={{ color: colors.textSecondary }}>Before</p>
-                                            <p className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                                                {formatCurrency(data.before)}
-                                            </p>
-                                        </div>
-                                        <ArrowRight size={20} style={{ color: colors.textSecondary }} />
-                                        <div>
-                                            <p className="text-xs mb-1" style={{ color: colors.textSecondary }}>After</p>
-                                            <p className="text-lg font-bold" style={{ color: metricColor }}>
-                                                {formatCurrency(data.after)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div 
-                                        className="p-2 rounded-lg flex items-center justify-center gap-2"
-                                        style={{ backgroundColor: (isGoodChange ? colors.successText : colors.dangerText) + '20' }}
-                                    >
-                                        {data.change > 0 ? <TrendingUp size={16} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} /> : <TrendingDown size={16} style={{ color: isGoodChange ? colors.successText : colors.dangerText }} />}
-                                        <span 
-                                            className="text-sm font-bold"
-                                            style={{ color: isGoodChange ? colors.successText : colors.dangerText }}
-                                        >
-                                            {data.change > 0 ? '+' : ''}{data.change.toFixed(1)}%
-                                        </span>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-
                     {/* Before/After Comparison Chart - Overlapping Bars */}
-                    <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                        <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>
+                    <div className="p-4 sm:p-6 rounded-xl min-w-0 overflow-hidden" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                        <h3 className="text-base font-bold mb-4 sm:mb-6" style={{ color: colors.textPrimary }}>
                             Before vs After Comparison
                         </h3>
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                             {Object.entries(appliedScenario.affectedMetrics).map(([key, data]: [string, any]) => {
                                 const maxValue = Math.max(data.before, data.after) * 1.1; // Add 10% padding
                                 const beforeHeight = (data.before / maxValue) * 100;
                                 const afterHeight = (data.after / maxValue) * 100;
-                                
-                                // Determine if this is an expense metric
-                                const isExpenseMetric = key.toLowerCase().includes('expense') || 
-                                                       key.toLowerCase().includes('cost') || 
-                                                       key.toLowerCase().includes('scholarships') || 
-                                                       key.toLowerCase().includes('admin') ||
-                                                       key.toLowerCase().includes('operation') ||
-                                                       key.toLowerCase().includes('services') ||
-                                                       key.toLowerCase().includes('instruction');
-                                
-                                const isGoodChange = isExpenseMetric ? data.after < data.before : data.after > data.before;
+                                // Cost down = green; Revenue up = green
+                                const isGoodChange = isExpenseMetric(key) ? data.after < data.before : data.after > data.before;
                                 
                                 const metricColor = key.includes('Revenue') || key.includes('tuition') || key.includes('grants') || key.includes('fees')
                                     ? colors.secondary1 
@@ -803,11 +763,11 @@ export default function SimulationsPage() {
                     </div>
 
                     {/* Yearly Projection */}
-                    <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
-                        <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>
+                    <div className="p-4 sm:p-6 rounded-xl min-w-0 overflow-x-auto" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                        <h3 className="text-base font-bold mb-4 sm:mb-6" style={{ color: colors.textPrimary }}>
                             3-Year Projection
                         </h3>
-                        <div className="flex items-end justify-between gap-2" style={{ height: '300px' }}>
+                        <div className="flex items-end justify-between gap-1 sm:gap-2 min-w-[320px]" style={{ height: '250px', maxHeight: '300px' }}>
                             {appliedScenario.yearlyProjection.map((item: any, idx: number) => {
                                 const maxValue = Math.max(...appliedScenario.yearlyProjection.map((d: any) => Math.max(d.baseline, d.projected)));
                                 const baselineHeight = (item.baseline / maxValue) * 100;
@@ -870,7 +830,7 @@ export default function SimulationsPage() {
                     </div>
 
                     {/* Impact Breakdown - Donut/Pie Style */}
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                         <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                             <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>
                                 Impact Breakdown
@@ -879,14 +839,15 @@ export default function SimulationsPage() {
                                 {appliedScenario.breakdown.map((item: any, idx: number) => {
                                     const total = appliedScenario.breakdown.reduce((sum: number, b: any) => sum + b.value, 0);
                                     const percentage = (item.value / total) * 100;
-                                    
+                                    const barColors = [colors.secondary1, colors.secondary2, colors.secondary3];
+                                    const barColor = item.color || barColors[idx % barColors.length];
                                     return (
                                         <div key={idx}>
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-sm font-medium" style={{ color: colors.textPrimary }}>
                                                     {item.label}
                                                 </span>
-                                                <span className="text-sm font-bold" style={{ color: item.color }}>
+                                                <span className="text-sm font-bold" style={{ color: barColor }}>
                                                     {formatCurrency(item.value)} ({percentage.toFixed(0)}%)
                                                 </span>
                                             </div>
@@ -894,13 +855,13 @@ export default function SimulationsPage() {
                                                 className="h-3 rounded-full overflow-hidden"
                                                 style={{ backgroundColor: colors.border }}
                                             >
-                                                <div 
-                                                    className="h-full rounded-full transition-all duration-500"
-                                                    style={{ 
-                                                        width: `${percentage}%`,
-                                                        backgroundColor: item.color
-                                                    }}
-                                                />
+                                            <div 
+                                                className="h-full rounded-full transition-all duration-500"
+                                                style={{ 
+                                                    width: `${percentage}%`,
+                                                    backgroundColor: barColor
+                                                }}
+                                            />
                                             </div>
                                         </div>
                                     );
@@ -909,7 +870,7 @@ export default function SimulationsPage() {
                         </div>
 
                         {/* Key Metrics */}
-                        <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
+                        <div className="p-4 sm:p-6 rounded-xl min-w-0" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                             <h3 className="text-base font-bold mb-6" style={{ color: colors.textPrimary }}>
                                 Key Performance Indicators
                             </h3>

@@ -59,23 +59,7 @@ const FINANCIAL_DATA = {
     }
 };
 
-const CURRENT_YEAR = 4; // 2023-24
-
-// Calculate current year totals
-const currentRevenue = FINANCIAL_DATA.functional.totalRevenue[CURRENT_YEAR];
-const previousRevenue = FINANCIAL_DATA.functional.totalRevenue[CURRENT_YEAR - 1];
-const currentExpenses = FINANCIAL_DATA.functional.totalExpenses[CURRENT_YEAR];
-const previousExpenses = FINANCIAL_DATA.functional.totalExpenses[CURRENT_YEAR - 1];
-const currentSurplus = FINANCIAL_DATA.functional.netSurplus[CURRENT_YEAR];
-const previousSurplus = FINANCIAL_DATA.functional.netSurplus[CURRENT_YEAR - 1];
-
-// Calculate changes
-const revenueChange = ((currentRevenue - previousRevenue) / previousRevenue) * 100;
-const expenseChange = ((currentExpenses - previousExpenses) / previousExpenses) * 100;
-const surplusChange = ((currentSurplus - previousSurplus) / previousSurplus) * 100;
-const margin = (currentSurplus / currentRevenue) * 100;
-const prevMargin = (previousSurplus / previousRevenue) * 100;
-const marginChange = margin - prevMargin;
+const FINANCIAL_YEARS = ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'];
 
 // Format currency
 const formatCurrency = (value: number, decimals = 1): string => {
@@ -90,60 +74,98 @@ const formatPercent = (value: number, decimals = 1): string => {
 // Simulation opportunities: 4 natural + 4 functional (user selects which 4 to display)
 const SIMULATION_INSIGHTS = [
     // Natural classification
-    { id: 'tuition-opt', title: 'Tuition Optimization', impact: '+$2.8M', confidence: 92, type: 'natural', description: '3.5% tuition increase + 2% enrollment growth' },
-    { id: 'operational-eff', title: 'Operational Efficiency', impact: '+$1.9M', confidence: 88, type: 'natural', description: '8% reduction in administrative overhead' },
-    { id: 'revenue-diversification', title: 'Revenue Diversification', impact: '+$1.2M', confidence: 85, type: 'natural', description: 'Expand non-tuition revenue streams' },
-    { id: 'cost-rationalization', title: 'Cost Rationalization', impact: '+$2.1M', confidence: 86, type: 'natural', description: 'Strategic procurement and vendor consolidation' },
+    { id: 'tuition-opt', title: 'Tuition Optimization', impact: '+$2.8M', confidence: 92, type: 'natural' as const, description: '3.5% tuition increase + 2% enrollment growth' },
+    { id: 'operational-eff', title: 'Operational Efficiency', impact: '+$1.9M', confidence: 88, type: 'natural' as const, description: '8% reduction in administrative overhead' },
+    { id: 'revenue-diversification', title: 'Revenue Diversification', impact: '+$1.2M', confidence: 85, type: 'natural' as const, description: 'Expand non-tuition revenue streams' },
+    { id: 'cost-rationalization', title: 'Cost Rationalization', impact: '+$2.1M', confidence: 86, type: 'natural' as const, description: 'Strategic procurement and vendor consolidation' },
     // Functional classification
-    { id: 'campus-sustainability', title: 'Campus Sustainability', impact: '+$1.5M', confidence: 91, type: 'functional', description: 'Energy-efficient systems & carbon reduction' },
-    { id: 'program-rationalization', title: 'Program Rationalization', impact: '+$3.2M', confidence: 84, type: 'functional', description: 'Consolidate underperforming programs' },
-    { id: 'instructional-efficiency', title: 'Instructional Efficiency', impact: '+$1.8M', confidence: 82, type: 'functional', description: 'Optimize student-faculty ratios and section sizing' },
-    { id: 'support-streamlining', title: 'Support Streamlining', impact: '+$0.9M', confidence: 79, type: 'functional', description: 'Consolidate administrative support functions' }
+    { id: 'campus-sustainability', title: 'Campus Sustainability', impact: '+$1.5M', confidence: 91, type: 'functional' as const, description: 'Energy-efficient systems & carbon reduction' },
+    { id: 'program-rationalization', title: 'Program Rationalization', impact: '+$3.2M', confidence: 84, type: 'functional' as const, description: 'Consolidate underperforming programs' },
+    { id: 'instructional-efficiency', title: 'Instructional Efficiency', impact: '+$1.8M', confidence: 82, type: 'functional' as const, description: 'Optimize student-faculty ratios and section sizing' },
+    { id: 'support-streamlining', title: 'Support Streamlining', impact: '+$0.9M', confidence: 79, type: 'functional' as const, description: 'Consolidate administrative support functions' }
 ];
 
 export default function FinancialsDashboard() {
     const colors = useColors();
     const { t, isRTL } = useLanguage();
+    const [selectedYearIndex, setSelectedYearIndex] = useState(4); // 2023-24 default
+    const [customizeOpen, setCustomizeOpen] = useState(false);
     const [selectedInsightIds, setSelectedInsightIds] = useState<string[]>(
         () => SIMULATION_INSIGHTS.slice(0, 4).map(i => i.id)
     );
-    const [customizeOpen, setCustomizeOpen] = useState(false);
 
     const displayedInsights = SIMULATION_INSIGHTS.filter(i => selectedInsightIds.includes(i.id));
 
     const toggleInsight = (id: string) => {
         setSelectedInsightIds(prev => {
             if (prev.includes(id)) {
-                if (prev.length <= 1) return prev; // keep at least 1
+                if (prev.length <= 1) return prev;
                 return prev.filter(x => x !== id);
             }
-            if (prev.length >= 4) return prev; // max 4
+            if (prev.length >= 4) return prev;
             return [...prev, id];
         });
     };
 
+    const currentRevenue = FINANCIAL_DATA.functional.totalRevenue[selectedYearIndex];
+    const previousRevenue = selectedYearIndex > 0 ? FINANCIAL_DATA.functional.totalRevenue[selectedYearIndex - 1] : currentRevenue;
+    const currentExpenses = FINANCIAL_DATA.functional.totalExpenses[selectedYearIndex];
+    const previousExpenses = selectedYearIndex > 0 ? FINANCIAL_DATA.functional.totalExpenses[selectedYearIndex - 1] : currentExpenses;
+    const currentSurplus = FINANCIAL_DATA.functional.netSurplus[selectedYearIndex];
+    const previousSurplus = selectedYearIndex > 0 ? FINANCIAL_DATA.functional.netSurplus[selectedYearIndex - 1] : currentSurplus;
+
+    const revenueChange = selectedYearIndex > 0 ? ((currentRevenue - previousRevenue) / previousRevenue) * 100 : 0;
+    const expenseChange = selectedYearIndex > 0 ? ((currentExpenses - previousExpenses) / previousExpenses) * 100 : 0;
+    const surplusChange = selectedYearIndex > 0 && previousSurplus !== 0 ? ((currentSurplus - previousSurplus) / Math.abs(previousSurplus)) * 100 : 0;
+    const margin = (currentSurplus / currentRevenue) * 100;
+    const prevMargin = selectedYearIndex > 0 ? (previousSurplus / previousRevenue) * 100 : margin;
+    const marginChange = margin - prevMargin;
+    const hasYearComparison = selectedYearIndex > 0;
+
     return (
-        <div className="p-6 max-w-[1600px] mx-auto" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
+        <div className="p-4 sm:p-6 max-w-[1600px] mx-auto min-w-0 overflow-x-hidden" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             {/* Header */}
-            <div className="mb-6">
-                <div className="flex items-center gap-3 mb-2">
-                    <DollarSign size={32} style={{ color: colors.secondary3 }} />
-                    <div>
-                        <h1 className="text-3xl font-bold" style={{ color: colors.textPrimary }}>
+            <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <DollarSign className="flex-shrink-0" size={28} style={{ color: colors.secondary3 }} />
+                    <div className="min-w-0">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold truncate" style={{ color: colors.textPrimary }}>
                             Financial Overview
                         </h1>
-                        <p className="text-sm" style={{ color: colors.textSecondary }}>
-                            Comprehensive financial dashboard for FY 2023-24
+                        <p className="text-xs sm:text-sm" style={{ color: colors.textSecondary }}>
+                            Comprehensive financial dashboard for FY {FINANCIAL_YEARS[selectedYearIndex]}
                         </p>
                     </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                    <label className="text-xs sm:text-sm font-medium shrink-0" style={{ color: colors.textSecondary }}>
+                        Financial Year:
+                    </label>
+                    <select
+                        value={selectedYearIndex}
+                        onChange={(e) => setSelectedYearIndex(Number(e.target.value))}
+                        className="px-3 sm:px-4 py-2 rounded-lg border text-sm font-medium w-full sm:w-auto min-w-0"
+                        style={{
+                            backgroundColor: colors.surfaceBg,
+                            borderColor: colors.border,
+                            color: colors.textPrimary,
+                            maxWidth: '180px'
+                        }}
+                    >
+                        {FINANCIAL_YEARS.map((year, idx) => (
+                            <option key={year} value={idx}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </div>
 
             {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 {/* Total Revenue */}
                 <div 
-                    className="p-5 rounded-xl"
+                    className="p-4 sm:p-5 rounded-xl min-w-0"
                     style={{ 
                         backgroundColor: colors.cardBg, 
                         border: `2px solid ${colors.secondary1}` 
@@ -154,7 +176,7 @@ export default function FinancialsDashboard() {
                             <p className="text-xs font-semibold uppercase mb-1" style={{ color: colors.textSecondary }}>
                                 Total Revenue
                             </p>
-                            <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>
+                            <p className="text-xl sm:text-2xl font-bold break-words" style={{ color: colors.textPrimary }}>
                                 {formatCurrency(currentRevenue)}
                             </p>
                         </div>
@@ -165,20 +187,24 @@ export default function FinancialsDashboard() {
                             <TrendingUp size={20} style={{ color: colors.secondary1 }} />
                         </div>
                     </div>
-                    <div 
-                        className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
-                        style={{ backgroundColor: colors.successText + '20' }}
-                    >
-                        <ArrowUpRight size={12} style={{ color: colors.successText }} />
-                        <span className="text-xs font-bold" style={{ color: colors.successText }}>
-                            {formatPercent(revenueChange)} vs last year
-                        </span>
-                    </div>
+                    {hasYearComparison ? (
+                        <div 
+                            className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
+                            style={{ backgroundColor: (revenueChange >= 0 ? colors.successText : colors.dangerText) + '20' }}
+                        >
+                            {revenueChange >= 0 ? <ArrowUpRight size={12} style={{ color: colors.successText }} /> : <ArrowDownRight size={12} style={{ color: colors.dangerText }} />}
+                            <span className="text-xs font-bold" style={{ color: revenueChange >= 0 ? colors.successText : colors.dangerText }}>
+                                {formatPercent(revenueChange)} vs {FINANCIAL_YEARS[selectedYearIndex - 1]}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-xs" style={{ color: colors.textSecondary }}>Base year</span>
+                    )}
                 </div>
 
                 {/* Total Expenses */}
                 <div 
-                    className="p-5 rounded-xl"
+                    className="p-4 sm:p-5 rounded-xl min-w-0"
                     style={{ 
                         backgroundColor: colors.cardBg, 
                         border: `2px solid ${colors.primary1}` 
@@ -189,7 +215,7 @@ export default function FinancialsDashboard() {
                             <p className="text-xs font-semibold uppercase mb-1" style={{ color: colors.textSecondary }}>
                                 Total Expenses
                             </p>
-                            <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>
+                            <p className="text-xl sm:text-2xl font-bold break-words" style={{ color: colors.textPrimary }}>
                                 {formatCurrency(currentExpenses)}
                             </p>
                         </div>
@@ -200,20 +226,24 @@ export default function FinancialsDashboard() {
                             <TrendingDown size={20} style={{ color: colors.primary1 }} />
                         </div>
                     </div>
-                    <div 
-                        className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
-                        style={{ backgroundColor: colors.dangerText + '20' }}
-                    >
-                        <ArrowDownRight size={12} style={{ color: colors.dangerText }} />
-                        <span className="text-xs font-bold" style={{ color: colors.dangerText }}>
-                            {formatPercent(expenseChange)} vs last year
-                        </span>
-                    </div>
+                    {hasYearComparison ? (
+                        <div 
+                            className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
+                            style={{ backgroundColor: (expenseChange <= 0 ? colors.successText : colors.dangerText) + '20' }}
+                        >
+                            {expenseChange <= 0 ? <ArrowUpRight size={12} style={{ color: colors.successText }} /> : <ArrowDownRight size={12} style={{ color: colors.dangerText }} />}
+                            <span className="text-xs font-bold" style={{ color: expenseChange <= 0 ? colors.successText : colors.dangerText }}>
+                                {formatPercent(expenseChange)} vs {FINANCIAL_YEARS[selectedYearIndex - 1]}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-xs" style={{ color: colors.textSecondary }}>Base year</span>
+                    )}
                 </div>
 
                 {/* Net Surplus */}
                 <div 
-                    className="p-5 rounded-xl"
+                    className="p-4 sm:p-5 rounded-xl min-w-0"
                     style={{ 
                         backgroundColor: colors.cardBg, 
                         border: `2px solid ${colors.secondary3}` 
@@ -224,7 +254,7 @@ export default function FinancialsDashboard() {
                             <p className="text-xs font-semibold uppercase mb-1" style={{ color: colors.textSecondary }}>
                                 Net Surplus
                             </p>
-                            <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>
+                            <p className="text-xl sm:text-2xl font-bold break-words" style={{ color: colors.textPrimary }}>
                                 {formatCurrency(currentSurplus)}
                             </p>
                         </div>
@@ -235,20 +265,24 @@ export default function FinancialsDashboard() {
                             <Target size={20} style={{ color: colors.secondary3 }} />
                         </div>
                     </div>
-                    <div 
-                        className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
-                        style={{ backgroundColor: colors.successText + '20' }}
-                    >
-                        <ArrowUpRight size={12} style={{ color: colors.successText }} />
-                        <span className="text-xs font-bold" style={{ color: colors.successText }}>
-                            {formatPercent(surplusChange)} vs last year
-                        </span>
-                    </div>
+                    {hasYearComparison ? (
+                        <div 
+                            className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
+                            style={{ backgroundColor: (surplusChange >= 0 ? colors.successText : colors.dangerText) + '20' }}
+                        >
+                            {surplusChange >= 0 ? <ArrowUpRight size={12} style={{ color: colors.successText }} /> : <ArrowDownRight size={12} style={{ color: colors.dangerText }} />}
+                            <span className="text-xs font-bold" style={{ color: surplusChange >= 0 ? colors.successText : colors.dangerText }}>
+                                {formatPercent(surplusChange)} vs {FINANCIAL_YEARS[selectedYearIndex - 1]}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-xs" style={{ color: colors.textSecondary }}>Base year</span>
+                    )}
                 </div>
 
-                {/* Operating Margin */}
+                {/* Profit Margin */}
                 <div 
-                    className="p-5 rounded-xl"
+                    className="p-4 sm:p-5 rounded-xl min-w-0"
                     style={{ 
                         backgroundColor: colors.cardBg, 
                         border: `2px solid ${colors.secondary2}` 
@@ -257,9 +291,9 @@ export default function FinancialsDashboard() {
                     <div className="flex items-start justify-between mb-3">
                         <div>
                             <p className="text-xs font-semibold uppercase mb-1" style={{ color: colors.textSecondary }}>
-                                Operating Margin
+                                Profit Margin
                             </p>
-                            <p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>
+                            <p className="text-xl sm:text-2xl font-bold break-words" style={{ color: colors.textPrimary }}>
                                 {margin.toFixed(1)}%
                             </p>
                         </div>
@@ -270,124 +304,138 @@ export default function FinancialsDashboard() {
                             <PieChart size={20} style={{ color: colors.secondary2 }} />
                         </div>
                     </div>
-                    <div 
-                        className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
-                        style={{ backgroundColor: (marginChange >= 0 ? colors.successText : colors.dangerText) + '20' }}
-                    >
-                        {marginChange >= 0 ? <ArrowUpRight size={12} style={{ color: colors.successText }} /> : <ArrowDownRight size={12} style={{ color: colors.dangerText }} />}
-                        <span className="text-xs font-bold" style={{ color: marginChange >= 0 ? colors.successText : colors.dangerText }}>
-                            {formatPercent(marginChange, 2)} vs last year
-                        </span>
-                    </div>
+                    {hasYearComparison ? (
+                        <div 
+                            className="px-2 py-1 rounded-lg inline-flex items-center gap-1"
+                            style={{ backgroundColor: (marginChange >= 0 ? colors.successText : colors.dangerText) + '20' }}
+                        >
+                            {marginChange >= 0 ? <ArrowUpRight size={12} style={{ color: colors.successText }} /> : <ArrowDownRight size={12} style={{ color: colors.dangerText }} />}
+                            <span className="text-xs font-bold" style={{ color: marginChange >= 0 ? colors.successText : colors.dangerText }}>
+                                {formatPercent(marginChange, 2)} vs {FINANCIAL_YEARS[selectedYearIndex - 1]}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-xs" style={{ color: colors.textSecondary }}>Base year</span>
+                    )}
                 </div>
             </div>
 
             {/* Quick Links */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <Link href="/financials/p-l-natural">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 items-stretch">
+                <Link href="/financials/p-l-natural" className="h-full min-h-0 flex">
                     <div 
-                        className="p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
+                        className="p-4 sm:p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.01] sm:hover:scale-[1.02] min-w-0 w-full flex flex-col"
                         style={{ 
                             backgroundColor: colors.cardBg, 
                             border: `1px solid ${colors.border}`,
                             boxShadow: colors.isDark ? 'none' : '0 2px 8px rgba(0,0,0,0.05)'
                         }}
                     >
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-3 sm:mb-4">
                             <div 
-                                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style={{ backgroundColor: colors.primary1 + '20' }}
                             >
                                 <Layers size={24} style={{ color: colors.primary1 }} />
                             </div>
                             <ArrowUpRight size={20} style={{ color: colors.textSecondary }} />
                         </div>
-                        <h3 className="text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
+                        <h3 className="text-base sm:text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
                             Natural Classification
                         </h3>
-                        <p className="text-sm mb-3" style={{ color: colors.textSecondary }}>
+                        <p className="text-xs sm:text-sm mb-3" style={{ color: colors.textSecondary }}>
                             Account-based P&L analysis by expense type
                         </p>
                         <div className="grid grid-cols-2 gap-2">
                             <div>
-                                <p className="text-xs" style={{ color: colors.textSecondary }}>Faculty</p>
+                                <p className="text-xs" style={{ color: colors.textSecondary }}>Total Salaries</p>
                                 <p className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                    {formatCurrency(FINANCIAL_DATA.natural.expenses.facultySalaries[CURRENT_YEAR])}
+                                    {formatCurrency(
+                                        FINANCIAL_DATA.natural.expenses.facultySalaries[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.staffSalaries[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.benefits[selectedYearIndex]
+                                    )}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-xs" style={{ color: colors.textSecondary }}>Operations</p>
+                                <p className="text-xs" style={{ color: colors.textSecondary }}>Total Operating Expense</p>
                                 <p className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                    {formatCurrency(FINANCIAL_DATA.natural.expenses.facilities[CURRENT_YEAR] + FINANCIAL_DATA.natural.expenses.itSystems[CURRENT_YEAR])}
+                                    {formatCurrency(
+                                        FINANCIAL_DATA.natural.expenses.facilities[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.itSystems[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.marketing[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.professionalServices[selectedYearIndex] +
+                                        FINANCIAL_DATA.natural.expenses.depreciation[selectedYearIndex]
+                                    )}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </Link>
 
-                <Link href="/financials/p-l-functional">
+                <Link href="/financials/p-l-functional" className="h-full min-h-0 flex">
                     <div 
-                        className="p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
+                        className="p-4 sm:p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.01] sm:hover:scale-[1.02] min-w-0 w-full flex flex-col"
                         style={{ 
                             backgroundColor: colors.cardBg, 
                             border: `1px solid ${colors.border}`,
                             boxShadow: colors.isDark ? 'none' : '0 2px 8px rgba(0,0,0,0.05)'
                         }}
                     >
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-3 sm:mb-4">
                             <div 
-                                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style={{ backgroundColor: colors.secondary1 + '20' }}
                             >
                                 <Briefcase size={24} style={{ color: colors.secondary1 }} />
                             </div>
                             <ArrowUpRight size={20} style={{ color: colors.textSecondary }} />
                         </div>
-                        <h3 className="text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
+                        <h3 className="text-base sm:text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
                             Functional Classification
                         </h3>
-                        <p className="text-sm mb-3" style={{ color: colors.textSecondary }}>
+                        <p className="text-xs sm:text-sm mb-3" style={{ color: colors.textSecondary }}>
                             Activity-based P&L analysis by function
                         </p>
                         <div className="grid grid-cols-2 gap-2">
                             <div>
-                                <p className="text-xs" style={{ color: colors.textSecondary }}>Instruction</p>
+                                <p className="text-xs" style={{ color: colors.textSecondary }}>Instructional Cost</p>
                                 <p className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                    {formatCurrency(FINANCIAL_DATA.functional.instructionCost[CURRENT_YEAR])}
+                                    {formatCurrency(FINANCIAL_DATA.functional.instructionCost[selectedYearIndex])}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-xs" style={{ color: colors.textSecondary }}>Support</p>
+                                <p className="text-xs" style={{ color: colors.textSecondary }}>Student Services</p>
                                 <p className="text-sm font-bold" style={{ color: colors.textPrimary }}>
-                                    {formatCurrency(FINANCIAL_DATA.functional.academicSupport[CURRENT_YEAR])}
+                                    {formatCurrency(FINANCIAL_DATA.functional.studentServices[selectedYearIndex])}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </Link>
 
-                <Link href="/financials/simulations">
+                <Link href="/financials/simulations" className="h-full min-h-0 flex">
                     <div 
-                        className="p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
+                        className="p-4 sm:p-6 rounded-xl cursor-pointer transition-all hover:scale-[1.01] sm:hover:scale-[1.02] min-w-0 w-full flex flex-col"
                         style={{ 
                             backgroundColor: colors.cardBg, 
                             border: `1px solid ${colors.border}`,
                             boxShadow: colors.isDark ? 'none' : '0 2px 8px rgba(0,0,0,0.05)'
                         }}
                     >
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-3 sm:mb-4">
                             <div 
-                                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style={{ backgroundColor: colors.secondary3 + '20' }}
                             >
                                 <Sparkles size={24} style={{ color: colors.secondary3 }} />
                             </div>
                             <ArrowUpRight size={20} style={{ color: colors.textSecondary }} />
                         </div>
-                        <h3 className="text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
+                        <h3 className="text-base sm:text-lg font-bold mb-2" style={{ color: colors.textPrimary }}>
                             AI Simulations
                         </h3>
-                        <p className="text-sm mb-3" style={{ color: colors.textSecondary }}>
+                        <p className="text-xs sm:text-sm mb-3" style={{ color: colors.textSecondary }}>
                             Scenario planning and optimization insights
                         </p>
                         <div className="grid grid-cols-2 gap-2">
@@ -409,14 +457,14 @@ export default function FinancialsDashboard() {
             </div>
 
             {/* Revenue Breakdown */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div 
-                    className="p-6 rounded-xl"
+                    className="p-4 sm:p-6 rounded-xl min-w-0 overflow-hidden"
                     style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
                 >
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                            Revenue Sources (2023-24)
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                        <h3 className="text-base sm:text-lg font-bold truncate pr-2" style={{ color: colors.textPrimary }}>
+                            Revenue Sources ({FINANCIAL_YEARS[selectedYearIndex]})
                         </h3>
                         <BarChart3 size={20} style={{ color: colors.textSecondary }} />
                     </div>
@@ -424,26 +472,26 @@ export default function FinancialsDashboard() {
                         {[
                             { 
                                 label: 'Tuition', 
-                                value: FINANCIAL_DATA.natural.revenue.tuition[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.natural.revenue.tuition[CURRENT_YEAR] / currentRevenue) * 100,
+                                value: FINANCIAL_DATA.natural.revenue.tuition[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.natural.revenue.tuition[selectedYearIndex] / currentRevenue) * 100,
                                 color: colors.secondary1
                             },
                             { 
                                 label: 'Grants', 
-                                value: FINANCIAL_DATA.natural.revenue.grants[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.natural.revenue.grants[CURRENT_YEAR] / currentRevenue) * 100,
+                                value: FINANCIAL_DATA.natural.revenue.grants[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.natural.revenue.grants[selectedYearIndex] / currentRevenue) * 100,
                                 color: colors.secondary2
                             },
                             { 
                                 label: 'Fees', 
-                                value: FINANCIAL_DATA.natural.revenue.fees[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.natural.revenue.fees[CURRENT_YEAR] / currentRevenue) * 100,
+                                value: FINANCIAL_DATA.natural.revenue.fees[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.natural.revenue.fees[selectedYearIndex] / currentRevenue) * 100,
                                 color: colors.secondary3
                             },
                             { 
                                 label: 'Other', 
-                                value: FINANCIAL_DATA.natural.revenue.other[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.natural.revenue.other[CURRENT_YEAR] / currentRevenue) * 100,
+                                value: FINANCIAL_DATA.natural.revenue.other[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.natural.revenue.other[selectedYearIndex] / currentRevenue) * 100,
                                 color: colors.primary1
                             }
                         ].map((item) => (
@@ -475,39 +523,39 @@ export default function FinancialsDashboard() {
 
                 {/* Expense Breakdown */}
                 <div 
-                    className="p-6 rounded-xl"
+                    className="p-4 sm:p-6 rounded-xl min-w-0 overflow-hidden"
                     style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
                 >
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                            Functional Expenses (2023-24)
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                        <h3 className="text-base sm:text-lg font-bold truncate pr-2" style={{ color: colors.textPrimary }}>
+                            Functional Expenses ({FINANCIAL_YEARS[selectedYearIndex]})
                         </h3>
                         <PieChart size={20} style={{ color: colors.textSecondary }} />
                     </div>
                     <div className="space-y-4">
                         {[
                             { 
-                                label: 'Instruction', 
-                                value: FINANCIAL_DATA.functional.instructionCost[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.functional.instructionCost[CURRENT_YEAR] / currentExpenses) * 100,
+                                label: 'Instructional Cost', 
+                                value: FINANCIAL_DATA.functional.instructionCost[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.functional.instructionCost[selectedYearIndex] / currentExpenses) * 100,
                                 color: colors.primary1
                             },
                             { 
                                 label: 'Institutional Support', 
-                                value: FINANCIAL_DATA.functional.institutionalSupport[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.functional.institutionalSupport[CURRENT_YEAR] / currentExpenses) * 100,
+                                value: FINANCIAL_DATA.functional.institutionalSupport[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.functional.institutionalSupport[selectedYearIndex] / currentExpenses) * 100,
                                 color: colors.secondary1
                             },
                             { 
                                 label: 'Academic Support', 
-                                value: FINANCIAL_DATA.functional.academicSupport[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.functional.academicSupport[CURRENT_YEAR] / currentExpenses) * 100,
+                                value: FINANCIAL_DATA.functional.academicSupport[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.functional.academicSupport[selectedYearIndex] / currentExpenses) * 100,
                                 color: colors.secondary2
                             },
                             { 
-                                label: 'Operations', 
-                                value: FINANCIAL_DATA.functional.operationsMaintenance[CURRENT_YEAR],
-                                percentage: (FINANCIAL_DATA.functional.operationsMaintenance[CURRENT_YEAR] / currentExpenses) * 100,
+                                label: 'Operations & maintenance', 
+                                value: FINANCIAL_DATA.functional.operationsMaintenance[selectedYearIndex],
+                                percentage: (FINANCIAL_DATA.functional.operationsMaintenance[selectedYearIndex] / currentExpenses) * 100,
                                 color: colors.secondary3
                             }
                         ].map((item) => (
@@ -540,32 +588,45 @@ export default function FinancialsDashboard() {
 
             {/* 5-Year Trend */}
             <div 
-                className="p-6 rounded-xl mb-6"
+                className="p-4 sm:p-6 rounded-xl mb-4 sm:mb-6 min-w-0 overflow-x-auto"
                 style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}
             >
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-bold" style={{ color: colors.textPrimary }}>
-                        5-Year Financial Trend
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 sm:mb-6">
+                    <h3 className="text-base sm:text-lg font-bold" style={{ color: colors.textPrimary }}>
+                        5-Year Financial Trend (Net Surplus/deficit)
                     </h3>
                     <LineChart size={20} style={{ color: colors.textSecondary }} />
                 </div>
-                <div className="flex items-end justify-between gap-2" style={{ height: '300px' }}>
-                    {['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'].map((year, idx) => {
+                <div className="flex items-end justify-between gap-1 sm:gap-2 min-w-[280px] h-[200px] sm:h-[250px] lg:h-[300px]">
+                    {FINANCIAL_YEARS.map((year, idx) => {
                         const revenue = FINANCIAL_DATA.functional.totalRevenue[idx];
                         const expenses = FINANCIAL_DATA.functional.totalExpenses[idx];
                         const surplus = FINANCIAL_DATA.functional.netSurplus[idx];
                         const maxValue = Math.max(...FINANCIAL_DATA.functional.totalRevenue);
-                        
+                        const isSelected = idx === selectedYearIndex;
+
                         return (
-                            <div key={year} className="flex-1 flex flex-col items-center gap-3">
-                                <div className="w-full relative" style={{ height: '240px' }}>
+                            <button
+                                key={year}
+                                type="button"
+                                onClick={() => setSelectedYearIndex(idx)}
+                                className="flex-1 flex flex-col items-center gap-3 cursor-pointer transition-opacity hover:opacity-90"
+                            >
+                                <div 
+                                    className="w-full relative rounded-lg p-1 h-[180px] sm:h-[220px] lg:h-[240px]"
+                                    style={{ 
+                                        outline: isSelected ? `2px solid ${colors.accent}` : 'none',
+                                        outlineOffset: 2,
+                                        backgroundColor: isSelected ? colors.accentBg : 'transparent'
+                                    }}
+                                >
                                     {/* Revenue bar */}
                                     <div 
                                         className="absolute bottom-0 w-full rounded-t-lg"
                                         style={{ 
                                             height: `${(revenue / maxValue) * 100}%`,
                                             backgroundColor: colors.secondary1,
-                                            opacity: 0.3,
+                                            opacity: isSelected ? 0.5 : 0.3,
                                             minHeight: '20px'
                                         }}
                                     />
@@ -584,15 +645,15 @@ export default function FinancialsDashboard() {
                                     <p className="text-xs font-bold mb-1" style={{ color: surplus > 0 ? colors.successText : colors.dangerText }}>
                                         {formatCurrency(surplus, 2)}
                                     </p>
-                                    <p className="text-xs font-medium" style={{ color: colors.textSecondary }}>
-                                        {year.split('-')[0]}
+                                    <p className="text-xs font-medium" style={{ color: isSelected ? colors.accent : colors.textSecondary }}>
+                                        {year}
                                     </p>
                                 </div>
-                            </div>
+                            </button>
                         );
                     })}
                 </div>
-                <div className="flex items-center justify-center gap-6 mt-6 pt-4" style={{ borderTop: `1px solid ${colors.border}` }}>
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-4 sm:mt-6 pt-4" style={{ borderTop: `1px solid ${colors.border}` }}>
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 rounded" style={{ backgroundColor: colors.secondary1, opacity: 0.3 }} />
                         <span className="text-xs font-medium" style={{ color: colors.textSecondary }}>Revenue</span>
@@ -607,7 +668,6 @@ export default function FinancialsDashboard() {
                     </div>
                 </div>
             </div>
-
             {/* AI Simulation Insights */}
             <div 
                 className="p-6 rounded-xl"

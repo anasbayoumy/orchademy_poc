@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback } from 'react';
 import Header from '@/components/layout/Header';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
-import BarChartComponent from '@/components/charts/BarChart';
 import DonutChart from '@/components/charts/DonutChart';
 import {
     BarChart,
@@ -121,6 +120,8 @@ function OptimumClassSizeTab() {
     const underfilled = filteredSectionData.filter((d: any) => d.classSizeStatus === 'Underfilled').length;
     const overfilled = filteredSectionData.filter((d: any) => d.classSizeStatus === 'Overfilled').length;
     const pctOptimal = totalSections > 0 ? (totalOptimal / totalSections * 100).toFixed(1) : '0';
+    const pctUnderfilled = totalSections > 0 ? ((underfilled / totalSections) * 100).toFixed(1) : '0';
+    const pctOverfilled = totalSections > 0 ? ((overfilled / totalSections) * 100).toFixed(1) : '0';
 
     const donutData = useMemo(
         () => [
@@ -142,7 +143,7 @@ function OptimumClassSizeTab() {
             byTerm.set(key, cur);
         });
         return Array.from(byTerm.entries())
-            .sort(([a], [b]) => a.localeCompare(b))
+            .sort(([a], [b]) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
             .map(([name, v]) => ({
                 name,
                 Optimal: v.optimal,
@@ -443,7 +444,7 @@ function OptimumClassSizeTab() {
                             <AlertTriangle size={18} style={{ color: colors.warningText }} />
                         </div>
                     </div>
-                    <p className="text-2xl font-bold mt-2" style={{ color: colors.warningText }}>{underfilled.toLocaleString()}</p>
+                    <p className="text-2xl font-bold mt-2" style={{ color: colors.warningText }}>{pctUnderfilled}%</p>
                 </div>
                 <div className="p-5 rounded-xl h-full min-h-[120px] flex flex-col justify-between transition-all hover:shadow-md" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}`, borderLeft: `4px solid ${colors.dangerText}` }}>
                     <div className="flex items-start justify-between">
@@ -452,13 +453,22 @@ function OptimumClassSizeTab() {
                             <XCircle size={18} style={{ color: colors.dangerText }} />
                         </div>
                     </div>
-                    <p className="text-2xl font-bold mt-2" style={{ color: colors.dangerText }}>{overfilled.toLocaleString()}</p>
+                    <p className="text-2xl font-bold mt-2" style={{ color: colors.dangerText }}>{pctOverfilled}%</p>
                 </div>
                 <div className="col-span-2 p-5 rounded-xl min-h-[180px] flex flex-col transition-all hover:shadow-md" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}` }}>
                     <h4 className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: colors.textSecondary }}>Status Distribution</h4>
                     {donutData.length > 0 ? (
-                        <div className="flex-1 min-h-[180px]">
+                        <div className="relative flex-1 min-h-[180px]">
                             <DonutChart data={donutData} height={180} innerRadius={50} outerRadius={75} showLegend={true} />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="text-center max-w-[90px]">
+                                    <span className="text-lg font-bold tabular-nums leading-tight" style={{ color: colors.textPrimary }}>{totalSections.toLocaleString()}</span>
+                                    <span className="text-[10px] block mt-0.5" style={{ color: colors.textSecondary }}>sections</span>
+                                </div>
+                            </div>
+                            <div className="text-center mt-1">
+                                <span className="text-[10px]" style={{ color: colors.textSecondary }}>Opt: {totalOptimal} · Und: {underfilled} · Ov: {overfilled}</span>
+                            </div>
                         </div>
                     ) : (
                         <div className="flex-1 flex items-center justify-center min-h-[160px]" style={{ color: colors.textSecondary }}>
@@ -477,9 +487,17 @@ function OptimumClassSizeTab() {
                         {termStackedData.length > 0 ? (
                             <div className="h-[320px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={termStackedData} margin={{ top: 10, right: 10, left: -10, bottom: 60 }}>
+                                    <BarChart data={termStackedData} margin={{ top: 10, right: 10, left: -10, bottom: 80 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke={colors.border} vertical={false} />
-                                        <XAxis dataKey="name" tick={{ fontSize: 11, fill: colors.textSecondary }} angle={-25} textAnchor="end" height={60} />
+                                        <XAxis
+                                            dataKey="name"
+                                            tick={{ fontSize: 10, fill: colors.textSecondary }}
+                                            tickFormatter={(v) => v}
+                                            angle={-35}
+                                            textAnchor="end"
+                                            height={70}
+                                            interval={0}
+                                        />
                                         <YAxis tick={{ fontSize: 11, fill: colors.textSecondary }} />
                                         <Tooltip
                                             contentStyle={{ background: colors.cardBg, border: `1px solid ${colors.border}`, borderRadius: 8, fontSize: 12 }}
@@ -499,13 +517,33 @@ function OptimumClassSizeTab() {
                     </div>
                     <div className="p-6 rounded-xl" style={{ backgroundColor: colors.cardBg, border: `1px solid ${colors.border}`, boxShadow: '0 1px 3px 0 rgba(0,0,0,0.05)' }}>
                         <h3 className="text-base font-semibold mb-1" style={{ color: colors.textPrimary }}>% Optimal by Term</h3>
-                        <p className="text-xs mb-4" style={{ color: colors.textSecondary }}>Within target band 20–30</p>
-                        <BarChartComponent
-                            data={termChartData}
-                            xKey="name"
-                            bars={[{ dataKey: 'pctOptimal', color: colors.primary1, name: '% Optimal' }]}
-                            height={320}
-                        />
+                        <p className="text-xs mb-4" style={{ color: colors.textSecondary }}>% of sections within target band 20–30</p>
+                        {termChartData.length > 0 ? (
+                            <div className="h-[320px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={termChartData} margin={{ top: 10, right: 10, left: -10, bottom: 80 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke={colors.border} vertical={false} />
+                                        <XAxis
+                                            dataKey="name"
+                                            tick={{ fontSize: 10, fill: colors.textSecondary }}
+                                            angle={-35}
+                                            textAnchor="end"
+                                            height={70}
+                                            interval={0}
+                                        />
+                                        <YAxis tick={{ fontSize: 11, fill: colors.textSecondary }} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                                        <Tooltip
+                                            contentStyle={{ background: colors.cardBg, border: `1px solid ${colors.border}`, borderRadius: 8, fontSize: 12 }}
+                                            formatter={(value: number | undefined) => [`${value != null ? value : 0}%`, '% Optimal (sections)']}
+                                            labelFormatter={(label) => label}
+                                        />
+                                        <Bar dataKey="pctOptimal" fill={colors.primary1} name="% Optimal" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        ) : (
+                            <div className="h-[320px] flex items-center justify-center" style={{ color: colors.textSecondary }}>No data</div>
+                        )}
                     </div>
                 </div>
             )}
@@ -789,7 +827,6 @@ function OptimumClassSizeTab() {
                             below 20 are <strong>Underfilled</strong> (consider consolidation); above 30 are <strong>Overfilled</strong> (consider splitting). 
                             Supports section planning, capacity planning, room allocation, and faculty workload optimization.
                         </p>
-                        <p className="text-xs" style={{ color: colors.textSecondary, opacity: 0.9 }}>Data: FACT_SECTION • Granularity: Section-Term, Course-Term, Term</p>
                     </div>
                 </div>
             </div>

@@ -197,7 +197,7 @@ function CostPerSchTab() {
       <div className="rounded-xl p-5 border mb-6" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
         <div className="flex items-center gap-2 mb-4">
           <Target size={20} style={{ color: colors.accent }} />
-          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>ROI-01 Cost per SCH (Official KPI)</span>
+          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>Cost per SCH (Program/Term)</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div><p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{formatAedCompact(filteredMetrics.totalCost)}</p><p className="text-xs" style={{ color: colors.textSecondary }}>Total Cost</p></div>
@@ -349,7 +349,7 @@ function ProgramMarginTab() {
       <div className="rounded-xl p-5 border mb-6" style={{ backgroundColor: colors.accentBg, borderColor: colors.accent }}>
         <div className="flex items-center gap-2 mb-4">
           <Target size={20} style={{ color: colors.accent }} />
-          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>ROI-03 Program Margin (Official KPI)</span>
+          <span className="text-sm font-semibold" style={{ color: colors.textPrimary }}>Program Margin</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div><p className="text-2xl font-bold" style={{ color: colors.textPrimary }}>{formatAedCompact(filteredMetrics.totalRevenue)}</p><p className="text-xs" style={{ color: colors.textSecondary }}>Total Revenue</p></div>
@@ -408,7 +408,11 @@ function ProgramMarginTab() {
 export default function UnitEconomicsPage() {
   const { t, isRTL } = useLanguage();
   const colors = useColors();
-  const [activeTab, setActiveTab] = useState<TabType>('cost-per-sch');
+  const tabs: { id: TabType; label: string }[] = [
+        { id: 'cost-per-sch', label: t('sidebar.roi.costPerSch') },
+        { id: 'program-margin', label: t('sidebar.roi.programMargin') },
+    ];
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0].id);
 
   return (
     <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>

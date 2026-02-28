@@ -1,7 +1,7 @@
 'use client';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
-import { AlertTriangle, TrendingDown, Building, DollarSign } from 'lucide-react';
+import { AlertTriangle, TrendingDown, Building, DollarSign, CheckCircle2 } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -34,6 +34,21 @@ export default function ClimateRiskPage() {
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
                     Assess climate risk expected financial impact and asset climate vulnerability to proactively manage environmental risks and protect institutional assets.
                 </p>
+            </div>
+
+            {/* Expected KPIs */}
+            <div className="mt-6 rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                    Expected KPIs for Climate Risk & Asset Exposure
+                </p>
+                <ul className="space-y-2">
+                    {['Climate Risk Expected Financial Impact', 'Asset Climate Vulnerability'].map((kpi, i) => (
+                        <li key={i} className="flex items-center gap-2.5">
+                            <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                            <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

@@ -48,7 +48,7 @@
         "dashboard": "لوحة التحكم",
         "strategy": {
             "title": "الاستراتيجية والحوكمة",
-            "dashboard": "الوضع الاستراتيجي",
+            "dashboard": "الموقف الاستراتيجي",
             "alignment": "الوضع الاستراتيجي",
             "priorities": "انضباط التنفيذ",
             "kpi": "هيكل الحوكمة",
@@ -79,7 +79,14 @@
             "analytics": "الاستثمارات الاستراتيجية",
             "employability": "نتائج الخريجين",
             "grants": "التعلم المتكامل مع العمل",
-            "research": "تكلفة النتائج"
+            "research": "تكلفة النتائج",
+            "filters": "الفلاتر",
+            "college": "الكلية",
+            "academicYear": "السنة الأكاديمية",
+            "term": "الفصل",
+            "statusFilter": "الحالة",
+            "costPerSch": "التكلفة لكل وحدة دراسية",
+            "programMargin": "هامش البرنامج"
         },
         "efficiency": {
             "title": "مراقبة الكفاءة",
@@ -130,11 +137,17 @@
     },
     "dashboard": {
         "title": "الأداء المؤسسي",
-        "subtitle": "نظرة عامة على التحليلات الأكاديمية ومقاييس الأداء",
+        "subtitle": "نظرة عامة على التحليلات الأكاديمية ومقاييس الأداء من مكتبة مؤشرات الأداء",
         "totalFaculty": "إجمالي أعضاء هيئة التدريس",
+        "activeStudents": "الطلاب النشطون",
         "activePrograms": "البرامج النشطة",
         "viablePrograms": "البرامج القابلة للاستمرار",
+        "studentToFaculty": "نسبة الطالب إلى عضو هيئة التدريس",
         "employmentRate": "معدل التوظيف",
+        "overloadRate": "معدل التحميل الزائد",
+        "strategyIndex": "مؤشر الاستراتيجية",
+        "atRiskStudentRate": "معدل الطلاب المعرضين للخطر",
+        "publicationsPerFte": "المنشورات لكل معادل دوام كامل",
         "facultyFTEByDept": "أعضاء هيئة التدريس حسب القسم",
         "programViability": "جدوى البرامج",
         "departmentOverview": "نظرة عامة على الأقسام",

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import LineChartComponent from '@/components/charts/LineChart';
 import { RotateCcw, Save, GitCompare, Check } from 'lucide-react';
-import { FACULTY_DATA, getDepartmentSummary } from '@/data/faculty';
+import { FACULTY_DATA, getDepartmentSummary, getDefaultTotalFaculty } from '@/data/faculty';
 import { useColors } from '@/hooks/useColors';
 import { useDateFilter, getDateAdjustments } from '@/context/DateFilterContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -25,7 +25,8 @@ export default function FacultySimulation() {
     const departments = ['All Departments', ...deptSummary.map(d => d.department)];
 
     const facultyInDept = selectedDept === 'All Departments' ? FACULTY_DATA : FACULTY_DATA.filter(f => f.department === selectedDept);
-    const adjustedFacultyCount = Math.round(facultyInDept.length * adjustments.value);
+    const baseFacultyCount = selectedDept === 'All Departments' ? getDefaultTotalFaculty() : facultyInDept.length;
+    const adjustedFacultyCount = Math.round(baseFacultyCount * adjustments.value);
     const currentOverloaded = Math.round(facultyInDept.filter(f => f.status === 'Overloaded').length * adjustments.value);
     const avgLoad = (facultyInDept.reduce((sum, f) => sum + f.teachingLoad, 0) / facultyInDept.length) + adjustments.growth * 0.1;
 

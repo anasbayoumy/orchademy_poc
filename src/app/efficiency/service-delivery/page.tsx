@@ -1,7 +1,7 @@
 'use client';
 import Header from '@/components/layout/Header';
 import MetricCard from '@/components/ui/MetricCard';
-import { Clock, CheckCircle, Users, AlertCircle } from 'lucide-react';
+import { Clock, CheckCircle, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useColors } from '@/hooks/useColors';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -13,7 +13,7 @@ export default function ServiceDeliveryPage() {
         <div className="animate-fade-in" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
             <Header 
                 title={t('sidebar.efficiency.serviceDelivery')} 
-                subtitle="Process cycle time, SLA compliance, and service load metrics (EFF-07, EFF-08, EFF-09)"
+                subtitle="Process cycle time, SLA compliance, and service load metrics"
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
@@ -34,6 +34,21 @@ export default function ServiceDeliveryPage() {
                 <p className="text-sm" style={{ color: colors.textSecondary }}>
                     Monitor process cycle times, SLA compliance rates, and student services load per staff member to ensure efficient service delivery.
                 </p>
+            </div>
+
+            {/* Expected KPIs */}
+            <div className="mt-6 rounded-xl p-5 shadow-sm border" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: colors.accent }}>
+                    Expected KPIs for Service Delivery & Process Performance
+                </p>
+                <ul className="space-y-2">
+                    {['Process Cycle Time (Average)', 'SLA Compliance Rate', 'Student Services Load (Cases per Staff)'].map((kpi, i) => (
+                        <li key={i} className="flex items-center gap-2.5">
+                            <CheckCircle2 size={15} strokeWidth={2} style={{ color: colors.secondary1, flexShrink: 0 }} />
+                            <span className="text-sm" style={{ color: colors.textSecondary }}>{kpi}</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );

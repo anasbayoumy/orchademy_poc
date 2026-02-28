@@ -1,0 +1,13 @@
+[
+  {
+    "institutionId": "UNI001",
+    "institutionName": "Orchademy University",
+    "activeStudents": 1100,
+    "facultyFTE": 199.62,
+    "studentToFacultyRatio": 5.51,
+    "targetMin": 12,
+    "targetMax": 18,
+    "watchThreshold": 25,
+    "status": "green"
+  }
+]
